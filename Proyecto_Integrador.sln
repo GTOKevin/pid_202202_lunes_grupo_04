@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_Integrador", "Web_Integrador\Web_Integrador.csproj", "{BC81279E-E9B7-4E10-B5C6-4E17287AC0A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entidades", "Entidades\Entidades.csproj", "{64F1AD34-E24B-42B9-8D2C-84D2169EFEB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BC81279E-E9B7-4E10-B5C6-4E17287AC0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC81279E-E9B7-4E10-B5C6-4E17287AC0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC81279E-E9B7-4E10-B5C6-4E17287AC0A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64F1AD34-E24B-42B9-8D2C-84D2169EFEB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F1AD34-E24B-42B9-8D2C-84D2169EFEB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F1AD34-E24B-42B9-8D2C-84D2169EFEB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F1AD34-E24B-42B9-8D2C-84D2169EFEB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
