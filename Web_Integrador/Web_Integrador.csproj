@@ -127,7 +127,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\css\demo.css" />
+    <Content Include="Assets\css\admin.css" />
     <Content Include="Assets\css\login.css" />
     <Content Include="Assets\img\avatars\1.png" />
     <Content Include="Assets\img\avatars\5.png" />
@@ -200,8 +200,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -221,7 +219,20 @@
     <None Include="packages.config" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_Layout_Admin.cshtml" />
-    <Content Include="Views\Home\lOGIN2.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entidades\Entidades.csproj">
+      <Project>{64F1AD34-E24B-42B9-8D2C-84D2169EFEB5}</Project>
+      <Name>Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{f73668e3-434a-466f-b9d7-70419f8c733b}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Negocio\Negocio.csproj">
+      <Project>{c2418fac-e862-4610-84a9-fe6d0f1dc4de}</Project>
+      <Name>Negocio</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
