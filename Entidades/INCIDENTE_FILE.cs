@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-   public  class INCIDENTE_FILE
+   public  class Incidente_File
     {
         public int id_incidente_file { get; set; }
         public DateTime fecha_registro { get; set; }
