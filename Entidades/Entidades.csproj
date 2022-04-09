@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Incidente_File.cs" />
+    <Compile Include="Movimiento.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+
+    <Compile Include="Usuario.cs" />
     <Compile Include="Departamento.cs" />
     <Compile Include="Departamento_File.cs" />
     <Compile Include="Incidente.cs" />
