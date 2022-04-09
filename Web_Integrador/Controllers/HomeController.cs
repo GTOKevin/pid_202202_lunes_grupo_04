@@ -13,18 +13,15 @@ namespace Web_Integrador.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
 
+        public ActionResult Login()
+        {
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult lOGIN2()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return View ();
         }
     }
 }
