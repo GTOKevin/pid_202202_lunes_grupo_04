@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public class SUCURSAL
+    public class Sucursal_Res
+    {
+        public DTOHeader oHeader { get; set; }
+        public List<Sucursal> SucursalList { get; set; } 
+    }
+
+    public class Sucursal
     {
         public int id_sucursal { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
-        public DateTime fecha_creacion { get; set; }
+        public DateTime? fecha_creacion { get; set; }
     }
+
 }
