@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-   public  class Movimiento
+    public class Movimiento_Res
+    {
+        public DTOHeader oHeader { get; set; }
+        public List<Movimiento> MovimientoList { get; set; }
+    }
+    public  class Movimiento
     {
         public int id_movimiento { get; set; }
         public int id_propietario { get; set; }
