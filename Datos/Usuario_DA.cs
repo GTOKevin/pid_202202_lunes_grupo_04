@@ -62,10 +62,38 @@ namespace Datos
                     cn.Open();
                     SqlCommand cm = new SqlCommand("USP_INSERT_USUARIO", cn);
                     cm.CommandType = CommandType.StoredProcedure;
-                    cm.Parameters.AddWithValue("@", usu.username);
-                    cm.Parameters.AddWithValue("@", usu.clave);
-                    cm.Parameters.AddWithValue("@", usu.id_rol);
-                    cm.Parameters.AddWithValue("@", usu.estado);
+                    cm.Parameters.AddWithValue("@username", usu.username);
+                    cm.Parameters.AddWithValue("@clave", usu.clave);
+                    cm.Parameters.AddWithValue("@idrol", usu.id_rol);
+                    cm.Parameters.AddWithValue("@estado", usu.estado);
+
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            return oHeader;
+        }
+        public DTOHeader Actualizar(Usuario usu)
+        {
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_UPDATE_USUARIO", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id", usu.id_usuario);
+                    cm.Parameters.AddWithValue("@username", usu.username);
+                    cm.Parameters.AddWithValue("@clave", usu.clave);
+                    cm.Parameters.AddWithValue("@idrol", usu.id_rol);
+                    cm.Parameters.AddWithValue("@estado", usu.estado);
 
                     cm.ExecuteNonQuery();
                     cn.Close();
