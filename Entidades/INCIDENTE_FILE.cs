@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-   public  class Incidente_File
+    public class IncidenteFile_Res
+    {
+        public DTOHeader oHeader { get; set; }
+        public List<Incidente_File> IncidenteFileList { get; set; }
+    }
+    public  class Incidente_File
     {
         public int id_incidente_file { get; set; }
         public DateTime fecha_registro { get; set; }

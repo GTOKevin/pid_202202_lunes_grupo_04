@@ -15,5 +15,9 @@ namespace Negocio
         {
             return new Movimiento_DA().Listar();
         }
+        public DTOHeader Registrar(Movimiento mov)
+        {
+            return new Movimiento_DA().Registrar(mov);
+        }
     }
 }

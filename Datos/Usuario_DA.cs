@@ -22,6 +22,7 @@ namespace Datos
                 {
                     cn.Open();
                     SqlCommand cm = new SqlCommand("USP_LIST_USUARIO", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
                     SqlDataReader dr = cm.ExecuteReader();
                     while (dr.Read())
                     {
@@ -50,6 +51,33 @@ namespace Datos
             usuario_res.oHeader = oHeader;
 
             return usuario_res;
+        }
+        public DTOHeader Registrar(Usuario usu)
+        {
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_INSERT_USUARIO", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@", usu.username);
+                    cm.Parameters.AddWithValue("@", usu.clave);
+                    cm.Parameters.AddWithValue("@", usu.id_rol);
+                    cm.Parameters.AddWithValue("@", usu.estado);
+
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            return oHeader;
         }
     }
 }
