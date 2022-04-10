@@ -2,6 +2,8 @@
 # Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
 ################################################################################
 
+
+
 /Datos/bin/Debug
 /Datos/obj/Debug
 /Entidades/bin/Debug
