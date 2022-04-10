@@ -49,5 +49,10 @@ namespace Datos
 
             return sector_res;
         }
+
+        public void Listar2()
+        {
+
+        }
     }
 }
