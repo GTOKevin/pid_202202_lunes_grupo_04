@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-   public class Usuario
+    public class Usuario_Res
+    {
+        public DTOHeader oHeader { get; set; }
+        public List<Usuario> UsuarioList { get; set; }
+    }
+
+    public class Usuario
     {
         public int id_usuario { get; set; }
         public string username { get; set; }
