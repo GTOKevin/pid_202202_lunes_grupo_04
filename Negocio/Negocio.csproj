@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Departamento_BS.cs" />
+    <Compile Include="Departamento_File_BS.cs" />
+    <Compile Include="Incidente_BS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sucursal_BS.cs" />
   </ItemGroup>

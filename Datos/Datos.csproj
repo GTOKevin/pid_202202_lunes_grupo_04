@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexion.cs" />
+    <Compile Include="Departamento_DA.cs" />
+    <Compile Include="Departamento_File_DA.cs" />
+    <Compile Include="Incidente_DA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sucursal_DA.cs" />
   </ItemGroup>

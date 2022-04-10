@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
+    public class Departamento_Res
+    {
+        public DTOHeader oHeader { get; set; }
+        public List<Departamento> lista_Departamento { get; set; }
+    }
     public class Departamento
     {
         public int id_departamento { get; set; }
@@ -14,8 +19,8 @@ namespace Entidades
         public int metros_cuadrado { get; set; }
         public int dormitorio { get; set; }
         public int banio { get; set; }
-        public DateTime fecha_creacion { get; set; }
-        public DateTime fecha_actualizacion { get; set; }
+        public DateTime? fecha_creacion { get; set; }
+        public DateTime? fecha_actualizacion { get; set; }
         public int id_torre { get; set; }
         public int id_usuario { get; set; }
 

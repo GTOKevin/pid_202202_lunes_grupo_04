@@ -1,0 +1,14 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/Datos/obj/Debug
+/Datos/bin/Debug
+/.vs/Proyecto_Integrador/v16
+/Entidades/bin/Debug
+/Entidades/obj/Release
+/Helpers/bin/Debug
+/Helpers/obj/Debug
+/Negocio/bin/Debug
+/Negocio/obj/Debug
+/Web_Integrador/bin
