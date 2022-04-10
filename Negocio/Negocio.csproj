@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sector_BS.cs" />
+    <Compile Include="Servicio_BS.cs" />
     <Compile Include="Sucursal_BS.cs" />
   </ItemGroup>
   <ItemGroup>
