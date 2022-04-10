@@ -43,10 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexion.cs" />
+    <Compile Include="IncidenteFile_DA.cs" />
+    <Compile Include="Movimiento_DA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sector_DA.cs" />
     <Compile Include="Servicio_DA.cs" />
     <Compile Include="Sucursal_DA.cs" />
+    <Compile Include="Usuario_DA.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj">
