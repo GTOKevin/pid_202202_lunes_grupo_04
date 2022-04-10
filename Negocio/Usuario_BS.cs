@@ -18,5 +18,9 @@ namespace Negocio
         {
             return new Usuario_DA().Registrar(usu);
         }
+        public DTOHeader Actualizar(Usuario usu)
+        {
+            return new Usuario_DA().Actualizar(usu);
+        }
     }
 }
