@@ -1,0 +1,15 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/Web_Integrador/bin/roslyn
+/Web_Integrador/bin
+/Web_Integrador/obj/Debug
+/Negocio/obj/Debug
+/Negocio/bin/Debug
+/Helpers/obj/Debug
+/Helpers/bin/Debug
+/Entidades/bin/Debug
+/Entidades/obj/Debug
+/Datos/bin/Debug
+/Datos/obj/Debug
