@@ -13,6 +13,7 @@ namespace Datos
 {
     public class Sector_DA
     {
+        //Listar
         public Sector_Res Listar()
         {
             Sector_Res sector_res = new Sector_Res();
