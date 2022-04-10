@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IncidenteFile_BS.cs" />
+    <Compile Include="Movimiento_BS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sucursal_BS.cs" />
+    <Compile Include="Usuario_BS.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Datos\Datos.csproj">
