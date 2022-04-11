@@ -48,5 +48,54 @@ namespace Datos
 
             return incidentefile_res;
         }
+        public DTOHeader Registrar(Incidente_File inci)
+        {
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_INSERT_INCIDENTE_FILE", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@imagen",inci.url_imagen);
+                    cm.Parameters.AddWithValue("@idincidente", inci.id_incidente);
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            return oHeader;
+        }
+        public DTOHeader Actualizar(Incidente_File inci)
+        {
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_UPDATE_INCIDENTE_FILE", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id", inci.id_incidente_file);
+                    cm.Parameters.AddWithValue("@imagen", inci.url_imagen);
+                    cm.Parameters.AddWithValue("@idincidente", inci.id_incidente);
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            return oHeader;
+        }
     }
 }

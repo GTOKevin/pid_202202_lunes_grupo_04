@@ -13,11 +13,11 @@ namespace Entidades
     }
 
     public class Sucursal
-    {
-        public int id_sucursal { get; set; }
+    {   public int id_sucursal { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
         public DateTime? fecha_creacion { get; set; }
     }
 
+     
 }

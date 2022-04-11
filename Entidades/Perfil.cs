@@ -7,23 +7,22 @@ using System.Threading.Tasks;
 namespace Entidades
 {
 
-    public class Propietario_Res
+    public class Perfil_res
     {
-        public DTOHeader oHeader { get; set; }
-        public List<Propietario> lista_Propietario { get; set; }
+        public DTOHeader oHeader { set; get; }
+        public List<Perfil> Lista_Perfiles { set; get; }
     }
-    public class Propietario
+    public class Perfil
     {
-        public int id_propietario { get; set; }
+        public int id_perfil { get; set; }
         public string nombres { get; set; }
         public string primer_apellido { get; set; }
         public string segundo_apellido { get; set; }
+        public DateTime? fecha_nacimiento { get; set; }
         public string tipo_documento { get; set; }
         public string nro_documento { get; set; }
+        public string genero { get; set; }
         public string nacionalidad { get; set; }
-        public DateTime? fecha_registro { get; set; }
-        public byte estado { get; set; }
-        public int id_departamento { get; set; }
-        public int id_tipo { get; set; }
+        public string direccion { get; set; }
     }
 }

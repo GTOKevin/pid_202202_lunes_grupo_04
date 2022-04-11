@@ -42,8 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constantes.cs" />
+    <Compile Include="EncryptMD5.cs" />
     <Compile Include="Extensiones.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Database\DB_INMOBILARIA.sql" />
+    <Content Include="Database\SP_Kevin_Virgilio.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

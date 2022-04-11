@@ -49,6 +49,54 @@ namespace Datos
 
             return movimiento_res;
         }
-
+        public DTOHeader Registrar(Movimiento movi)
+        {
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_INSERT_MOVIMIENTO", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@idpropietario", movi.id_propietario);
+                    cm.Parameters.AddWithValue("@idtipo", movi.id_tipo);
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            return oHeader;
+        }
+        public DTOHeader Actualizar(Movimiento movi)
+        {
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_UPDATE_MOVIMIENTO", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id", movi.id_movimiento);
+                    cm.Parameters.AddWithValue("@idpropietario", movi.id_propietario);
+                    cm.Parameters.AddWithValue("@idtipo", movi.id_tipo);
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            return oHeader;
+        }
     }
 }
