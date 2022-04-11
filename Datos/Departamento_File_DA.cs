@@ -49,5 +49,35 @@ namespace Datos
 
             return departamento_file_res;
         }
+        public DTOHeader Registrar(Departamento_File depf)
+        {
+
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_DEPARTAMENTO_FILE_CREAR", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@url_imagen", depf.url_imagen);
+                    cm.Parameters.AddWithValue("@id_departamento", depf.id_departamento);
+                    
+                    SqlDataReader dr = cm.ExecuteReader();
+
+                    cn.Close();
+                }
+                oHeader.estado = true;
+
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+
+
+            return oHeader;
+        }
     }
 }
