@@ -14,5 +14,9 @@ namespace Negocio
         {
             return new Departamento_File_DA().Listar();
         }
+        public DTOHeader Registrar(Departamento_File depf)
+        {
+            return new Departamento_File_DA().Registrar(depf);
+        }
     }
 }
