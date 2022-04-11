@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
+    public class Usuario_Login_Res
+    {
+        public DTOHeader oHeader { get; set; }
+        public Usuario_Login Usuario_Perfil { get; set; }
+    }
+    public class Usuario_Login
+    {
+        public Usuario usuario { get; set; }
+        public Perfil perfil { get; set; }
+    }
     public class Usuario_Res
     {
         public DTOHeader oHeader { get; set; }
@@ -17,7 +27,7 @@ namespace Entidades
         public int id_usuario { get; set; }
         public string username { get; set; }
         public string clave { get; set; }
-        public DateTime fecha_registro { get; set; }
+        public DateTime? fecha_registro { get; set; }
         public int id_rol { get; set; }
         public int id_perfil { get; set; }
         public bool estado { get; set; }
