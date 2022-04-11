@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Entidades;
+using Helpers;
 
 namespace Datos
 {
@@ -55,6 +56,7 @@ namespace Datos
         public DTOHeader Registrar(Usuario usu)
         {
             DTOHeader oHeader = new DTOHeader();
+            usu.clave = EncryptMD5.Encrypt(usu.clave);
             try
             {
                 using (SqlConnection cn = Conexion.Conectar())
@@ -106,6 +108,84 @@ namespace Datos
                 oHeader.mensaje = ex.Message;
             }
             return oHeader;
+        }
+
+    
+
+       public Usuario_Res ValidarUsuarioLogin(string userName,string clave)
+        {
+            Usuario_Res usuarioRes = new Usuario_Res();
+            DTOHeader oHeader = new DTOHeader();
+            List<Usuario> usuarioList = new List<Usuario>();
+            try
+            {
+                if (String.IsNullOrEmpty(userName)&&String.IsNullOrEmpty(clave))
+                {
+                    using (SqlConnection cn = Conexion.Conectar())
+                    {
+                        cn.Open();
+                        SqlCommand cmd = new SqlCommand("SP_USUARIO_OBTENER_NAME", cn);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@userName", userName);
+                        SqlDataReader dr = cmd.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            Usuario usuario = new Usuario();
+                            usuario.id_usuario=dr["id_usuario"].ToInt();
+                            usuario.username=dr["username"].ToString();
+                            usuario.clave=dr["clave"].ToString();
+                            usuario.fecha_registro = dr["fecha_registro"].ToDateTime();
+                            usuario.id_rol = dr["id_rol"].ToInt();
+                            usuario.id_perfil = dr["id_perfil"].ToInt();
+                            usuario.estado = dr["estado"].ToBool();
+                            usuarioList.Add(usuario);
+                        }
+                        cn.Close();
+                    }
+
+                    if (usuarioList.Count > 0)
+                    {
+                        var getClave = EncryptMD5.Decrypt(usuarioList.FirstOrDefault().clave);
+                        var getUsuer = usuarioList.FirstOrDefault().username;
+                        if(getUsuer==userName && getClave == clave)
+                        {
+                            oHeader.estado = true;
+                            oHeader.mensaje = "Correcto";
+                        }
+                        else
+                        {
+                            oHeader.estado = false;
+                            oHeader.mensaje = "Usuario o/u contraseña incorrecta";
+                            usuarioList=new List<Usuario>();
+                        }
+
+                    }
+                    else
+                    {
+                        oHeader.estado = false;
+                        oHeader.mensaje = "Usuario o/u contraseña incorrecta";
+                        usuarioList = new List<Usuario>();
+                    }
+                  
+
+                }
+                else
+                {
+                    oHeader.estado = false;
+                    oHeader.mensaje = "Usuario o/u contraseña incorrecta";
+                }
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado= false;
+                oHeader.mensaje= ex.Message;
+            }
+
+            usuarioRes.UsuarioList = usuarioList;
+            usuarioRes.oHeader = oHeader;
+
+            return usuarioRes;
+         
         }
     }
 }

@@ -22,5 +22,9 @@ namespace Negocio
         {
             return new Usuario_DA().Actualizar(usu);
         }
+        public Usuario_Res ValidarUsuarioLogin(string userName, string clave)
+        {
+            return new Usuario_DA().ValidarUsuarioLogin(userName,clave);
+        }
     }
 }
