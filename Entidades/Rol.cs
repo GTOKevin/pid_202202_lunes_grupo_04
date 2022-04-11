@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
+
+    public class Rol_Res
+    {
+        public DTOHeader oHeader { get; set; }
+        public List<Rol> lista_rol { get; set; }
+
+    }
     public class Rol
     {
-        private int id_rol { get; set; }
-        private string nombre { get; set; }
+        public int id_rol { get; set; }
+        public string nombre { get; set; }
     }
 }
