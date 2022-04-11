@@ -15,6 +15,13 @@ namespace Negocio
         {
             return new Sector_DA().Listar();
         }
-
+        public DTOHeader Registrar(Sector s)
+        {
+            return new Sector_DA().Registrar(s);
+        }
+        public DTOHeader Actualizar(Sector s)
+        {
+            return new Sector_DA().Actualizar(s);
+        }
     }
 }
