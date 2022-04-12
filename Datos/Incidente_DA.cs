@@ -86,5 +86,36 @@ namespace Datos
 
             return oHeader;
         }
+        public DTOHeader Actualizar(Incidente inc)
+        {
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_INCIDENTE_ACTUALIZAR", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id_incidente", inc.id_incidente);
+                    cm.Parameters.AddWithValue("@fecha_incidente", inc.fecha_incidente);
+                    cm.Parameters.AddWithValue("@descripcion", inc.descripcion);
+                    cm.Parameters.AddWithValue("@nombre_reportado", inc.nombre_reportado);
+                    cm.Parameters.AddWithValue("@tipo_documento", inc.tipo_documento);
+                    cm.Parameters.AddWithValue("@nro_documento", inc.nro_documento);
+                    cm.Parameters.AddWithValue("@id_departamento", inc.id_departamento);
+                    cm.Parameters.AddWithValue("@id_usuario", inc.id_usuario);
+                    
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            return oHeader;
+        }
     }
 }

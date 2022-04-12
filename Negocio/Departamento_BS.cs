@@ -18,5 +18,9 @@ namespace Negocio
         {
             return new Departamento_DA().Registrar(dep);
         }
+        public DTOHeader Actualizar(Departamento dep)
+        {
+            return new Departamento_DA().Actualizar(dep);
+        }
     }
 }
