@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 namespace Entidades
 {
 
-    public class Rol_Res
+    public class Tipo_res
     {
         public DTOHeader oHeader { get; set; }
-        public List<Rol> lista_rol { get; set; }
-
+        public List<Tipo> Lista_Tipos { get; set; }
     }
-    public class Rol
+
+    public class Tipo
     {
-        public int id_rol { get; set; }
+        public int id_tipo { get; set; }
         public string nombre { get; set; }
+        public string unidad { get; set; }
     }
 }

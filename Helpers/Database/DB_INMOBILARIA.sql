@@ -1,0 +1,379 @@
+CREATE DATABASE DB_INMOBILIARIA
+GO
+USE [DB_INMOBILIARIA]
+GO
+/****** Object:  Table [dbo].[DEPARTAMENTO]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DEPARTAMENTO](
+	[id_departamento] [int] IDENTITY(1,1) NOT NULL,
+	[piso] [numeric](10, 0) NULL,
+	[numero] [numeric](10, 0) NULL,
+	[metros_cuadrado] [numeric](10, 0) NULL,
+	[dormitorio] [numeric](2, 0) NULL,
+	[banio] [numeric](2, 0) NULL,
+	[fecha_creacion] [datetime] NULL,
+	[fecha_actualizacion] [datetime] NULL,
+	[id_torre] [int] NULL,
+	[id_usuario] [int] NULL,
+ CONSTRAINT [PK_DEPARTAMENTO] PRIMARY KEY CLUSTERED 
+(
+	[id_departamento] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[DEPARTAMENTO_FILE]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DEPARTAMENTO_FILE](
+	[id_departamento_file] [int] IDENTITY(1,1) NOT NULL,
+	[url_imagen] [varchar](300) NULL,
+	[fecha_creacion] [datetime] NULL,
+	[id_departamento] [int] NULL,
+ CONSTRAINT [PK_DEPARTAMENTO_FILE] PRIMARY KEY CLUSTERED 
+(
+	[id_departamento_file] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[INCIDENTE]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[INCIDENTE](
+	[id_incidente] [int] IDENTITY(1,1) NOT NULL,
+	[fecha_incidente] [datetime] NULL,
+	[descripcion] [varchar](200) NULL,
+	[nombre_reportado] [varchar](100) NULL,
+	[tipo_documento] [varchar](1) NULL,
+	[nro_documento] [varchar](20) NULL,
+	[fecha_registro] [datetime] NULL,
+	[id_departamento] [int] NULL,
+	[id_usuario] [int] NULL,
+ CONSTRAINT [PK_INCIDENTE] PRIMARY KEY CLUSTERED 
+(
+	[id_incidente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[INCIDENTE_FILE]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[INCIDENTE_FILE](
+	[id_incidente_file] [int] IDENTITY(1,1) NOT NULL,
+	[fecha_registro] [datetime] NULL,
+	[url_imagen] [varchar](300) NULL,
+	[id_incidente] [int] NULL,
+ CONSTRAINT [PK_INCIDENTE_FILE] PRIMARY KEY CLUSTERED 
+(
+	[id_incidente_file] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MOVIMIENTO]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MOVIMIENTO](
+	[id_movimiento] [int] IDENTITY(1,1) NOT NULL,
+	[id_propietario] [int] NULL,
+	[id_tipo] [int] NULL,
+	[fecha_registro] [datetime] NULL,
+ CONSTRAINT [PK_MOVIMIENTO] PRIMARY KEY CLUSTERED 
+(
+	[id_movimiento] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PERFIL]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PERFIL](
+	[id_perfil] [int] IDENTITY(1,1) NOT NULL,
+	[nombres] [varchar](50) NULL,
+	[primer_apellido] [varchar](30) NULL,
+	[segundo_apellido] [varchar](30) NULL,
+	[fecha_nacimiento] [datetime] NULL,
+	[tipo_documento] [varchar](1) NULL,
+	[nro_documento] [varchar](20) NULL,
+	[genero] [varchar](1) NULL,
+	[nacionalidad] [varchar](1) NULL,
+	[direccion] [varchar](200) NULL,
+ CONSTRAINT [PK_PERFIL] PRIMARY KEY CLUSTERED 
+(
+	[id_perfil] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PROPIETARIO]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PROPIETARIO](
+	[id_propietario] [int] IDENTITY(1,1) NOT NULL,
+	[nombres] [varchar](50) NULL,
+	[primer_apellido] [varchar](30) NULL,
+	[segundo_apellido] [varchar](30) NULL,
+	[tipo_documento] [varchar](1) NULL,
+	[nro_documento] [varchar](20) NULL,
+	[nacionalidad] [varchar](1) NULL,
+	[fecha_registro] [datetime] NULL,
+	[estado] [bit] NULL,
+	[id_departamento] [int] NULL,
+	[id_tipo] [int] NULL,
+ CONSTRAINT [PK_PROPIETARIO] PRIMARY KEY CLUSTERED 
+(
+	[id_propietario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RECIBO]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RECIBO](
+	[id_recibo] [int] IDENTITY(1,1) NOT NULL,
+	[id_servicio] [int] NULL,
+	[monto] [decimal](10, 2) NULL,
+	[estado] [bit] NULL,
+	[fecha_pago] [datetime] NULL,
+	[fecha_vencimiento] [datetime] NULL,
+	[fecha_registro] [datetime] NULL,
+ CONSTRAINT [PK_RECIBO] PRIMARY KEY CLUSTERED 
+(
+	[id_recibo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ROL]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ROL](
+	[id_rol] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](50) NULL,
+ CONSTRAINT [PK_ROL] PRIMARY KEY CLUSTERED 
+(
+	[id_rol] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SECTOR]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SECTOR](
+	[id_sector] [int] IDENTITY(1,1) NOT NULL,
+	[nombre_sector] [varchar](50) NULL,
+	[fecha_creacion] [datetime] NULL,
+	[id_sucursal] [int] NULL,
+ CONSTRAINT [PK_SECTOR] PRIMARY KEY CLUSTERED 
+(
+	[id_sector] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SERVICIO]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SERVICIO](
+	[id_servicio] [int] IDENTITY(1,1) NOT NULL,
+	[id_tipo] [int] NULL,
+	[id_departamento] [int] NULL,
+	[nombre] [varchar](50) NULL,
+	[fecha_registro] [datetime] NULL,
+ CONSTRAINT [PK_SERVICIO] PRIMARY KEY CLUSTERED 
+(
+	[id_servicio] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SUCURSAL]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SUCURSAL](
+	[id_sucursal] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](50) NULL,
+	[descripcion] [varchar](100) NULL,
+	[fecha_creacion] [datetime] NULL,
+ CONSTRAINT [PK_SUCURSAL] PRIMARY KEY CLUSTERED 
+(
+	[id_sucursal] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TIPO]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TIPO](
+	[id_tipo] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](50) NULL,
+	[unidad] [varchar](20) NULL,
+ CONSTRAINT [PK_TIPO] PRIMARY KEY CLUSTERED 
+(
+	[id_tipo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TORRE]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TORRE](
+	[id_torre] [int] IDENTITY(1,1) NOT NULL,
+	[numero] [decimal](10, 0) NULL,
+	[fecha_creacion] [datetime] NULL,
+	[id_sector] [int] NULL,
+ CONSTRAINT [PK_TORRE] PRIMARY KEY CLUSTERED 
+(
+	[id_torre] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[USUARIO]    Script Date: 08/04/2022 21:55:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[USUARIO](
+	[id_usuario] [int] IDENTITY(1,1) NOT NULL,
+	[username] [varchar](30) NULL,
+	[clave] [varchar](50) NULL,
+	[fecha_registro] [datetime] NULL,
+	[id_rol] [int] NULL,
+	[id_perfil] [int] NULL,
+	[estado] [bit] NULL,
+ CONSTRAINT [PK_USUARIO] PRIMARY KEY CLUSTERED 
+(
+	[id_usuario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[DEPARTAMENTO] ADD  CONSTRAINT [DF_DEPARTAMENTO_fecha_creacion]  DEFAULT (getdate()) FOR [fecha_creacion]
+GO
+ALTER TABLE [dbo].[DEPARTAMENTO_FILE] ADD  CONSTRAINT [DF_DEPARTAMENTO_FILE_fecha_creacion]  DEFAULT (getdate()) FOR [fecha_creacion]
+GO
+ALTER TABLE [dbo].[INCIDENTE] ADD  CONSTRAINT [DF_INCIDENTE_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
+GO
+ALTER TABLE [dbo].[INCIDENTE_FILE] ADD  CONSTRAINT [DF_INCIDENTE_FILE_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
+GO
+ALTER TABLE [dbo].[MOVIMIENTO] ADD  CONSTRAINT [DF_MOVIMIENTO_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
+GO
+ALTER TABLE [dbo].[PROPIETARIO] ADD  CONSTRAINT [DF_PROPIETARIO_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
+GO
+ALTER TABLE [dbo].[RECIBO] ADD  CONSTRAINT [DF_RECIBO_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
+GO
+ALTER TABLE [dbo].[SECTOR] ADD  CONSTRAINT [DF_SECTOR_fecha_creacion]  DEFAULT (getdate()) FOR [fecha_creacion]
+GO
+ALTER TABLE [dbo].[SERVICIO] ADD  CONSTRAINT [DF_SERVICIO_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
+GO
+ALTER TABLE [dbo].[SUCURSAL] ADD  CONSTRAINT [DF_SUCURSAL_fecha_creacion]  DEFAULT (getdate()) FOR [fecha_creacion]
+GO
+ALTER TABLE [dbo].[TORRE] ADD  CONSTRAINT [DF_TORRE_fecha_creacion]  DEFAULT (getdate()) FOR [fecha_creacion]
+GO
+ALTER TABLE [dbo].[DEPARTAMENTO]  WITH CHECK ADD  CONSTRAINT [FK_DEPARTAMENTO_TORRE] FOREIGN KEY([id_torre])
+REFERENCES [dbo].[TORRE] ([id_torre])
+GO
+ALTER TABLE [dbo].[DEPARTAMENTO] CHECK CONSTRAINT [FK_DEPARTAMENTO_TORRE]
+GO
+ALTER TABLE [dbo].[DEPARTAMENTO]  WITH CHECK ADD  CONSTRAINT [FK_DEPARTAMENTO_USUARIO] FOREIGN KEY([id_usuario])
+REFERENCES [dbo].[USUARIO] ([id_usuario])
+GO
+ALTER TABLE [dbo].[DEPARTAMENTO] CHECK CONSTRAINT [FK_DEPARTAMENTO_USUARIO]
+GO
+ALTER TABLE [dbo].[DEPARTAMENTO_FILE]  WITH CHECK ADD  CONSTRAINT [FK_FILE_DEPARTAMENTO] FOREIGN KEY([id_departamento])
+REFERENCES [dbo].[DEPARTAMENTO] ([id_departamento])
+GO
+ALTER TABLE [dbo].[DEPARTAMENTO_FILE] CHECK CONSTRAINT [FK_FILE_DEPARTAMENTO]
+GO
+ALTER TABLE [dbo].[INCIDENTE]  WITH CHECK ADD  CONSTRAINT [FK_INCIDENTE_DEPARTAMENTO] FOREIGN KEY([id_departamento])
+REFERENCES [dbo].[DEPARTAMENTO] ([id_departamento])
+GO
+ALTER TABLE [dbo].[INCIDENTE] CHECK CONSTRAINT [FK_INCIDENTE_DEPARTAMENTO]
+GO
+ALTER TABLE [dbo].[INCIDENTE]  WITH CHECK ADD  CONSTRAINT [FK_INCIDENTE_USUARIO] FOREIGN KEY([id_usuario])
+REFERENCES [dbo].[USUARIO] ([id_usuario])
+GO
+ALTER TABLE [dbo].[INCIDENTE] CHECK CONSTRAINT [FK_INCIDENTE_USUARIO]
+GO
+ALTER TABLE [dbo].[INCIDENTE_FILE]  WITH CHECK ADD  CONSTRAINT [FK_INCIDENTE_FILE_INCIDENTE] FOREIGN KEY([id_incidente])
+REFERENCES [dbo].[INCIDENTE] ([id_incidente])
+GO
+ALTER TABLE [dbo].[INCIDENTE_FILE] CHECK CONSTRAINT [FK_INCIDENTE_FILE_INCIDENTE]
+GO
+ALTER TABLE [dbo].[MOVIMIENTO]  WITH CHECK ADD  CONSTRAINT [FK_MOVIMIENTO_PROPIETARIO] FOREIGN KEY([id_propietario])
+REFERENCES [dbo].[PROPIETARIO] ([id_propietario])
+GO
+ALTER TABLE [dbo].[MOVIMIENTO] CHECK CONSTRAINT [FK_MOVIMIENTO_PROPIETARIO]
+GO
+ALTER TABLE [dbo].[MOVIMIENTO]  WITH CHECK ADD  CONSTRAINT [FK_MOVIMIENTO_TIPO] FOREIGN KEY([id_tipo])
+REFERENCES [dbo].[TIPO] ([id_tipo])
+GO
+ALTER TABLE [dbo].[MOVIMIENTO] CHECK CONSTRAINT [FK_MOVIMIENTO_TIPO]
+GO
+ALTER TABLE [dbo].[PROPIETARIO]  WITH CHECK ADD  CONSTRAINT [FK_PROPIETARIO_DEPARTAMENTO] FOREIGN KEY([id_departamento])
+REFERENCES [dbo].[DEPARTAMENTO] ([id_departamento])
+GO
+ALTER TABLE [dbo].[PROPIETARIO] CHECK CONSTRAINT [FK_PROPIETARIO_DEPARTAMENTO]
+GO
+ALTER TABLE [dbo].[PROPIETARIO]  WITH CHECK ADD  CONSTRAINT [FK_PROPIETARIO_TIPO] FOREIGN KEY([id_tipo])
+REFERENCES [dbo].[TIPO] ([id_tipo])
+GO
+ALTER TABLE [dbo].[PROPIETARIO] CHECK CONSTRAINT [FK_PROPIETARIO_TIPO]
+GO
+ALTER TABLE [dbo].[RECIBO]  WITH CHECK ADD  CONSTRAINT [FK_RECIBO_SERVICIO] FOREIGN KEY([id_servicio])
+REFERENCES [dbo].[SERVICIO] ([id_servicio])
+GO
+ALTER TABLE [dbo].[RECIBO] CHECK CONSTRAINT [FK_RECIBO_SERVICIO]
+GO
+ALTER TABLE [dbo].[SECTOR]  WITH CHECK ADD  CONSTRAINT [FK_SECTOR_SUCURSAL] FOREIGN KEY([id_sucursal])
+REFERENCES [dbo].[SUCURSAL] ([id_sucursal])
+GO
+ALTER TABLE [dbo].[SECTOR] CHECK CONSTRAINT [FK_SECTOR_SUCURSAL]
+GO
+ALTER TABLE [dbo].[SERVICIO]  WITH CHECK ADD  CONSTRAINT [FK_SERVICIO_DEPARTAMENTO] FOREIGN KEY([id_departamento])
+REFERENCES [dbo].[DEPARTAMENTO] ([id_departamento])
+GO
+ALTER TABLE [dbo].[SERVICIO] CHECK CONSTRAINT [FK_SERVICIO_DEPARTAMENTO]
+GO
+ALTER TABLE [dbo].[SERVICIO]  WITH CHECK ADD  CONSTRAINT [FK_SERVICIO_TIPO] FOREIGN KEY([id_tipo])
+REFERENCES [dbo].[TIPO] ([id_tipo])
+GO
+ALTER TABLE [dbo].[SERVICIO] CHECK CONSTRAINT [FK_SERVICIO_TIPO]
+GO
+ALTER TABLE [dbo].[TORRE]  WITH CHECK ADD  CONSTRAINT [FK_TORRE_SECTOR] FOREIGN KEY([id_sector])
+REFERENCES [dbo].[SECTOR] ([id_sector])
+GO
+ALTER TABLE [dbo].[TORRE] CHECK CONSTRAINT [FK_TORRE_SECTOR]
+GO
+ALTER TABLE [dbo].[USUARIO]  WITH CHECK ADD  CONSTRAINT [FK_USUARIO_PERFIL] FOREIGN KEY([id_perfil])
+REFERENCES [dbo].[PERFIL] ([id_perfil])
+GO
+ALTER TABLE [dbo].[USUARIO] CHECK CONSTRAINT [FK_USUARIO_PERFIL]
+GO
+ALTER TABLE [dbo].[USUARIO]  WITH CHECK ADD  CONSTRAINT [FK_USUARIO_ROL] FOREIGN KEY([id_rol])
+REFERENCES [dbo].[ROL] ([id_rol])
+GO
+ALTER TABLE [dbo].[USUARIO] CHECK CONSTRAINT [FK_USUARIO_ROL]
+GO
