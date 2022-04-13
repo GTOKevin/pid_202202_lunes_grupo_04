@@ -30,7 +30,7 @@ namespace Entidades
         public DateTime? fecha_registro { get; set; }
         public int id_rol { get; set; }
         public int id_perfil { get; set; }
-        public bool estado { get; set; }
+        public int id_estado{ get; set; }
 
     }
 }

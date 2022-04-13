@@ -14,9 +14,9 @@ namespace Negocio
         {
             return new Perfil_DA().Listar_Perfil();
         }
-        public Perfil_res Listar_Perfil_Usuario(int id_user)
+        public Perfil_res Listar_Perfil_Usuario(int id_perfil)
         {
-            return new Perfil_DA().Listar_Perfil_Usuario(id_user);
+            return new Perfil_DA().Listar_Perfil_Usuario(id_perfil);
         }
     }
 }

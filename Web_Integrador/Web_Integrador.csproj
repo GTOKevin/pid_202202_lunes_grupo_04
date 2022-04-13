@@ -120,7 +120,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SeguridadController.cs" />
+    <Compile Include="Controllers\SucursalController.cs" />
+    <Compile Include="Controllers\TorreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -188,6 +193,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\App.js" />
     <Content Include="Scripts\Login\login.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -206,6 +212,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -217,8 +224,13 @@
     <Content Include="Assets\vendor\fonts\boxicons\boxicons.woff" />
     <Content Include="Assets\vendor\fonts\boxicons\boxicons.woff2" />
     <None Include="packages.config" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_Layout_Admin.cshtml" />
+    <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\Sucursal\Index.cshtml" />
+    <Content Include="Views\Torre\Index.cshtml" />
+    <Content Include="Views\Shared\_Partial_Menu.cshtml" />
+    <Content Include="Views\Shared\_Partial_Navbar.cshtml" />
+    <Content Include="Views\Seguridad\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj">

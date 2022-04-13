@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Negocio;
 using Entidades;
+using Negocio;
 
 namespace Web_Integrador.Controllers
 {
-    public class HomeController : BaseController
+    public class SeguridadController : BaseController
     {
-        Usuario_BS user_bs = new Usuario_BS();
-        Perfil_BS perfil_bs = new Perfil_BS();
+        Perfil_BS perfil_BS = new Perfil_BS();
+        // GET: Seguridad
         public ActionResult Index()
         {
             if (!ValidarAcceso())
@@ -19,12 +19,11 @@ namespace Web_Integrador.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
+            var perfil = ((Usuario_Login)Session["PI_USUARIO"]).perfil;
 
-            return View();
+
+
+            return View(perfil);
         }
-
-
-
- 
     }
 }
