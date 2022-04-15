@@ -18,5 +18,9 @@ namespace Negocio
         {
             return new Incidente_DA().Registrar(inc);
         }
+        public DTOHeader Actualizar(Incidente inc)
+        {
+            return new Incidente_DA().Actualizar(inc);
+        }
     }
 }
