@@ -32,9 +32,6 @@ p {
     margin: 20px 0 30px;
 }
 
-span {
-    font-size: 12px;
-}
 
 a {
     color: #333;
@@ -255,4 +252,21 @@ footer {
     footer a {
         color: #3c97bf;
         text-decoration: none;
+    }
+.form-password {
+    width: 100%;
+    display:flex;
+    align-items:center;
+}
+.form-password input{
+    width:90%;
+}
+
+    .form-password i {
+        width: 10%;
+        padding: 12px 0;
+        margin: 8px 0;
+        text-align: center;
+        background-color: #eee;
+        cursor:pointer;
     }

@@ -45,6 +45,7 @@
     <Compile Include="EncryptMD5.cs" />
     <Compile Include="Extensiones.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Roles.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database\DB_INMOBILARIA.sql" />

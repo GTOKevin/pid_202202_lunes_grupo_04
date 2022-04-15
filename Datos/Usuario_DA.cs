@@ -32,9 +32,9 @@ namespace Datos
                         usuario.username = dr["username"].ToString();
                         usuario.clave = dr["clave"].ToString();
                         usuario.fecha_registro =Convert.ToDateTime(dr["fecha_registro"].ToString());
-                        usuario.id_rol = Convert.ToInt32( dr["id_rol"].ToString());
+                        usuario.id_rol = (Roles)dr["id_rol"];
                         usuario.id_perfil =Convert.ToInt32( dr["id_perfil"].ToString());
-                        usuario.estado = Convert.ToBoolean(dr["estado"].ToString());
+                        usuario.id_estado = dr["id_estado"].ToInt();
 
                         usuario_list.Add(usuario);
                     }
@@ -59,20 +59,27 @@ namespace Datos
             usu.clave = EncryptMD5.Encrypt(usu.clave);
             try
             {
-                using (SqlConnection cn = Conexion.Conectar())
-                {
-                    cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_INSERT_USUARIO", cn);
-                    cm.CommandType = CommandType.StoredProcedure;
-                    cm.Parameters.AddWithValue("@username", usu.username);
-                    cm.Parameters.AddWithValue("@clave", usu.clave);
-                    cm.Parameters.AddWithValue("@idrol", usu.id_rol);
-                    cm.Parameters.AddWithValue("@estado", usu.estado);
-
-                    cm.ExecuteNonQuery();
-                    cn.Close();
-                }
-                oHeader.estado = true;
+                int rpta;
+                    using (SqlConnection cn = Conexion.Conectar())
+                    {
+                        cn.Open();
+                        SqlCommand cm = new SqlCommand("USP_INSERT_USUARIO", cn);
+                        cm.CommandType = CommandType.StoredProcedure;
+                        cm.Parameters.AddWithValue("@username", usu.username);
+                        cm.Parameters.AddWithValue("@clave", usu.clave);
+                        rpta= cm.ExecuteNonQuery();
+                        cn.Close();
+                    }
+                    if (rpta>0)
+                    {
+                        oHeader.estado = true;
+                    }
+                    else
+                    {
+                        oHeader.estado = false;
+                        oHeader.mensaje = "No pudo registrarse, contacte con un administrador";
+                    }
+                
             }
             catch (Exception ex)
             {
@@ -95,7 +102,7 @@ namespace Datos
                     cm.Parameters.AddWithValue("@username", usu.username);
                     cm.Parameters.AddWithValue("@clave", usu.clave);
                     cm.Parameters.AddWithValue("@idrol", usu.id_rol);
-                    cm.Parameters.AddWithValue("@estado", usu.estado);
+                    cm.Parameters.AddWithValue("@estado", usu.id_estado);
 
                     cm.ExecuteNonQuery();
                     cn.Close();
@@ -119,12 +126,12 @@ namespace Datos
             List<Usuario> usuarioList = new List<Usuario>();
             try
             {
-                if (String.IsNullOrEmpty(userName)&&String.IsNullOrEmpty(clave))
+                if (!String.IsNullOrEmpty(userName) && !String.IsNullOrEmpty(clave))
                 {
                     using (SqlConnection cn = Conexion.Conectar())
                     {
                         cn.Open();
-                        SqlCommand cmd = new SqlCommand("SP_USUARIO_OBTENER_NAME", cn);
+                        SqlCommand cmd = new SqlCommand("SP_USUARIO_OBTENER_LOGIN", cn);
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@userName", userName);
                         SqlDataReader dr = cmd.ExecuteReader();
@@ -135,9 +142,9 @@ namespace Datos
                             usuario.username=dr["username"].ToString();
                             usuario.clave=dr["clave"].ToString();
                             usuario.fecha_registro = dr["fecha_registro"].ToDateTime();
-                            usuario.id_rol = dr["id_rol"].ToInt();
+                            usuario.id_rol = (Roles)dr["id_rol"];
                             usuario.id_perfil = dr["id_perfil"].ToInt();
-                            usuario.estado = dr["estado"].ToBool();
+                            usuario.id_estado = dr["id_estado"].ToInt();
                             usuarioList.Add(usuario);
                         }
                         cn.Close();
