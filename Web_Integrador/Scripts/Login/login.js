@@ -137,7 +137,7 @@ $("#form-login").on('submit', function (e) {
                 console.log(err);
             }
 
-        })
+        });
 
     }
     

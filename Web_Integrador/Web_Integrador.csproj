@@ -195,6 +195,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\Login\login.js" />
+    <Content Include="Scripts\Sucursal\Mantenimiento.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
