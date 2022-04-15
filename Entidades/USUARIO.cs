@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Helpers;
 
 namespace Entidades
 {
@@ -28,9 +29,9 @@ namespace Entidades
         public string username { get; set; }
         public string clave { get; set; }
         public DateTime? fecha_registro { get; set; }
-        public int id_rol { get; set; }
+        public Roles id_rol { get; set; }
         public int id_perfil { get; set; }
         public int id_estado{ get; set; }
-
+       
     }
 }

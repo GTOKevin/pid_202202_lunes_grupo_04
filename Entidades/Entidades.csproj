@@ -60,5 +60,11 @@
     <Compile Include="Sucursal.cs" />
     <Compile Include="Torre.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{f73668e3-434a-466f-b9d7-70419f8c733b}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,19 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using Negocio;
 using Entidades;
+using Helpers;
+using Web_Integrador.Security;
 
 namespace Web_Integrador.Controllers
 {
-    public class SucursalController : BaseController
+    [Authorize]
+    public class SucursalController : Controller
     {
         Sucursal_BS sucursal_BS = new Sucursal_BS();
         // GET: Sucursal
+        [PermisosRol(Roles.AgenteVisitas)]
         public ActionResult Index()
         {
-            if (!ValidarAcceso())
-            {
-                return RedirectToAction("Login", "Auth");
-            }
             return View();
         }
 

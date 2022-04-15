@@ -6,5 +6,14 @@ using System.Threading.Tasks;
 
 namespace Helpers
 {
- 
+    public class Constantes
+    {
+        public enum Roles
+        {
+            Administrador=1,
+            AgenteSistema=2,
+            AgenteVisitas=3,
+            AgenteIngresante=4
+        }
+    }
 }

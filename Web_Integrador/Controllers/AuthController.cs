@@ -5,25 +5,36 @@ using System.Web;
 using System.Web.Mvc;
 using Negocio;
 using Entidades;
+using System.Web.Security;
 
 namespace Web_Integrador.Controllers
 {
-    public class AuthController : BaseController
+    public class AuthController : Controller
     {
         Usuario_BS user_bs = new Usuario_BS();
         Perfil_BS perfil_bs = new Perfil_BS();
         // GET: Auth
         public ActionResult Login()
         {
-            if (ValidarAcceso())
+            if(Session["PI_USUARIO"] != null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index","Home");
             }
-    
             return View();
         }
 
 
+        public ActionResult NotFound()
+        {
+            return View();
+        }
+
+        public ActionResult Blocked()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public JsonResult LoginUsuario(Usuario user)
         {
             Usuario_Login_Res respLogin = new Usuario_Login_Res();
@@ -46,6 +57,8 @@ namespace Web_Integrador.Controllers
                     Session["PI_ROL"] = userLogin.usuario.id_rol;
                     oHeader.estado = true;
                     oHeader.mensaje = "Conectarse";
+
+                    FormsAuthentication.SetAuthCookie(userLogin.usuario.username, false);
                 }
                 else
                 {
@@ -85,6 +98,7 @@ namespace Web_Integrador.Controllers
             Session.Abandon();
             Session.RemoveAll();
             Session.Clear();
+            FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Auth");
         }
     }

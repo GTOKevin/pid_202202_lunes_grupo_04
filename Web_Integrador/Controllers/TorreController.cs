@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Web_Integrador.Controllers
 {
+    [Authorize]
     public class TorreController : Controller
     {
         // GET: Torre

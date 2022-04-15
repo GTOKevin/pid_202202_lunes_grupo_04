@@ -8,18 +8,13 @@ using Entidades;
 
 namespace Web_Integrador.Controllers
 {
-    public class HomeController : BaseController
+    [Authorize]
+    public class HomeController : Controller
     {
         Usuario_BS user_bs = new Usuario_BS();
         Perfil_BS perfil_bs = new Perfil_BS();
         public ActionResult Index()
         {
-            if (!ValidarAcceso())
-            {
-                return RedirectToAction("Login", "Auth");
-            }
-
-
             return View();
         }
 

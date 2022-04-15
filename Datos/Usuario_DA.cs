@@ -32,7 +32,7 @@ namespace Datos
                         usuario.username = dr["username"].ToString();
                         usuario.clave = dr["clave"].ToString();
                         usuario.fecha_registro =Convert.ToDateTime(dr["fecha_registro"].ToString());
-                        usuario.id_rol = Convert.ToInt32( dr["id_rol"].ToString());
+                        usuario.id_rol = (Roles)dr["id_rol"];
                         usuario.id_perfil =Convert.ToInt32( dr["id_perfil"].ToString());
                         usuario.id_estado = dr["id_estado"].ToInt();
 
@@ -142,7 +142,7 @@ namespace Datos
                             usuario.username=dr["username"].ToString();
                             usuario.clave=dr["clave"].ToString();
                             usuario.fecha_registro = dr["fecha_registro"].ToDateTime();
-                            usuario.id_rol = dr["id_rol"].ToInt();
+                            usuario.id_rol = (Roles)dr["id_rol"];
                             usuario.id_perfil = dr["id_perfil"].ToInt();
                             usuario.id_estado = dr["id_estado"].ToInt();
                             usuarioList.Add(usuario);
