@@ -17,8 +17,8 @@ signInButton.addEventListener('click', () => {
 const showLoading = () => {
     Swal.fire({
         title: 'Cargando !!',
-        html:'Espere por favor...',
-        showConfirmButton:false,
+        html: 'Espere por favor...',
+        showConfirmButton: false,
         allowOutsideClick: false,
         willOpen: () => {
             Swal.showLoading();
@@ -58,6 +58,7 @@ const validarFormLogin = () => {
 $("#form-create").on('submit', function (e) {
     e.preventDefault();
 
+
     if (validarFormCreate()) {
 
 
@@ -74,7 +75,7 @@ $("#form-create").on('submit', function (e) {
 
         $.ajax({
             method: "POST",
-            url: "/Auth/CrearUsuario",
+            url: urlCreateUser,
             responseType: 'json',
             data: formData,
             success: function (res) {
@@ -97,7 +98,7 @@ $("#form-create").on('submit', function (e) {
                 Swal.close();
                 console.log(err);
             }
-            
+
         })
     }
 
@@ -121,7 +122,7 @@ $("#form-login").on('submit', function (e) {
 
         $.ajax({
             method: "POST",
-            url: "/Auth/LoginUsuario",
+            url: urlLogin,
             responseType: 'json',
             data: formData,
             success: function (res) {
@@ -140,7 +141,7 @@ $("#form-login").on('submit', function (e) {
         });
 
     }
-    
+
 })
 
 $(".psw").click(function () {
