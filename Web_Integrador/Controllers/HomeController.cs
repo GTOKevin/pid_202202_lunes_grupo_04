@@ -18,7 +18,10 @@ namespace Web_Integrador.Controllers
             return View();
         }
 
-
+        public ActionResult index2()
+        {
+            return View();
+        }
 
  
     }

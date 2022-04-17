@@ -55,6 +55,7 @@
     <Compile Include="Servicio_BS.cs" />
     <Compile Include="Sucursal_BS.cs" />
     <Compile Include="Tipo_BS.cs" />
+    <Compile Include="Torre_BS.cs" />
     <Compile Include="Usuario_BS.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -90,6 +90,39 @@ const buttonsDatatTable = (opcion) => {
 }
 
 
+const setValData = () => {
+    let valores = {
+        formData: {},
+        formEstado:true,
+    };
+    //valores.formData[this.name] = this.value;
+    $('.val').each(function (e) {
+        if (this.id != "id") {
+            if (this.value.trim().length > 0) {
+                valores.formData[this.name] = this.value;
+            } else {
+                valores.formEstado = false;
+                this.classList.add("border-danger");
+            }
+        } else {
+            valores.formData[this.name] = this.value;
+        }
+    });
+    return valores;
+}
+
+const mostrarTabla = () => {
+    $("#view-form").hide(500);
+    $("#view-table").show(1000);
+}
+
+const mostrarFormulario = () => {
+    $("#view-table").hide(500);
+    $("#view-form").show(1000);
+   
+}
+
+
 
 
 const FechaDate = (fecha) => {

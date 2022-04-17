@@ -14,8 +14,8 @@ namespace Datos
 {
     public class Sector_DA
     {
-        //Listar
-        public Sector_Res Listar()
+
+        public Sector_Res Listar(int id)
         {
             Sector_Res sector_res = new Sector_Res();
             List<Sector> sector_list = new List<Sector>();
@@ -26,15 +26,18 @@ namespace Datos
                 using(SqlConnection cn= Conexion.Conectar())
                 {
                     cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_LIST_SECTOR", cn);
+                    SqlCommand cm = new SqlCommand("USP_SECTOR_LISTAR", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id_sector", id);
                     SqlDataReader dr = cm.ExecuteReader();
                     while (dr.Read())
                     {
                         Sector sector = new Sector();
-                        sector.id_sector = Convert.ToInt32(dr["id_sector"].ToString());
+                        sector.id_sector = dr["id_sector"].ToInt();
                         sector.nombre_sector = dr["nombre_sector"].ToString();
-                        sector.fecha_creacion = Convert.ToDateTime(dr["fecha_creacion"].ToString());
-                        sector.id_sucursal = Convert.ToInt32(dr["id_sucursal"].ToString());
+                        sector.fecha_creacion = dr["fecha_creacion"].ToDateTime() ;
+                        sector.id_sucursal = dr["id_sucursal"].ToInt();
+                        sector_list.Add(sector);
                     }
                     cn.Close();
                 }
@@ -52,48 +55,72 @@ namespace Datos
         }
 
         
-        public DTOHeader Registrar(Sector s)
+        public Sector_Register Registrar(Sector s)
         {
-            DTOHeader oHeader = new DTOHeader();
-            try
-            {
-                using (SqlConnection cn = Conexion.Conectar())
-                {
-                    cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_INSERT_SECTOR", cn);
-                    cm.CommandType = CommandType.StoredProcedure;
-                    cm.Parameters.AddWithValue("@nombre_sector", s.nombre_sector);
-                    cm.Parameters.AddWithValue("@fecha_creacion", s.fecha_creacion);
-                    cm.Parameters.AddWithValue("@id_sucursal", s.id_sucursal);
-                    cm.ExecuteNonQuery();
-                    cn.Close();
-                }
-                oHeader.estado = true;
-            }
-            catch (Exception ex)
-            {
-                oHeader.estado = false;
-                oHeader.mensaje = ex.Message;
-            }
-            return oHeader;
-        }
 
-        public DTOHeader Actualizar(Sector s)
-        {
+            Sector_Register sector_Register = new Sector_Register();
             DTOHeader oHeader = new DTOHeader();
+            int id_register = 0;
             try
             {
                 using (SqlConnection cn = Conexion.Conectar())
-                {
+                {   
+                    
                     cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_UPDATE_SECTOR", cn);
+                    SqlCommand cm = new SqlCommand("USP_SECTOR_REGISTRAR", cn);
                     cm.CommandType = CommandType.StoredProcedure;
                     cm.Parameters.AddWithValue("@id_sector", s.id_sector);
                     cm.Parameters.AddWithValue("@nombre_sector", s.nombre_sector);
-                    cm.Parameters.AddWithValue("@fecha_creacion", s.fecha_creacion);
                     cm.Parameters.AddWithValue("@id_sucursal", s.id_sucursal);
+                    id_register = cm.ExecuteScalar().ToInt();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+                if (s.id_sector == 0)
+                {
+                    oHeader.mensaje = "Se ha registrado un sector";
+                }
+                else
+                {
+                    oHeader.mensaje = "Se ha actualizado un sector";
+                }
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            sector_Register.oHeader= oHeader;
+            sector_Register.id_register = id_register;
+            return sector_Register;
+        }
 
-                    cm.ExecuteNonQuery();
+
+        public Sector_Suc_Res Listar_suc(int id)
+        {
+            Sector_Suc_Res sector_res = new Sector_Suc_Res();
+            List<Sector_Suc> sector_list = new List<Sector_Suc>();
+            DTOHeader oHeader = new DTOHeader();
+
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_SECTOR_LISTAR_SUC", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id_sector", id);
+                    SqlDataReader dr = cm.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        Sector_Suc sector = new Sector_Suc();
+                        sector.id_sector = dr["id_sector"].ToInt();
+                        sector.nombre_sector = dr["nombre_sector"].ToString();
+                        sector.fecha_creacion = dr["fecha_creacion"].ToDateTime();
+                        sector.id_sucursal = dr["id_sucursal"].ToInt();
+                        sector.nombre_sucursal = dr["nombre_sucursal"].ToString();
+                        sector_list.Add(sector);
+                    }
                     cn.Close();
                 }
                 oHeader.estado = true;
@@ -103,8 +130,12 @@ namespace Datos
                 oHeader.estado = false;
                 oHeader.mensaje = ex.Message;
             }
-            return oHeader;
+            sector_res.SectorList = sector_list;
+            sector_res.oHeader = oHeader;
+
+            return sector_res;
         }
+
 
     }
 

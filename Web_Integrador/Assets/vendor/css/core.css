@@ -9007,7 +9007,7 @@ button.list-group-item-gray.active {
 }
 
 .border-danger {
-  border-color: #ff3e1d !important;
+    border: 0.1rem #ff3e1d solid !important;
 }
 
 .border-light {

@@ -57,6 +57,7 @@
     <Compile Include="Servicio_DA.cs" />
     <Compile Include="Sucursal_DA.cs" />
     <Compile Include="Tipo_DA.cs" />
+    <Compile Include="Torre_DA.cs" />
     <Compile Include="Usuario_DA.cs" />
   </ItemGroup>
   <ItemGroup>
