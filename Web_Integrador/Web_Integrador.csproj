@@ -122,7 +122,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReciboController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
+    <Compile Include="Controllers\ServicioController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\TorreController.cs" />
     <Compile Include="Global.asax.cs">
@@ -199,6 +201,8 @@
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\Auth\Blocked.js" />
     <Content Include="Scripts\Login\login.js" />
+    <Content Include="Scripts\Recibo\Mantenimiento.js" />
+    <Content Include="Scripts\Servicio\Matenimiento.js" />
     <Content Include="Scripts\Sucursal\Mantenimiento.js" />
     <Content Include="Scripts\Torre\Mantenimiento.js" />
     <Content Include="Web.config" />
@@ -238,6 +242,8 @@
     <Content Include="Views\Seguridad\Index.cshtml" />
     <Content Include="Views\Auth\NotFound.cshtml" />
     <Content Include="Views\Auth\Blocked.cshtml" />
+    <Content Include="Views\Recibo\Index.cshtml" />
+    <Content Include="Views\Servicio\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj">

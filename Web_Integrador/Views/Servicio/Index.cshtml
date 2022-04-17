@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4">
+    <span class="text-muted fw-light">Servicio /</span>
+    Mantenimiento
+</h4>
+
+<div id="view-table">
+    <div class="card mb-4">
+        <div class="card-body ms-auto">
+            <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nuevo Servicio</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive text-nowrap card-body">
+            <table id="example" class="table table-hover" style="width:100%">
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<form id="view-form" style="display:none">
+    <div class="card">
+        <div class="align-items-center card-header d-flex justify-content-between">
+            <h5 class="fw-semibold m-0">Nuevo Servicio</h5>
+            <div>
+                <button class="btn btn-danger" type="button" onclick="btnAction(this,'cancel')"><i class="bx bx-arrow-back pe-2"></i>Cancelar</button>
+                <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Guardar</button>
+            </div>
+        </div>
+
+        <div class="card-body row">
+            <input type="text" class="form-control d-none" autocomplete="off" name="id_servicio" placeholder="id">
+            <div class="col-4">
+                <label for="exampleFormControlInput1" class="form-label">ID Tipo</label>
+                <input type="text" class="form-control" autocomplete="off" name="id_tipo" placeholder="Ingrese el ID del Tipo">
+            </div>
+            <div class="col-4">
+                <label for="exampleFormControlInput1" class="form-label">ID Departamento</label>
+                <input type="text" class="form-control" autocomplete="off" name="id_departamento" placeholder="Ingrese el ID del Departamento">
+            </div>
+            <div class="col-4">
+                <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+                <input type="text" class="form-control" autocomplete="off" name="nombre" placeholder="Ingrese nombre del servicio">
+            </div>           
+        </div>
+    </div>
+</form>
+
+
+<script>
+    const urlGetServicio = "@Url.Action("ListarServicios", "Servicio")";
+    const urlSaveServicio = "@Url.Action("RegistrarServicio", "Servicio")";
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/Servicio/Matenimiento.js"></script>
