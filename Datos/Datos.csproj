@@ -50,10 +50,14 @@
     <Compile Include="Movimiento_DA.cs" />
     <Compile Include="Perfil_DA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Propietario_DA.cs" />
+    <Compile Include="Recibo_DA.cs" />
+    <Compile Include="Rol_DA.cs" />
     <Compile Include="Sector_DA.cs" />
     <Compile Include="Servicio_DA.cs" />
     <Compile Include="Sucursal_DA.cs" />
     <Compile Include="Tipo_DA.cs" />
+    <Compile Include="Torre_DA.cs" />
     <Compile Include="Usuario_DA.cs" />
   </ItemGroup>
   <ItemGroup>

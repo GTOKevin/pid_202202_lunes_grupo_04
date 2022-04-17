@@ -122,6 +122,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SectorController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\TorreController.cs" />
@@ -199,6 +200,7 @@
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\Auth\Blocked.js" />
     <Content Include="Scripts\Login\login.js" />
+    <Content Include="Scripts\Sector\Mantenimiento.js" />
     <Content Include="Scripts\Sucursal\Mantenimiento.js" />
     <Content Include="Scripts\Torre\Mantenimiento.js" />
     <Content Include="Web.config" />
@@ -217,7 +219,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -238,6 +239,8 @@
     <Content Include="Views\Seguridad\Index.cshtml" />
     <Content Include="Views\Auth\NotFound.cshtml" />
     <Content Include="Views\Auth\Blocked.cshtml" />
+    <Content Include="Views\Sector\Index.cshtml" />
+    <Content Include="Views\Home\index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj">

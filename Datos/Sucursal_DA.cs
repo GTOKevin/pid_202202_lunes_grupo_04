@@ -51,7 +51,6 @@ namespace Datos
             return sucursal_res;
         }
 
-
         public Sucursal_Register Registrar(Sucursal Enti)
         {
             Sucursal_Register Sucursal = new Sucursal_Register();
@@ -68,7 +67,7 @@ namespace Datos
                     cmd.Parameters.AddWithValue("@id_sucursal", Enti.id_sucursal);
                     cmd.Parameters.AddWithValue("@nombre", Enti.nombre);
                     cmd.Parameters.AddWithValue("@descripcion", Enti.descripcion);
-                    rpta = Convert.ToInt32(cmd.ExecuteScalar());
+                    rpta = cmd.ExecuteScalar().ToInt();
                     cn.Close();
                     
                 }
@@ -94,7 +93,6 @@ namespace Datos
             Sucursal.id_register = id_register;
             return Sucursal;
         }
-
 
 
 
