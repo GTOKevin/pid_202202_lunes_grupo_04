@@ -19,5 +19,10 @@ namespace Entidades
         public DateTime? fecha_creacion { get; set; }
     }
 
+    public class  Sucursal_Register
+    {
+        public DTOHeader oHeader { get; set; }
+        public int id_register { get; set; }
+    }
      
 }

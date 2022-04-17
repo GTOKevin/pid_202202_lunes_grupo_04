@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/Assets/css/login.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/a23623a01b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <h2>
+        Formulario de inicio de sesión/registro
+    </h2>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form id="form-create">
+                <h1>Crear Cuenta </h1>
+                <input type="text" class="creat" name="username" placeholder="Nombre" />
+                <div class="form-password">
+                    <input type="password" class="creat" name="clave" placeholder="Contraseña" autocomplete="off" />
+                    <i class="fa-solid fa-eye psw"></i>
+                </div>
+                <div class="form-password">
+                    <input type="password" name="clave2" placeholder="Repetir Contraseña" autocomplete="off" />
+                    <i class="fa-solid fa-eye psw"></i>
+                </div>
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form id="form-login">
+                <h1>Login</h1>
+
+                <input type="text" class="log" name="username" placeholder="Nombre" />
+                <div class="form-password">
+                    <input type="password" class="log" name="clave" placeholder="Password" autocomplete="off" />
+                    <i class="fa-solid fa-eye psw"></i>
+                </div>
+
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Bienvenido(a)!</h1>
+                    <p>Para mantenerse conectado, inicie sesión con su información personal</p>
+                    <button class="ghost" id="signIn">Logearse</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hola Amigo(a)!</h1>
+                    <p>Ingresa tus datos personales y empieza a laborar</p>
+                    <button class="ghost" id="signUp">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlCreateUser = "@Url.Action("CrearUsuario", "Auth")";
+        const urlLogin = "@Url.Action("LoginUsuario", "Auth")";
+    </script>
+
+    <script src="~/Assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script src="~/Scripts/Login/login.js"></script>
+
+</body>
+</html>

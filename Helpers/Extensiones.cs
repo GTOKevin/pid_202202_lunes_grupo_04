@@ -31,5 +31,13 @@ namespace Helpers
             else return fecha;
         }
 
+
+        public static bool ToBool(this object obj)
+        {
+            bool boleano = new bool();
+            bool.TryParse(obj.ToString(), out boleano);
+            return boleano;
+        }
+
     }
 }

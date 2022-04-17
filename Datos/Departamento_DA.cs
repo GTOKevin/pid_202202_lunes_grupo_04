@@ -54,5 +54,69 @@ namespace Datos
 
             return departamento_res;
         }
+        public DTOHeader Registrar(Departamento dep) 
+        {
+          
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_DEPARTAMENTO_CREAR", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@piso", dep.piso);
+                    cm.Parameters.AddWithValue("@numero", dep.numero);
+                    cm.Parameters.AddWithValue("@metros_cuadrado", dep.metros_cuadrado);
+                    cm.Parameters.AddWithValue("@dormitorio", dep.dormitorio);
+                    cm.Parameters.AddWithValue("@banio", dep.banio);
+                    cm.Parameters.AddWithValue("@id_torre", dep.piso);
+                    SqlDataReader dr = cm.ExecuteReader();
+                   
+                    cn.Close();
+                }
+                oHeader.estado = true;
+
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+           
+
+            return oHeader;
+        }
+        public DTOHeader Actualizar(Departamento dep)
+        {
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_DEPARTAMENTO_ACTUALIZAR", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id_departamento", dep.id_departamento);
+                    cm.Parameters.AddWithValue("@piso", dep.piso);
+                    cm.Parameters.AddWithValue("@numero", dep.numero);
+                    cm.Parameters.AddWithValue("@metros_cuadrado", dep.metros_cuadrado);
+                    cm.Parameters.AddWithValue("@dormitorio", dep.dormitorio);
+                    cm.Parameters.AddWithValue("@banio", dep.banio);
+                    cm.Parameters.AddWithValue("@fecha_creacion", dep.fecha_creacion);
+                    cm.Parameters.AddWithValue("@id_torre", dep.id_torre);
+                    cm.Parameters.AddWithValue("@id_usuario", dep.id_usuario);
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            return oHeader;
+        }
     }
 }

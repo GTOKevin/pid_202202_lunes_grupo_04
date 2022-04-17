@@ -43,8 +43,9 @@
   <ItemGroup>
     <Compile Include="Incidente_File.cs" />
     <Compile Include="Movimiento.cs" />
+    <Compile Include="Perfil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-
+    <Compile Include="Tipo.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Departamento.cs" />
     <Compile Include="Departamento_File.cs" />
@@ -58,6 +59,12 @@
     <Compile Include="Servicio.cs" />
     <Compile Include="Sucursal.cs" />
     <Compile Include="Torre.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{f73668e3-434a-466f-b9d7-70419f8c733b}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

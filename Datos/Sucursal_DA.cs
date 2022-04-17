@@ -13,7 +13,7 @@ namespace Datos
     public class Sucursal_DA
     {
 
-        public Sucursal_Res Listar()
+        public Sucursal_Res Listar(int id_sucursal)
         {
             Sucursal_Res sucursal_res = new Sucursal_Res();
             List<Sucursal> sucursal_list = new List<Sucursal>();
@@ -23,8 +23,10 @@ namespace Datos
                 using (SqlConnection cn = Conexion.Conectar())
                 {
                     cn.Open();
-                    SqlCommand cm = new SqlCommand("select * from SUCURSAL", cn);
-                    SqlDataReader dr = cm.ExecuteReader();
+                    SqlCommand cmd = new SqlCommand("SP_SUCURSAL_LISTAR", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_sucursal", id_sucursal);
+                    SqlDataReader dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
                         Sucursal sucursal = new Sucursal();
@@ -49,14 +51,48 @@ namespace Datos
             return sucursal_res;
         }
 
-
-        public Sucursal_Res Registrar(Sucursal Enti)
+        public Sucursal_Register Registrar(Sucursal Enti)
         {
-            Sucursal_Res Sucursal = new Sucursal_Res();
+            Sucursal_Register Sucursal = new Sucursal_Register();
+            DTOHeader oHeader = new DTOHeader();
+            int id_register = 0;
+            try
+            {
+                int rpta = 0;
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("SP_SUCURSAL_REGISTER", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_sucursal", Enti.id_sucursal);
+                    cmd.Parameters.AddWithValue("@nombre", Enti.nombre);
+                    cmd.Parameters.AddWithValue("@descripcion", Enti.descripcion);
+                    rpta = cmd.ExecuteScalar().ToInt();
+                    cn.Close();
+                    
+                }
+                id_register = rpta;
+                oHeader.estado = true;
+                if (Enti.id_sucursal > 0)
+                {
+                    oHeader.mensaje = "Se actualizo la sucursal :" + Enti.nombre;
+                }
+                else
+                {
+                    oHeader.mensaje = "Se registro la sucursal :" + Enti.nombre;
+                }   
+         
+                
+            }catch(Exception ex)
+            {
+                oHeader.estado=false; 
+                oHeader.mensaje=ex.Message;
+            }
 
+            Sucursal.oHeader = oHeader;
+            Sucursal.id_register = id_register;
             return Sucursal;
         }
-
 
 
 

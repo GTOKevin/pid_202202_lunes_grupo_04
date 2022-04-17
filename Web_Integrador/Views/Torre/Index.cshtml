@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Entidades.Sucursal>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4">
+    <span class="text-muted fw-light">Torre /</span>
+    Mantenimiento
+</h4>
+
+<div id="view-table">
+    <div class="card mb-4">
+        <div class="card-body ms-auto">
+            <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nueva Torre</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive text-nowrap card-body">
+            <table id="example" class="table table-hover" style="width:100%">
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<form id="view-form" style="display:none">
+    <div class="card">
+        <div class="align-items-center card-header d-flex justify-content-between">
+            <h5 class="fw-semibold m-0">Nueva Torre</h5>
+            <div>
+                <button class="btn btn-danger" type="button" onclick="btnAction(this,'cancel')"><i class="bx bx-arrow-back pe-2"></i>Cancelar</button>
+                <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Guardar</button>
+            </div>
+        </div>
+
+        <div class="card-body row">
+            <input type="text" class="form-control val d-none" autocomplete="off" name="id_torre" placeholder="id">
+
+            <div class="col-12 col-md-6 ">
+                <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
+                <select class="form-control val" name="id_sucursal" id="id_sucursal">
+                    <option value="" selected>...Seleccione...</option>
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.id_sucursal">@item.nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="exampleFormControlInput1" class="form-label">Sector</label>
+                <select class="form-control val" name="id_sector">
+                    <option value="" selected>...Seleccione...</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="exampleFormControlInput1" class="form-label">Torre</label>
+                <input type="number" class="form-control val" autocomplete="off" name="numero" placeholder="Ingrese una breve descripción">
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    const urlGetTorre = "@Url.Action("ListarTorres", "Torre")";
+    const urlSaveTorre = "@Url.Action("RegistrarTorre", "Torre")";
+    const urlGetSector= "@Url.Action("ListarSector", "Torre")";
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/Torre/Mantenimiento.js"></script>

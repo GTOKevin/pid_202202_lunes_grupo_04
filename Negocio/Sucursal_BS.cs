@@ -11,12 +11,12 @@ namespace Negocio
     public class Sucursal_BS
     {
 
-        public Sucursal_Res lista()
+        public Sucursal_Res lista(int id_sucursal)
         {
-            return new Sucursal_DA().Listar();
+            return new Sucursal_DA().Listar(id_sucursal);
         }
 
-        public Sucursal_Res Registrar(Sucursal ent)
+        public Sucursal_Register Registrar(Sucursal ent)
         {
             return new Sucursal_DA().Registrar(ent);
         }

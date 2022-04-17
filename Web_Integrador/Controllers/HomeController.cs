@@ -4,26 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Negocio;
+using Entidades;
 
 namespace Web_Integrador.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-
-        Sucursal_BS sucursal_BS = new Sucursal_BS();
+        Usuario_BS user_bs = new Usuario_BS();
+        Perfil_BS perfil_bs = new Perfil_BS();
         public ActionResult Index()
         {
-            var datos = sucursal_BS.lista();
-
             return View();
         }
 
-
-        public ActionResult Login()
+        public ActionResult index2()
         {
             return View();
         }
 
-  
+ 
     }
 }
