@@ -55,6 +55,8 @@
     <Compile Include="Sucursal_DA.cs" />
     <Compile Include="Tipo_DA.cs" />
     <Compile Include="Usuario_DA.cs" />
+    <Compile Include="Visitante_DA.cs" />
+    <Compile Include="VISITA_REGISTRO_DA.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj">

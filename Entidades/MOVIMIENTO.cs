@@ -19,4 +19,10 @@ namespace Entidades
         public DateTime fecha_registro { get; set; }
 
     }
+    public class Movimiento_Register
+    {
+        public DTOHeader oHeader { get; set; }
+        public int id_register { get; set; }
+    }
+
 }

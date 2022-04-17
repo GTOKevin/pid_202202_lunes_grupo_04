@@ -53,6 +53,8 @@
     <Compile Include="Sucursal_BS.cs" />
     <Compile Include="Tipo_BS.cs" />
     <Compile Include="Usuario_BS.cs" />
+    <Compile Include="Visitante_BS.cs" />
+    <Compile Include="VISITAREG_BS.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Datos\Datos.csproj">
