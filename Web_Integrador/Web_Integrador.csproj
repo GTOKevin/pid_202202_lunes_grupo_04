@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -123,7 +123,10 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovimientoController.cs" />
+    <Compile Include="Controllers\SectorController.cs" />
+    <Compile Include="Controllers\ReciboController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
+    <Compile Include="Controllers\ServicioController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\TorreController.cs" />
     <Compile Include="Controllers\VisitanteController.cs" />
@@ -203,6 +206,9 @@
     <Content Include="Scripts\Auth\Blocked.js" />
     <Content Include="Scripts\Login\login.js" />
     <Content Include="Scripts\Movimiento\Mantenimiento.js" />
+    <Content Include="Scripts\Recibo\Mantenimiento.js" />
+    <Content Include="Scripts\Servicio\Matenimiento.js" />
+    <Content Include="Scripts\Sector\Mantenimiento.js" />
     <Content Include="Scripts\Sucursal\Mantenimiento.js" />
     <Content Include="Scripts\Torre\Mantenimiento.js" />
     <Content Include="Scripts\Visitante\Mantenimiento.js" />
@@ -247,6 +253,10 @@
     <Content Include="Views\Movimiento\Index.cshtml" />
     <Content Include="Views\Visitante\Index.cshtml" />
     <Content Include="Views\VisitaRegistro\Index.cshtml" />
+    <Content Include="Views\Recibo\Index.cshtml" />
+    <Content Include="Views\Servicio\Index.cshtml" />
+    <Content Include="Views\Sector\Index.cshtml" />
+    <Content Include="Views\Home\index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj">

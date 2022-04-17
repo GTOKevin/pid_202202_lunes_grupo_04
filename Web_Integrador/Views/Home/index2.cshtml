@@ -1,0 +1,91 @@
+﻿@model Entidades.Incidente
+
+@{
+    ViewBag.Title = "index2";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<h2>index2</h2>
+
+<div>
+    <h4>Incidente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_incidente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_incidente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha_incidente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha_incidente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre_reportado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre_reportado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipo_documento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipo_documento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nro_documento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nro_documento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha_registro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha_registro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_departamento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_departamento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_usuario)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

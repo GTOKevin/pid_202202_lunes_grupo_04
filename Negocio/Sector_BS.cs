@@ -11,17 +11,19 @@ namespace Negocio
 {
     public class Sector_BS
     {
-        public Sector_Res lista()
+        public Sector_Res lista(int id)
         {
-            return new Sector_DA().Listar();
+            return new Sector_DA().Listar(id);
         }
-        public DTOHeader Registrar(Sector s)
+        public Sector_Suc_Res listar_suc(int id)
+        {
+            return new Sector_DA().Listar_suc(id);
+        }
+        public Sector_Register Registrar(Sector s)
         {
             return new Sector_DA().Registrar(s);
         }
-        public DTOHeader Actualizar(Sector s)
-        {
-            return new Sector_DA().Actualizar(s);
-        }
+       
+   
     }
 }
