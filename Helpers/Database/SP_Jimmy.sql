@@ -72,3 +72,19 @@ AS
   END  
   SELECT @id
 GO
+
+------LISTAR SERVICIO EN EL RECIBO ----------------
+
+CREATE PROCEDURE USP_RECIBO_LISTAR_SERVICIO
+@id_recibo int  
+as  
+ if @id_recibo=0  
+  begin  
+   select R.*,S.nombre as 'nombre_servicio' from RECIBO R INNER JOIN SERVICIO S ON R.id_servicio=S.id_servicio
+  end  
+ else  
+  begin   
+    select R.*,S.nombre as 'nombre_servicio' from RECIBO R INNER JOIN SERVICIO S ON R.id_servicio=S.id_servicio 
+	where R.id_recibo=@id_recibo
+  end  
+GO
