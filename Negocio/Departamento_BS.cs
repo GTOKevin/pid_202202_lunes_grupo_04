@@ -18,10 +18,10 @@ namespace Negocio
         {
             return new Departamento_DA().Listar(id);
         }
-        public DTOHeader Registrar(Departamento dep)
-        {
-            return new Departamento_DA().Registrar(dep);
-        }
+        //public DTOHeader Registrar(Departamento dep)
+        //{
+        //    return new Departamento_DA().Registrar(dep);
+        //}
         public DTOHeader Actualizar(Departamento dep)
         {
             return new Departamento_DA().Actualizar(dep);
