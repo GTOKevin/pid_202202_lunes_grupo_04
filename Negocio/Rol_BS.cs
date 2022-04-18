@@ -9,9 +9,14 @@ namespace Negocio
 {
     public class Rol_BS
     {
-        public Rol_Res lista()
+        public Rol_Res lista(int id_rol)
         {
-            return new Rol_DA().Listar();
+            return new Rol_DA().Listar(id_rol);
+        }
+        public Rol_Register Registrar(Rol ro)
+        {
+            return new Rol_DA().Registrar(ro);
         }
     }
+
 }

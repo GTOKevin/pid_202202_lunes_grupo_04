@@ -1,4 +1,4 @@
-﻿<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand admin">
         <a href="index.html" class="app-brand-link">
             <span class="app-brand-logo admin">
@@ -72,7 +72,6 @@
 
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-
                 <i class="menu-icon tf-icons bx bx-building"></i>
                 <div>Torre</div>
             </a>
@@ -110,7 +109,50 @@
         </li>
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-globe"></i>
+                <div data-i18n="Account Settings">Tipo</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="@Url.Action("Index","Tipo")" class="menu-link">
+                        <div>Mantenimiento</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="pages-account-settings-notifications.html" class="menu-link">
+                        <div>Notifications</div>
+                    </a>
+                </li>
 
+            </ul>
+        </li>
+
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-globe"></i>
+                <div data-i18n="Account Settings">Rol</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="@Url.Action("Index","Rol")" class="menu-link">
+                        <div>Mantenimiento</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="pages-account-settings-notifications.html" class="menu-link">
+                        <div>Notifications</div>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+
+
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-home-smile"></i>
+                <div>Departamentos</div>
                 <i class="menu-icon tf-icons bx bx-building"></i>
                 <div>Servicio</div>
             </a>
@@ -129,22 +171,69 @@
         </li>
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-home-smile"></i>
-                <div>Departamentos</div>
+
+                <i class="menu-icon tf-icons bx bx-building"></i>
+                <div>Movimiento</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="auth-login-basic.html" class="menu-link" target="_blank">
-                        <div data-i18n="Basic">Login</div>
+                    <a href="@Url.Action("Index","Movimiento")" class="menu-link">
+                        <div>Mantenimietno</div>
                     </a>
                 </li>
+
+            </ul>
+        </li>
+
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+
+                <i class="menu-icon tf-icons bx bx-building"></i>
+                <div>Visitante</div>
+            </a>
+            <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="auth-register-basic.html" class="menu-link" target="_blank">
-                        <div data-i18n="Basic">Register</div>
+                    <a href="@Url.Action("Index","Visitante")" class="menu-link">
+                        <div>Mantenimietno</div>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+
+                <i class="menu-icon tf-icons bx bx-building"></i>
+                <div>Registro de Visitas</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="@Url.Action("Index","VisitaRegistro")" class="menu-link">
+                        <div>Mantenimietno</div>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+
+
+
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+
+                <i class="menu-icon tf-icons bx bx-building"></i>
+                <div>Departamento</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="@Url.Action("Index","Departamento")" class="menu-link">
+                        <div>Mantenimietno</div>
                     </a>
                 </li>
             </ul>
         </li>
+
 
         <!-- Components -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Components</span></li>

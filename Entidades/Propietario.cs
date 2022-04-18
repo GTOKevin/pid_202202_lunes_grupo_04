@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-
     public class Propietario_Res
     {
         public DTOHeader oHeader { get; set; }
