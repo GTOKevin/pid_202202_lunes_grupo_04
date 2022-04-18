@@ -12,7 +12,7 @@ namespace Datos
 {
     public class Movimiento_DA
     {
-        public Movimiento_Res Listar()
+        public Movimiento_Res Listar(int id_movimiento)
         {
             Movimiento_Res movimiento_res = new Movimiento_Res();
             List<Movimiento> movimiento_list = new List<Movimiento>();
@@ -24,6 +24,7 @@ namespace Datos
                     cn.Open();
                     SqlCommand cm = new SqlCommand("USP_LIST_MOVIMIENTO", cn);
                     cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@idmovi", id_movimiento);
                     SqlDataReader dr = cm.ExecuteReader();
                     while (dr.Read())
                     {
@@ -49,54 +50,46 @@ namespace Datos
 
             return movimiento_res;
         }
-        public DTOHeader Registrar(Movimiento movi)
+        public Movimiento_Register Registrar(Movimiento movi)
         {
+            Movimiento_Register movimiento = new Movimiento_Register();
             DTOHeader oHeader = new DTOHeader();
+            int id_register = 0;
             try
             {
+                int rpta = 0;
                 using (SqlConnection cn = Conexion.Conectar())
                 {
                     cn.Open();
                     SqlCommand cm = new SqlCommand("USP_INSERT_MOVIMIENTO", cn);
                     cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@idmovi", movi.id_movimiento);
                     cm.Parameters.AddWithValue("@idpropietario", movi.id_propietario);
                     cm.Parameters.AddWithValue("@idtipo", movi.id_tipo);
-                    cm.ExecuteNonQuery();
+                    rpta = Convert.ToInt32(cm.ExecuteScalar());
                     cn.Close();
                 }
+                id_register = rpta;
                 oHeader.estado = true;
-            }
-            catch (Exception ex)
-            {
-                oHeader.estado = false;
-                oHeader.mensaje = ex.Message;
-            }
-            return oHeader;
-        }
-        public DTOHeader Actualizar(Movimiento movi)
-        {
-            DTOHeader oHeader = new DTOHeader();
-            try
-            {
-                using (SqlConnection cn = Conexion.Conectar())
+
+                if(movi.id_movimiento > 0)
                 {
-                    cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_UPDATE_MOVIMIENTO", cn);
-                    cm.CommandType = CommandType.StoredProcedure;
-                    cm.Parameters.AddWithValue("@id", movi.id_movimiento);
-                    cm.Parameters.AddWithValue("@idpropietario", movi.id_propietario);
-                    cm.Parameters.AddWithValue("@idtipo", movi.id_tipo);
-                    cm.ExecuteNonQuery();
-                    cn.Close();
+                    oHeader.mensaje = "Se actualizo el movimiento : " + movi.id_propietario;
                 }
-                oHeader.estado = true;
+                else
+                {
+                    oHeader.mensaje = "Se registro el movimiento : " + movi.id_propietario;
+                }
             }
             catch (Exception ex)
             {
                 oHeader.estado = false;
                 oHeader.mensaje = ex.Message;
             }
-            return oHeader;
+            movimiento.oHeader = oHeader;
+            movimiento.id_register = id_register;
+            return movimiento;
         }
+         
     }
 }
