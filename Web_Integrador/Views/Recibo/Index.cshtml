@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<Entidades.Servicio>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -39,26 +40,32 @@
         </div>
 
         <div class="card-body row">
-            <input type="text" class="form-control d-none" autocomplete="off" name="id_recibo" placeholder="id">
-            <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">ID_Servicio</label>
-                <input type="text" class="form-control" autocomplete="off" name="id_servicio" placeholder="Ingrese id del servicio">
+            <input type="text" class="form-control d-none val" autocomplete="off" name="id_recibo" placeholder="id">
+            <div class="col-12 col-md-6 col-lg-2">
+                <label for="id_servicio" class="form-label">Servicio</label>
+                <select class="form-select val" name="id_servicio">
+                    <option value="" selected>--Seleccione--</option>
+                    @foreach(var item in Model)
+                        {
+                           <option value="@item.id_servicio">@item.nombre</option>
+                        }
+                </select>
             </div>
-            <div class="col-8">
-                <label for="exampleFormControlInput1" class="form-label">Monto</label>
-                <input type="text" class="form-control" autocomplete="off" name="monto" placeholder="Ingrese monto">
+            <div class="col-12 col-md-6 col-lg-3">
+                <label for="monto" class="form-label">Monto</label>
+                <input type="text" class="form-control val" autocomplete="off" name="monto" placeholder="Ingrese monto">
             </div>
-            <div class="col-8">
-                <label for="exampleFormControlInput1" class="form-label">Estado</label>
-                <input type="text" class="form-control" autocomplete="off" name="estado" placeholder="Ingrese estado">
+            <div class="col-12 col-md-6 col-lg-2">
+                <label for="estado" class="form-label">Estado</label>
+                <input type="text" class="form-control val" autocomplete="off" name="estado" placeholder="Ingrese estado">
             </div>
-            <div class="col-8">
-                <label for="exampleFormControlInput1" class="form-label">Fecha de Pago</label>
-                <input type="date" class="form-control fec"  autocomplete="off" name="fecha_pago" placeholder="Ingrese fecha de pago">
+            <div class="col-12 col-md-6 col-lg-3">
+                <label for="fecha_pago" class="form-label">Fecha de Pago</label>
+                <input type="date" class="form-control val"  autocomplete="off" name="fecha_pago" placeholder="Ingrese fecha de pago">
             </div>
-            <div class="col-8">
-                <label for="exampleFormControlInput1" class="form-label">Fecha de Vencimiento</label>
-                <input type="date" class="form-control fec" autocomplete="off" name="fecha_vencimiento" placeholder="Ingrese fecha de vencimiento">
+            <div class="col-12 col-md-6 col-lg-3">
+                <label for="fecha_vencimiento" class="form-label">Fecha de Vencimiento</label>
+                <input type="date" class="form-control val" autocomplete="off" name="fecha_vencimiento" placeholder="Ingrese fecha de vencimiento">
             </div>
 
         </div>
@@ -67,8 +74,9 @@
 
 
 <script>
-    const urlGetRecibo = "@Url.Action("ListarRecibos", "Recibo")";
-    const urlSaveRecibo = "@Url.Action("RegistrarRecibo", "Recibo")";
+    const urlSaveRecibo = "@Url.Action("RegistrarRecibo", "Recibo")",
+          urlGetRecibo = "@Url.Action("ListarRecibos", "Recibo")";
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
