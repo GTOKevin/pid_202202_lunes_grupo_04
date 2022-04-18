@@ -7,7 +7,18 @@ $(".psw").click(function () {
 });
 
 const cleanForm = () => {
-    let form = document.getElementById("view-form");
+    if (document.getElementById("view-form")) {
+        var form = document.getElementById("view-form");
+    }
+    if (document.getElementById("form-create")) {
+        var form = document.getElementById("form-create");
+    }
+    if (document.getElementById("form-create-perfil")) {
+        var form = document.getElementById("form-create-perfil");
+    }
+    if (document.getElementById("form-usuario-estado")) {
+        var form = document.getElementById("form-usuario-estado");
+    }
     form.reset();
 }
 
@@ -51,9 +62,50 @@ const convertFecha = (fecha) => {
         fechaConvt = dia + "/" + mes + "/" + anio;
     }
 
-
-
     return fechaConvt;
+}
+
+const convertGenero = (genero) => {
+    var generoConvert = "";
+    if (genero != undefined && genero != null) {
+        switch (genero) {
+            case "1":
+                generoConvert = "Masculino"
+                break;
+            case "2":
+                generoConvert = "Femenino"
+                break;
+            case "3":
+                generoConvert = "Sin Especificar"
+                break;
+            default:
+                generoConvert = "#####"
+                break;
+        }
+
+        return generoConvert;
+        
+    }
+}
+
+const convertNacionalidad = (nacionalidad) => {
+    var nacionalidadConvert = "";
+    if (nacionalidad != undefined && nacionalidad != null) {
+        switch (nacionalidad) {
+            case "1":
+                nacionalidadConvert = "Peruano"
+                break;
+            case "2":
+                nacionalidadConvert = "Extranjero"
+                break;
+            default:
+                nacionalidadConvert = "#####"
+                break;
+        }
+
+        return nacionalidadConvert;
+
+    }
 }
 
 const buttonsDatatTable = (opcion) => {
@@ -67,12 +119,32 @@ const buttonsDatatTable = (opcion) => {
                 <div class="w-100">
                 <button type='button' onclick='btnAction(this,"edit");' class='btn btn-sm btn-warning' style='padding:2px 4px;'>
                 <i class='bx bx-edit'></i>
-                </button>
-                </div>`
-
+                `
             }
 
-         break;
+            break;
+
+        case 'mantUsP':
+            buttonJson = {
+                data: null,
+                defaultContent: `
+                <div class="w-100">
+                <button type='button' onclick='btnAction(this,"edit");'  class='btn btn-sm btn-warning' style='padding:2px 4px;'>
+                <i class='bx bx-edit'></i>
+                </button>
+                <button type='button' onclick='btnAction(this,"est_1");'  class='btn btn-sm btn-success btnEstado' style='padding:2px 4px;'>
+                <i class="bx bx-check"></i>
+                </button>
+                <button type='button' onclick='btnAction(this,"est_2");'  class='btn btn-sm btn-danger btnEstado' style='padding:2px 4px;'>
+                <i class="bx bx-x"></i>
+                </button>
+                <button type='button' onclick='btnAction(this,"est_3");'  class='btn btn-sm btn-secondary btnEstado' style='padding:2px 4px;'>
+                <i class="bx bx-alarm-exclamation"></i>
+                </button>
+                </div>`
+            }
+
+            break;
 
         case 'delete':
 
