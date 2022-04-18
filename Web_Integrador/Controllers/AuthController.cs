@@ -54,6 +54,8 @@ namespace Web_Integrador.Controllers
                     }
                     Session["PI_USUARIO"] = userLogin;
                     Session["PI_USERNAME"] = userLogin.usuario.username;
+                    Session["PI_IDUSER"] = userLogin.usuario.id_usuario;
+                    Session["PI_IDPERFIL"] = userLogin.usuario.id_perfil;
                     Session["PI_ROL"] = userLogin.usuario.id_rol;
                     oHeader.estado = true;
                     oHeader.mensaje = "Conectarse";

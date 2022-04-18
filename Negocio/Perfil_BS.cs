@@ -19,14 +19,14 @@ namespace Negocio
             return new Perfil_DA().Listar_Perfil_Usuario(id_perfil);
         }
 
-        public Perfil_res Registrar_Perfil(Perfil perfil)
+        public Perfil_Register Registrar_Perfil(Perfil perfil)
         {
             return new Perfil_DA().Registrar_Perfil(perfil);
         }
 
-        public Perfil_res Actualizar_Perfil(int id,Perfil perfil)
+        public Perfil_Register Editar_MiPerfil(Perfil perfil)
         {
-            return new Perfil_DA().Actualizar_Perfil(id,perfil);
+            return new Perfil_DA().Editar_MiPerfil(perfil);
         }
 
         public Perfil_res Eliminar_Perfil(int id)
