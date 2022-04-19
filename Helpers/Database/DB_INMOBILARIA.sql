@@ -4,7 +4,7 @@ CREATE DATABASE DB_INMOBILIARIA
 GO
 USE [DB_INMOBILIARIA]
 GO
-/****** Object:  Table [dbo].[DEPARTAMENTO]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[DEPARTAMENTO]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -26,7 +26,7 @@ CREATE TABLE [dbo].[DEPARTAMENTO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DEPARTAMENTO_FILE]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[DEPARTAMENTO_FILE]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -42,7 +42,7 @@ CREATE TABLE [dbo].[DEPARTAMENTO_FILE](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ESTADO]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[ESTADO]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -57,7 +57,7 @@ CREATE TABLE [dbo].[ESTADO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[INCIDENTE]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[INCIDENTE]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -78,7 +78,7 @@ CREATE TABLE [dbo].[INCIDENTE](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[INCIDENTE_FILE]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[INCIDENTE_FILE]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -94,7 +94,7 @@ CREATE TABLE [dbo].[INCIDENTE_FILE](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[INCIDENTE_HISTORIAL]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[INCIDENTE_HISTORIAL]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -110,23 +110,7 @@ CREATE TABLE [dbo].[INCIDENTE_HISTORIAL](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MOVIMIENTO]    Script Date: 15/4/2022 19:21:14 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[MOVIMIENTO](
-	[id_movimiento] [int] IDENTITY(1,1) NOT NULL,
-	[id_propietario] [int] NULL,
-	[id_tipo] [int] NULL,
-	[fecha_registro] [datetime] NULL,
- CONSTRAINT [PK_MOVIMIENTO] PRIMARY KEY CLUSTERED 
-(
-	[id_movimiento] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[PERFIL]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[PERFIL]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -148,7 +132,7 @@ CREATE TABLE [dbo].[PERFIL](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PROPIETARIO]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[PROPIETARIO]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -171,7 +155,7 @@ CREATE TABLE [dbo].[PROPIETARIO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[RECIBO]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[RECIBO]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -190,7 +174,7 @@ CREATE TABLE [dbo].[RECIBO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ROL]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[ROL]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -205,7 +189,7 @@ CREATE TABLE [dbo].[ROL](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SECTOR]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[SECTOR]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -221,7 +205,7 @@ CREATE TABLE [dbo].[SECTOR](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SERVICIO]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[SERVICIO]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -238,7 +222,7 @@ CREATE TABLE [dbo].[SERVICIO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SUCURSAL]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[SUCURSAL]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -254,7 +238,7 @@ CREATE TABLE [dbo].[SUCURSAL](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TIPO]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[TIPO]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -269,7 +253,7 @@ CREATE TABLE [dbo].[TIPO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TORRE]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[TORRE]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -285,7 +269,7 @@ CREATE TABLE [dbo].[TORRE](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[USUARIO]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[USUARIO]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -304,7 +288,7 @@ CREATE TABLE [dbo].[USUARIO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[VISITA_REGISTRO]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[VISITA_REGISTRO]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -321,7 +305,7 @@ CREATE TABLE [dbo].[VISITA_REGISTRO](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[VISITANTE]    Script Date: 15/4/2022 19:21:14 ******/
+/****** Object:  Table [dbo].[VISITANTE]    Script Date: 19/4/2022 18:14:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -347,8 +331,6 @@ GO
 ALTER TABLE [dbo].[INCIDENTE] ADD  CONSTRAINT [DF_INCIDENTE_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
 GO
 ALTER TABLE [dbo].[INCIDENTE_FILE] ADD  CONSTRAINT [DF_INCIDENTE_FILE_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
-GO
-ALTER TABLE [dbo].[MOVIMIENTO] ADD  CONSTRAINT [DF_MOVIMIENTO_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
 GO
 ALTER TABLE [dbo].[PROPIETARIO] ADD  CONSTRAINT [DF_PROPIETARIO_fecha_registro]  DEFAULT (getdate()) FOR [fecha_registro]
 GO
@@ -402,16 +384,6 @@ ALTER TABLE [dbo].[INCIDENTE_HISTORIAL]  WITH CHECK ADD  CONSTRAINT [FK_INCIDENT
 REFERENCES [dbo].[INCIDENTE] ([id_incidente])
 GO
 ALTER TABLE [dbo].[INCIDENTE_HISTORIAL] CHECK CONSTRAINT [FK_INCIDENTE_HISTORIAL_INCIDENTE]
-GO
-ALTER TABLE [dbo].[MOVIMIENTO]  WITH CHECK ADD  CONSTRAINT [FK_MOVIMIENTO_PROPIETARIO] FOREIGN KEY([id_propietario])
-REFERENCES [dbo].[PROPIETARIO] ([id_propietario])
-GO
-ALTER TABLE [dbo].[MOVIMIENTO] CHECK CONSTRAINT [FK_MOVIMIENTO_PROPIETARIO]
-GO
-ALTER TABLE [dbo].[MOVIMIENTO]  WITH CHECK ADD  CONSTRAINT [FK_MOVIMIENTO_TIPO] FOREIGN KEY([id_tipo])
-REFERENCES [dbo].[TIPO] ([id_tipo])
-GO
-ALTER TABLE [dbo].[MOVIMIENTO] CHECK CONSTRAINT [FK_MOVIMIENTO_TIPO]
 GO
 ALTER TABLE [dbo].[PROPIETARIO]  WITH CHECK ADD  CONSTRAINT [FK_PROPIETARIO_DEPARTAMENTO] FOREIGN KEY([id_departamento])
 REFERENCES [dbo].[DEPARTAMENTO] ([id_departamento])
@@ -475,16 +447,44 @@ ALTER TABLE [dbo].[VISITA_REGISTRO] CHECK CONSTRAINT [FK_VISITA_REGISTRO_VISITAN
 GO
 
 
-INSERT INTO ROL(nombre,descripcion) VALUES('Administrador','Acceso general del sistema');
 
-INSERT INTO ROL(nombre,descripcion) VALUES('Agente de sistema','Acceso general excepto seguridad');
 
-INSERT INTO ROL(nombre,descripcion) VALUES('Agente de visitas','Acceso a registro visitas entre otros');
 
-INSERT INTO ROL(nombre,descripcion) VALUES('Agente ingresante','Nuevo agente a evaluar');
+USE [DB_INMOBILIARIA]
+GO
+SET IDENTITY_INSERT [dbo].[ESTADO] ON 
 
-INSERT INTO ESTADO(nombre,unidad)VALUES('Activo','USUARIO');
+INSERT [dbo].[ESTADO] ([id_estado], [nombre], [unidad]) VALUES (1, 'Activo', 'USUARIO')
+INSERT [dbo].[ESTADO] ([id_estado], [nombre], [unidad]) VALUES (2, 'Bloqueado', 'USUARIO')
+INSERT [dbo].[ESTADO] ([id_estado], [nombre], [unidad]) VALUES (3, 'Pendiente', 'USUARIO')
+SET IDENTITY_INSERT [dbo].[ESTADO] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ROL] ON 
 
-INSERT INTO ESTADO(nombre,unidad)VALUES('Bloqueado','USUARIO');
+INSERT [dbo].[ROL] ([id_rol], [nombre], [descripcion]) VALUES (1, 'Administrador', 'Acceso general del sistema')
+INSERT [dbo].[ROL] ([id_rol], [nombre], [descripcion]) VALUES (2, 'Agente de sistema', 'Acceso general excepto seguridad')
+INSERT [dbo].[ROL] ([id_rol], [nombre], [descripcion]) VALUES (3, 'Agente de visitas', 'Acceso a registro visitas entre otros')
+INSERT [dbo].[ROL] ([id_rol], [nombre], [descripcion]) VALUES (4, 'Agente ingresante', 'Nuevo agente a evaluar')
+SET IDENTITY_INSERT [dbo].[ROL] OFF
+GO
+SET IDENTITY_INSERT [dbo].[TIPO] ON 
 
-INSERT INTO ESTADO(nombre,unidad)VALUES('Pendiente','USUARIO');
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (1, 'DUEÑO', 'PROPIETARIO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (2, 'FAMILIAR', 'PROPIETARIO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (3, 'MASCOTA', 'PROPIETARIO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (4, 'DNI', 'DOCUMENTO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (5, 'CARNET EXTRANJERIA', 'DOCUMENTO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (6, 'PASAPORTE', 'DOCUMENTO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (7, 'ENEL', 'SERVICIO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (8, 'SEDAPAL', 'SERVICIO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (9, 'MOVISTAR', 'SERVICIO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (10, 'CLARO', 'SERVICIO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (11, 'DIRECTV', 'SERVICIO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (12, 'CALIDA', 'SERVICIO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (13, 'MASCULINO', 'GENERO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (14, 'FEMENINO', 'GENERO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (15, 'SIN ESPECIFICAR', 'GENERO')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (16, 'PERUANO', 'NACIONALIDAD')
+INSERT [dbo].[TIPO] ([id_tipo], [nombre], [unidad]) VALUES (17, 'EXTRANJERO', 'NACIONALIDAD')
+SET IDENTITY_INSERT [dbo].[TIPO] OFF
+GO

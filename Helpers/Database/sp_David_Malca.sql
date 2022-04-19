@@ -106,6 +106,6 @@ AS
    SET @id=SCOPE_IDENTITY()    
   END  
   SELECT @id
-
+  GO
 
 
