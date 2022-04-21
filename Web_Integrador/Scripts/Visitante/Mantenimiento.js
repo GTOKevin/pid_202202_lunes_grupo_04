@@ -1,5 +1,5 @@
 ﻿
-var colsName = ['ID', 'NOMBRE', 'APELLIDO', 'TIPO DOCUMENTO','NUMERO DOCUMENTO','GENERO', 'FECHA'];
+var colsName = ['ID', 'NOMBRE', 'APELLIDO', 'TIPO DOCUMENTO','NUMERO DOCUMENTO','NOMBRE DE GENERO', 'FECHA'];
 var visitanteList = [];
 
 const llenarVariable = (lista, option) => {
@@ -56,7 +56,7 @@ const getListaVisitante = () => {
         url: urlGetVisitante,
         responseType: 'json',
         success: async function (res) {
-            console.log(res);
+            
             Swal.close();
             if (res.oHeader.estado) {
                 await llenarVariable(res.VisitanteList, 'new');
@@ -76,8 +76,12 @@ const listTable = (res) => {
     $('#example').DataTable({
         destroy: true,
         data: res,
-        columns: [{ data: "id_visitante" }, { data: "nombre" }, { data: "apellidos" }, { data: "tipo_documento" },
-          { data: "nro_documento" }, { data: "genero" },
+        columns: [{ data: "id_visitante" },
+            { data: "nombre" },
+            { data: "apellidos" },
+            { data: "nombre_tipo" },
+            { data: "nro_documento" },
+            { data: "nombre_genero" },
         { data: "fecha_creacion", render: function (data) { return convertFecha(data) } },
         buttonsDatatTable("edit")],
         rowId: "id_visitante",
@@ -105,13 +109,12 @@ $("#view-form").on("submit", function (e) {
     e.preventDefault();
     let formData = {};
     let validate = true;
-    $("#view-form input").each(function (index) {
+    $("#view-form .cf").each(function (index) {
         if (this.value.trim().length != 0) {
             formData[this.name] = this.value;
         } else {
             validate = false;
         }
-
     });
 
     if (validate) {
@@ -123,6 +126,7 @@ $("#view-form").on("submit", function (e) {
             data: formData,
             responseType: 'json',
             success: async function (res) {
+                console.log(res);
                 Swal.close();
                 let { VisitanteList, oHeader } = res;
                 if (oHeader.estado) {
