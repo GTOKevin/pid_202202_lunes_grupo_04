@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.10.13\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props" Condition="Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.10.13\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -25,6 +26,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerLaunchUrl>http://{ServiceIPAddress}</DockerLaunchUrl>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -121,19 +124,25 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\MovimientoController.cs" />
     <Compile Include="Controllers\SectorController.cs" />
     <Compile Include="Controllers\ReciboController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
     <Compile Include="Controllers\ServicioController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
+    <Compile Include="Controllers\TipoController.cs" />
     <Compile Include="Controllers\TorreController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\VisitanteController.cs" />
     <Compile Include="Controllers\VisitaRegistroController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Model\DepartamentoModel.cs" />
     <Compile Include="Model\TorreModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\PermisosRolAttribute.cs" />
@@ -204,13 +213,19 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\App.js" />
     <Content Include="Scripts\Auth\Blocked.js" />
+    <Content Include="Scripts\Departamento\Mantenimiento.js" />
     <Content Include="Scripts\Login\login.js" />
+    <Content Include="Scripts\Perfil\Mantenimiento.js" />
+    <Content Include="Scripts\Seguridad\Mantenimiento.js" />
+    <Content Include="Scripts\Rol\Mantenimiento.js" />
     <Content Include="Scripts\Movimiento\Mantenimiento.js" />
     <Content Include="Scripts\Recibo\Mantenimiento.js" />
     <Content Include="Scripts\Servicio\Matenimiento.js" />
     <Content Include="Scripts\Sector\Mantenimiento.js" />
     <Content Include="Scripts\Sucursal\Mantenimiento.js" />
+    <Content Include="Scripts\Tipo\Mantenimiento.js" />
     <Content Include="Scripts\Torre\Mantenimiento.js" />
+    <Content Include="Scripts\Usuario\Mantenimiento.js" />
     <Content Include="Scripts\Visitante\Mantenimiento.js" />
     <Content Include="Scripts\VisitaRegistro\Mantenimiento.js" />
     <Content Include="Web.config" />
@@ -240,6 +255,10 @@
     <Content Include="Assets\vendor\fonts\boxicons\boxicons.ttf" />
     <Content Include="Assets\vendor\fonts\boxicons\boxicons.woff" />
     <Content Include="Assets\vendor\fonts\boxicons\boxicons.woff2" />
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <Content Include="Views\Shared\_Layout_Admin.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
@@ -250,6 +269,10 @@
     <Content Include="Views\Seguridad\Index.cshtml" />
     <Content Include="Views\Auth\NotFound.cshtml" />
     <Content Include="Views\Auth\Blocked.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Perfil\Index.cshtml" />
+    <Content Include="Views\Tipo\Index.cshtml" />
+    <Content Include="Views\Rol\Index.cshtml" />
     <Content Include="Views\Movimiento\Index.cshtml" />
     <Content Include="Views\Visitante\Index.cshtml" />
     <Content Include="Views\VisitaRegistro\Index.cshtml" />
@@ -257,6 +280,7 @@
     <Content Include="Views\Servicio\Index.cshtml" />
     <Content Include="Views\Sector\Index.cshtml" />
     <Content Include="Views\Home\index2.cshtml" />
+    <Content Include="Views\Departamento\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj">
@@ -304,8 +328,8 @@
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-  </Target>
+   </Target>
+  <Import Project="..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.10.13\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.10.13\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

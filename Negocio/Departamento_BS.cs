@@ -10,14 +10,18 @@ namespace Negocio
 {
     public class Departamento_BS
     {
-        public Departamento_Res lista()
+        public Departamento_Register Registrar(Departamento enti)
         {
-            return new Departamento_DA().Listar();
+            return new Departamento_DA().Registrar(enti);
         }
-        public DTOHeader Registrar(Departamento dep)
+        public Departamento_Res lista(int id)
         {
-            return new Departamento_DA().Registrar(dep);
+            return new Departamento_DA().Listar(id);
         }
+        //public DTOHeader Registrar(Departamento dep)
+        //{
+        //    return new Departamento_DA().Registrar(dep);
+        //}
         public DTOHeader Actualizar(Departamento dep)
         {
             return new Departamento_DA().Actualizar(dep);

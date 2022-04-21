@@ -108,33 +108,44 @@ namespace Datos
             return pr;
         }
 
-        public Perfil_res Registrar_Perfil(Perfil perfil)
+        public Perfil_Register Registrar_Perfil(Perfil perfil)
         {
-            Perfil_res pr = new Perfil_res();
+            Perfil_Register pr = new Perfil_Register();
             DTOHeader oHeader = new DTOHeader();
-
+            int id_register = 0;
             try
             {
+                int rpta = 0;
                 using (SqlConnection cn = Conexion.Conectar())
                 {
                     cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_CREATE_PERFIL", cn);
-                    cm.CommandType = CommandType.StoredProcedure;
-                    cm.Parameters.AddWithValue("@nombres", perfil.nombres);
-                    cm.Parameters.AddWithValue("@primer_apellido", perfil.primer_apellido);
-                    cm.Parameters.AddWithValue("@segundo_apellido", perfil.segundo_apellido);
-                    cm.Parameters.AddWithValue("@fecha_nacimiento", perfil.fecha_nacimiento);
-                    cm.Parameters.AddWithValue("@tipo_documento", perfil.tipo_documento);
-                    cm.Parameters.AddWithValue("@nro_documento", perfil.nro_documento);
-                    cm.Parameters.AddWithValue("@genero", perfil.genero);
-                    cm.Parameters.AddWithValue("@nacionalidad", perfil.nacionalidad);
-                    cm.Parameters.AddWithValue("@direccion", perfil.direccion);
-                    cm.ExecuteNonQuery();
+                    SqlCommand cmd = new SqlCommand("USP_PERFIL_REGISTER", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_perfil", perfil.id_perfil);
+                    cmd.Parameters.AddWithValue("@nombres", perfil.nombres);
+                    cmd.Parameters.AddWithValue("@primer_apellido", perfil.primer_apellido);
+                    cmd.Parameters.AddWithValue("@segundo_apellido", perfil.segundo_apellido);
+                    cmd.Parameters.AddWithValue("@fecha_nacimiento", perfil.fecha_nacimiento);
+                    cmd.Parameters.AddWithValue("@tipo_documento", perfil.tipo_documento);
+                    cmd.Parameters.AddWithValue("@nro_documento", perfil.nro_documento);
+                    cmd.Parameters.AddWithValue("@genero", perfil.genero);
+                    cmd.Parameters.AddWithValue("@nacionalidad", perfil.nacionalidad);
+                    cmd.Parameters.AddWithValue("@direccion", perfil.direccion);
+                    rpta = Convert.ToInt32(cmd.ExecuteScalar());
                     cn.Close();
+
+                }
+                id_register = rpta;
+                oHeader.estado = true;
+                if (perfil.id_perfil > 0)
+                {
+                    oHeader.mensaje = "Se actualizo el perfil :" + perfil.nombres;
+                }
+                else
+                {
+                    oHeader.mensaje = "Se registro el perfil :" + perfil.nombres;
                 }
 
-                oHeader.mensaje = "SE REGISTRO CORRECTAMENTE";
-                oHeader.estado = true;
 
             }
             catch (Exception ex)
@@ -144,38 +155,48 @@ namespace Datos
             }
 
             pr.oHeader = oHeader;
-
+            pr.id_register = id_register;
             return pr;
         }
 
-        public Perfil_res Actualizar_Perfil(int id, Perfil perfil)
+        public Perfil_Register Editar_MiPerfil(Perfil perfil)
         {
-            Perfil_res pr = new Perfil_res();
+            Perfil_Register pr = new Perfil_Register();
             DTOHeader oHeader = new DTOHeader();
-
+            int id_register = 0;
             try
             {
+                int rpta = 0;
                 using (SqlConnection cn = Conexion.Conectar())
                 {
                     cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_UPDATE_PERFIL", cn);
-                    cm.CommandType = CommandType.StoredProcedure;
-                    cm.Parameters.AddWithValue("@id_perfil", id);
-                    cm.Parameters.AddWithValue("@nombres", perfil.nombres);
-                    cm.Parameters.AddWithValue("@primer_apellido", perfil.primer_apellido);
-                    cm.Parameters.AddWithValue("@segundo_apellido", perfil.segundo_apellido);
-                    cm.Parameters.AddWithValue("@fecha_nacimiento", perfil.fecha_nacimiento);
-                    cm.Parameters.AddWithValue("@tipo_documento", perfil.tipo_documento);
-                    cm.Parameters.AddWithValue("@nro_documento", perfil.nro_documento);
-                    cm.Parameters.AddWithValue("@genero", perfil.genero);
-                    cm.Parameters.AddWithValue("@nacionalidad", perfil.nacionalidad);
-                    cm.Parameters.AddWithValue("@direccion", perfil.direccion);
-                    cm.ExecuteNonQuery();
+                    SqlCommand cmd = new SqlCommand("USP_PERFIL_EDIT_US", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_perfil", perfil.id_perfil);
+                    cmd.Parameters.AddWithValue("@nombres", perfil.nombres);
+                    cmd.Parameters.AddWithValue("@primer_apellido", perfil.primer_apellido);
+                    cmd.Parameters.AddWithValue("@segundo_apellido", perfil.segundo_apellido);
+                    cmd.Parameters.AddWithValue("@fecha_nacimiento", perfil.fecha_nacimiento);
+                    cmd.Parameters.AddWithValue("@tipo_documento", perfil.tipo_documento);
+                    cmd.Parameters.AddWithValue("@nro_documento", perfil.nro_documento);
+                    cmd.Parameters.AddWithValue("@genero", perfil.genero);
+                    cmd.Parameters.AddWithValue("@nacionalidad", perfil.nacionalidad);
+                    cmd.Parameters.AddWithValue("@direccion", perfil.direccion);
+                    rpta = Convert.ToInt32(cmd.ExecuteScalar());
                     cn.Close();
+
+                }
+                id_register = rpta;
+                oHeader.estado = true;
+                if (perfil.id_perfil > 0)
+                {
+                    oHeader.mensaje = "Se actualizo el perfil :" + perfil.nombres;
+                }
+                else
+                {
+                    oHeader.mensaje = "Se registro el perfil :" + perfil.nombres;
                 }
 
-                oHeader.mensaje = "SE ACTUALIZO CORRECTAMENTE";
-                oHeader.estado = true;
 
             }
             catch (Exception ex)
@@ -185,9 +206,11 @@ namespace Datos
             }
 
             pr.oHeader = oHeader;
-
+            pr.id_register = id_register;
             return pr;
         }
+
+
 
         public Perfil_res Eliminar_Perfil(int id)
         {

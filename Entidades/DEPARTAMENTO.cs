@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
+    public class Departamento_Register
+    {
+        public DTOHeader oHeader { get; set; }
+        public int id_register { get; set; }
+    }
     public class Departamento_Res
     {
         public DTOHeader oHeader { get; set; }
@@ -23,7 +28,11 @@ namespace Entidades
         public DateTime? fecha_actualizacion { get; set; }
         public int id_torre { get; set; }
         public int id_usuario { get; set; }
-
-
+        //adicionales
+        public int numero_torre { get; set; }
+        public int id_sector { get; set; }  
+        public string nombre_sector { get; set; }
+        public int id_sucursal { get; set; }
+        public string nombre_sucursal { get; set; }
     }
 }

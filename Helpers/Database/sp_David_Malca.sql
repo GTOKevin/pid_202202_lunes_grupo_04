@@ -33,18 +33,31 @@ as
   GO
   --VISITANTE
   --LISTAR
-  CREATE PROCEDURE SP_VISITANTE_LISTAR
-@id_visitante int
-as
-	if @id_visitante=0
-		BEGIN
-			select * from VISITANTE
-		END
-	else
-		BEGIN
-			select * from VISITANTE where id_visitante=@id_visitante
-		END
-		GO
+ CREATE PROCEDURE SP_VISITANTE_LISTAR    
+@id_visitante int    
+as    
+ if @id_visitante=0    
+  BEGIN    
+   select A.id_visitante,A.nombre,A.apellidos,A.tipo_documento,  
+   (select B.nombre from TIPO B WHERE B.id_tipo=A.tipo_documento)AS 'nombre_tipo',  
+ A.nro_documento,  
+ A.genero,  
+   (select B.nombre from TIPO B WHERE B.id_tipo=A.genero)AS 'nombre_genero',  
+   
+ a.fecha_creacion from VISITANTE A    
+  END    
+ else    
+  BEGIN    
+    select A.id_visitante,A.nombre,A.apellidos,A.tipo_documento,  
+   (select B.nombre from TIPO B WHERE B.id_tipo=A.tipo_documento)AS 'nombre_tipo',  
+	A.nro_documento,  
+	A.genero,  
+   (select B.nombre from TIPO B WHERE B.id_tipo=A.genero)AS 'nombre_genero',  
+   
+	 a.fecha_creacion from VISITANTE A where A.id_visitante=@id_visitante    
+  END 
+GO
+
 --REGISTRO
 CREATE PROCEDURE SP_VISITANTE_REGISTER  
 @id_visitante int,    
@@ -106,6 +119,6 @@ AS
    SET @id=SCOPE_IDENTITY()    
   END  
   SELECT @id
-
+  GO
 
 

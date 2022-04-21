@@ -169,3 +169,93 @@ CREATE PROCEDURE USP_TORRE_REGISTRAR
    end  
    select @id
 GO
+
+--DEPARTAMENTO
+
+CREATE PROCEDURE USP_DEPARTAMETO_REGISTRAR      
+ @id_departamento int,      
+ @piso int,      
+ @numero int,  
+ @metros_cuadrado int,  
+ @dormitorio int,  
+ @banio int,  
+ @id_torre int,
+ @id_usuario int  
+ as      
+ declare @id int      
+  if @id_departamento=0      
+   begin      
+    INSERT INTO DEPARTAMENTO(piso,numero,metros_cuadrado,dormitorio,banio,id_torre,id_usuario)      
+        VALUES(@piso,@numero,@metros_cuadrado,@dormitorio,@banio,@id_torre,@id_usuario)      
+    set @id=SCOPE_IDENTITY()      
+   end      
+  else      
+   begin       
+    UPDATE DEPARTAMENTO SET piso=@piso,numero=@numero,metros_cuadrado=@metros_cuadrado,dormitorio=@dormitorio,  
+          banio=@banio,fecha_actualizacion=GETDATE(),id_usuario=@id_usuario  
+       WHERE id_departamento=@id_departamento      
+    set @id=@id_departamento      
+   end      
+   select @id   
+GO
+
+CREATE PROCEDURE USP_DEPARTAMENTO_LISTAR 
+@id_departamento int
+as
+	if @id_departamento=0
+		BEGIN
+			select A.*,B.numero as 'numero_torre',C.id_sector, C.nombre_sector,D.id_sucursal,D.nombre as 'nombre_sucursal'
+										 from DEPARTAMENTO A INNER JOIN TORRE B ON A.id_torre = B.id_torre
+										 INNER JOIN SECTOR C ON B.id_sector=C.id_sector
+										 INNER JOIN SUCURSAL D ON C.id_sucursal=D.id_sucursal
+		END
+	else 
+		BEGIN
+				select A.*,B.numero as 'numero_torre',C.id_sector, C.nombre_sector,D.id_sucursal,D.nombre as 'nombre_sucursal'
+										 from DEPARTAMENTO A INNER JOIN TORRE B ON A.id_torre = B.id_torre
+										 INNER JOIN SECTOR C ON B.id_sector=C.id_sector
+										 INNER JOIN SUCURSAL D ON C.id_sucursal=D.id_sucursal
+										 where A.id_departamento=@id_departamento
+		END
+GO
+
+
+--PROPIETARIO-DEPARTAMENTO
+
+CREATE PROCEDURE USP_PROPIETARIO_REGISTRAR      
+ @id_propietario int,      
+ @nombres varchar(50),      
+ @primer_apellido varchar(30),  
+ @segundo_apellido varchar(30),  
+ @tipo_documento varchar(1),  
+ @nro_documento varchar(20),  
+ @nacionalidad varchar(1),
+ --FK
+ @id_departamento int,
+ @id_tipo int
+ as      
+ declare @id int      
+  if @id_propietario=0      
+   begin      
+    INSERT INTO PROPIETARIO(nombres,primer_apellido,segundo_apellido,tipo_documento,nro_documento,nacionalidad,estado,id_departamento,id_tipo,fecha_registro)      
+        VALUES(@nombres,@primer_apellido,@segundo_apellido,@tipo_documento,@nro_documento,@nacionalidad,1,@id_departamento,@id_tipo,GETDATE())          
+   end      
+  else      
+   begin       
+    UPDATE PROPIETARIO SET nombres=@nombres,primer_apellido=@primer_apellido,segundo_apellido=@segundo_apellido,
+		tipo_documento=@tipo_documento,nro_documento=@nro_documento,nacionalidad=@nacionalidad,
+		id_tipo=@id_tipo
+       WHERE id_propietario=@id_propietario       
+   end      
+GO
+
+
+
+CREATE PROCEDURE USP_PROPIETARIO_DEP_LISTAR
+ @id_departamento int
+ as
+	if @id_departamento>0
+		begin
+			select * from PROPIETARIO
+		end
+GO

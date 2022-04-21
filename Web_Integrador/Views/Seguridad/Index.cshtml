@@ -1,99 +1,31 @@
-﻿@model Entidades.Perfil
-
+﻿
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Mis Datos</h2>
 
-<div>
-    <h4>Perfil</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.id_perfil)
-        </dt>
+<form id="view-form">
+    <div class="card">
+        <div class="align-items-center card-header d-flex justify-content-between">
+            <h5 class="fw-semibold m-0">Perfil</h5>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.id_perfil)
-        </dd>
+        <div class="card-body row">
+            <div class="col-md-3 text-center">
+                <img src="~/Assets/img/avatars/1.png" class="w-px-150 h-auto rounded-circle" />
+            </div>
+            <div class="col-md-6" id=mis_datos></div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.nombres)
-        </dt>
+        </div>
+    </div>
+</form>
 
-        <dd>
-            @Html.DisplayFor(model => model.nombres)
-        </dd>
+<script>
+    const urlGetPerfil = "@Url.Action("ListarPerfil", "Seguridad")";
+</script>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.primer_apellido)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.primer_apellido)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.segundo_apellido)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.segundo_apellido)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.fecha_nacimiento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.fecha_nacimiento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.tipo_documento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.tipo_documento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.nro_documento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nro_documento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.genero)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.genero)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.nacionalidad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nacionalidad)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.direccion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.direccion)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/Seguridad/Mantenimiento.js"></script>
