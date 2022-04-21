@@ -33,10 +33,12 @@ namespace Datos
                         visitante.id_visitante= dr["id_visitante"].ToInt();
                         visitante.nombre = dr["nombre"].ToString();
                         visitante.apellidos = dr["apellidos"].ToString();
-                        visitante.tipo_documento = dr["tipo_documento"].ToString();
+                        visitante.tipo_documento= dr["tipo_documento"].ToInt();
+                        visitante.nombre_tipo = dr["nombre_tipo"].ToString();
                         visitante.nro_documento = dr["nro_documento"].ToString();
-                        visitante.genero = dr["genero"].ToString();
-                        visitante.fecha_creacion = Convert.ToDateTime(dr["fecha_creacion"].ToDateTime());
+                        visitante.genero = dr["genero"].ToInt();
+                        visitante.nombre_genero = dr["nombre_genero"].ToString();
+                        visitante.fecha_creacion = dr["fecha_creacion"].ToDateTime();
 
 
                         visitante_list.Add(visitante);
@@ -60,7 +62,7 @@ namespace Datos
 
         public Visitante_Register Registrar(Visitante visi)
         {
-            Visitante_Register Visitante = new Visitante_Register();
+                        Visitante_Register Visitante = new Visitante_Register();
             DTOHeader oHeader = new DTOHeader();
             int id_register = 0;
             try
