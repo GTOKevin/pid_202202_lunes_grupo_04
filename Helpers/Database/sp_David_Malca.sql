@@ -121,4 +121,53 @@ AS
   SELECT @id
   GO
 
+  --VISITA DE REGISTRO
+  create PROCEDURE USP_LISTAR_VISITAREG
+	  @id_visita_registro int
+	  AS
+	  if @id_visita_registro =0
+	   BEGIN
+	  Select Vr.id_visita_registro,Vr.fecha_ingreso,Vr.fecha_salida , d.numero AS 'Departamento',t.numero as 'Torre',s.nombre as 'Sucursal'
+	  , 
+	  sec.nombre_sector AS 'Zona' , v.nombre as 'Nombre visitante' from
+	  VISITA_REGISTRO Vr join DEPARTAMENTO d on
+	  vr.id_departamento=d.id_departamento join VISITANTE v
+	  on v.id_visitante=vr.id_visitante join TORRE t on t.id_torre=d.id_torre join SUCURSAL s 
+	  on s.id_sucursal=s.id_sucursal join SECTOR sec on sec.id_sector=t.id_sector
+	  END
+	  else
+	  begin
+	 Select Vr.id_visita_registro,Vr.fecha_ingreso,Vr.fecha_salida , d.numero AS 'Departamento',t.numero as 'Torre',s.nombre as 'Sucursal'
+	  , 
+	  sec.nombre_sector AS 'Zona' , v.nombre as 'Nombre visitante' from
+	  VISITA_REGISTRO Vr join DEPARTAMENTO d on
+	  vr.id_departamento=d.id_departamento join VISITANTE v
+	  on v.id_visitante=vr.id_visitante join TORRE t on t.id_torre=d.id_torre join SUCURSAL s 
+	  on s.id_sucursal=s.id_sucursal join SECTOR sec on sec.id_sector=t.id_sector
+	  where vr.id_visita_registro=@id_visita_registro
+	  END
+----CREAR
+create PROCEDURE USP_VISITAREG_REGISTER 
+ @id_visita_registro int,      
+ @fecha_ingreso datetime,      
+ @fecha_salida datetime,  
+ @id_departamento int,  
+ @id_visitante int
+ as      
+ declare @id int      
+  if @id_visita_registro=0      
+   begin      
+    INSERT INTO VISITA_REGISTRO(fecha_ingreso,fecha_salida,id_departamento,id_visitante)      
+        VALUES(@fecha_ingreso,@fecha_salida,@id_departamento,@id_visitante)      
+    set @id=SCOPE_IDENTITY()      
+   end      
+  else      
+   begin       
+    UPDATE VISITA_REGISTRO SET fecha_ingreso=@fecha_ingreso,fecha_salida=@fecha_salida,id_departamento=@id_departamento,
+	id_visitante=@id_visitante
+       WHERE id_visita_registro=@id_visita_registro      
+    set @id=@id_visita_registro    
+   end      
+   select @id   
+
 
