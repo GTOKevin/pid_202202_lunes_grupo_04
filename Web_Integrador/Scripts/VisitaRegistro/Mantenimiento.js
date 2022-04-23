@@ -2,6 +2,7 @@
 var colsName = ['ID', 'FECHA INGRESO', 'FECHA SALIDA', 'DEPARTAMENTO','VISITANTE'];
 var visitanteregList = [];
 
+
 const llenarVariable = (lista, option) => {
     let newArray;
     switch (option) {
@@ -51,6 +52,7 @@ const btnAction = (t, tipo) => {
 };
 
 const getListaVisitaRegistro = () => {
+
     $.ajax({
         method: "GET",
         url: urlGetVisitaRegistro,
@@ -70,6 +72,7 @@ const getListaVisitaRegistro = () => {
 
     });
 }
+
 const listTable = (res) => {
     $('#example').DataTable({
         destroy: true,
@@ -184,7 +187,14 @@ const llenarCampos = (list) => {
 
 }
 
+
+$("#id_sucursal").on('change', function (index) {
+    let idsuc = this.value;
+
+});
+
 init();
+
 
 
 
