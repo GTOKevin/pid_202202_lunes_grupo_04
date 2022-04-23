@@ -14,20 +14,27 @@ namespace Web_Integrador.Controllers
     public class ReciboController : Controller
     {
         Recibo_BS recibo_BS = new Recibo_BS();
+        Servicio_BS servicio_BS = new Servicio_BS();
 
         // GET: Recibo
         [PermisosRol(Roles.AgenteVisitas)]
         public ActionResult Index()
         {
-            return View();
+            List<Servicio> listaServicio = new List<Servicio>();
+            var resServicio = servicio_BS.lista(0);
+            if (resServicio.oHeader.estado)
+            {
+                listaServicio = resServicio.ServicioList;
+            }
+            return View(listaServicio);
         }
 
         public JsonResult ListarRecibos(int id_recibo = 0)
         {
-            Recibo_Res recibo_Res = new Recibo_Res();
+            Recibo_Servicio_Res recibo_Res = new Recibo_Servicio_Res();
             try
             {
-                var rpta = recibo_BS.lista(id_recibo);
+                var rpta = recibo_BS.listar_servicio(id_recibo);
                 recibo_Res = rpta;
             }
             catch (Exception ex)
@@ -39,8 +46,8 @@ namespace Web_Integrador.Controllers
         }
         public JsonResult RegistrarRecibo(Recibo enti)
         {
-            Recibo_Res recibo_Res = new Recibo_Res();
-            List<Recibo> recibo_List = new List<Recibo>();
+            Recibo_Servicio_Res recibo_res = new Recibo_Servicio_Res();
+            List<Recibo_Servicio> recibo_List = new List<Recibo_Servicio>();
             DTOHeader oHeader = new DTOHeader();
             try
             {
@@ -48,7 +55,7 @@ namespace Web_Integrador.Controllers
                 oHeader = rpta.oHeader;
                 if (rpta.oHeader.estado)
                 {
-                    var getRecibo = recibo_BS.lista(rpta.id_register);
+                    var getRecibo = recibo_BS.listar_servicio(rpta.id_register);
                     if (getRecibo.oHeader.estado)
                     {
                         recibo_List = getRecibo.ReciboList;
@@ -57,14 +64,14 @@ namespace Web_Integrador.Controllers
             }
             catch (Exception ex)
             {
-                recibo_Res.oHeader.estado = false;
-                recibo_Res.oHeader.mensaje = ex.Message;
+                recibo_res.oHeader.estado = false;
+                recibo_res.oHeader.mensaje = ex.Message;
             }
-            recibo_Res.oHeader = oHeader;
-            recibo_Res.ReciboList = recibo_List;
+            recibo_res.oHeader = oHeader;
+            recibo_res.ReciboList = recibo_List;
 
 
-            return Json(recibo_Res, JsonRequestBehavior.AllowGet);
+            return Json(recibo_res, JsonRequestBehavior.AllowGet);
         }
     }
 }

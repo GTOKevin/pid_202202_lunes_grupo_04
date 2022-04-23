@@ -12,6 +12,19 @@ namespace Entidades
         public DTOHeader oHeader { set; get; }
         public List<Perfil> Lista_Perfiles { set; get; }
     }
+
+    public class Perfil_res_Us
+    {
+        public DTOHeader oHeader { set; get; }
+        public List<Usuario> ListaUsuarioP { set; get; }
+    }
+
+    public class Perfil_res_UsG
+    {
+        public DTOHeader oHeader { set; get; }
+        public List<UsuarioGeneral> ListaUsuarioP { set; get; }
+    }
+
     public class Perfil
     {
         public int id_perfil { get; set; }
@@ -24,5 +37,11 @@ namespace Entidades
         public string genero { get; set; }
         public string nacionalidad { get; set; }
         public string direccion { get; set; }
+    }
+
+    public class Perfil_Register
+    {
+        public DTOHeader oHeader { get; set; }
+        public int id_register { get; set; }
     }
 }
