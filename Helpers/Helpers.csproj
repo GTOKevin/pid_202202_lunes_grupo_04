@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database\DB_INMOBILARIA.sql" />
+    <Content Include="Database\sp_David_Malca.sql" />
     <Content Include="Database\SP_Kevin_Virgilio.sql" />
     <Content Include="Database\SP_Solay.sql" />
   </ItemGroup>

@@ -11,17 +11,14 @@ namespace Negocio
 {
     public class Movimiento_BS
     {
-        public Movimiento_Res lista()
+        public Movimiento_Res lista(int id_movimiento)
         {
-            return new Movimiento_DA().Listar();
+            return new Movimiento_DA().Listar( id_movimiento);
         }
-        public DTOHeader Registrar(Movimiento mov)
+        public Movimiento_Register Registrar(Movimiento mov)
         {
             return new Movimiento_DA().Registrar(mov);
         }
-        public DTOHeader Actualizar(Movimiento mov)
-        {
-            return new Movimiento_DA().Actualizar(mov);
-        }
+        
     }
 }

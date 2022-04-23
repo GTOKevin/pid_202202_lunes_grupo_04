@@ -13,7 +13,39 @@ namespace Datos
 {
     public class Propietario_DA
     { 
-        public Propietario_Res Listar()
+        public DTOHeader Registrar(Propietario enti)
+        {
+            DTOHeader oHeader = new DTOHeader();
+
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("USP_PROPIETARIO_REGISTRAR", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_propietario", enti.id_propietario);
+                    cmd.Parameters.AddWithValue("@nombres", enti.nombres);
+                    cmd.Parameters.AddWithValue("@primer_apellido", enti.primer_apellido);
+                    cmd.Parameters.AddWithValue("@segundo_apellido", enti.segundo_apellido);
+                    cmd.Parameters.AddWithValue("@tipo_documento", enti.tipo_documento);
+                    cmd.Parameters.AddWithValue("@nro_documento", enti.nro_documento);
+                    cmd.Parameters.AddWithValue("@nacionalidad", enti.nacionalidad);
+                    cmd.Parameters.AddWithValue("@id_departamento", enti.id_departamento);
+                    cmd.Parameters.AddWithValue("@id_tipo", enti.id_tipo);
+                    cmd.ExecuteNonQuery();
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }catch(Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            return oHeader;
+        }
+
+        public Propietario_Res Listar(int id_dep)
         {
             Propietario_Res propietario_res = new Propietario_Res();
             List<Propietario> propietario_list = new List<Propietario>();
@@ -23,8 +55,9 @@ namespace Datos
                 using (SqlConnection cn = Conexion.Conectar())
                 {
                     cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_PROPIETARIO_LISTAR", cn);
+                    SqlCommand cm = new SqlCommand("USP_PROPIETARIO_DEP_LISTAR", cn);
                     cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id_departamento", id_dep);
                     SqlDataReader dr = cm.ExecuteReader();
                     while (dr.Read())
                     {

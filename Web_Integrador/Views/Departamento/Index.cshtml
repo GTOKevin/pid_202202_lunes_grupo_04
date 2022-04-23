@@ -1,0 +1,190 @@
+﻿@model IEnumerable<Entidades.Sucursal>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4">
+    <span class="text-muted fw-light">Departamento /</span>
+    Mantenimiento
+</h4>
+
+<div id="view-table">
+    <div class="card mb-4">
+        <div class="card-body ms-auto">
+            <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nuevo Departamento</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive text-nowrap card-body">
+            <table id="example" class="table table-hover" style="width:100%">
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div id="div-form" style="display:none">
+    <form id="view-form">
+        <div class="card">
+            <div class="align-items-center card-header d-flex justify-content-between">
+                <h5 class="fw-semibold m-0">Nuevo Departamento</h5>
+                <div>
+                    <button class="btn btn-danger" type="button" onclick="btnAction(this,'cancel')"><i class="bx bx-arrow-back pe-2"></i>Cancelar</button>
+                    <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Guardar</button>
+                </div>
+            </div>
+
+            <div class="card-body row">
+                <input type="text" class="form-control val d-none" autocomplete="off" name="id_departamento" id="id" placeholder="id">
+
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
+                    <select class="form-control val" name="id_sucursal" id="id_sucursal">
+                        <option value="" selected>...Seleccione...</option>
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.id_sucursal">@item.nombre</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Sector</label>
+                    <select class="form-control val" id="id_sector" name="id_sector">
+                        <option value="" selected>...Seleccione...</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Torre</label>
+                    <select class="form-control val" name="id_torre">
+                        <option value="" selected>...Seleccione...</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Metros Cuadrados</label>
+                    <input type="number" class="form-control val" autocomplete="off" name="metros_cuadrado" placeholder="Ingrese numero departameto">
+                </div>
+
+                <div class="col-12 col-md-4 col-xl-3 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Piso</label>
+                    <input type="number" class="form-control val" autocomplete="off" name="piso" placeholder="Ingrese numero departameto">
+                </div>
+                <div class="col-12 col-md-4 col-xl-3 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Numero</label>
+                    <input type="number" class="form-control val" autocomplete="off" name="numero" placeholder="Ingrese numero departameto">
+                </div>
+
+                <div class="col-12 col-md-4 col-xl-3 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Dormitorios</label>
+                    <input type="number" class="form-control val" autocomplete="off" name="dormitorio" placeholder="Ingrese numero departameto">
+                </div>
+                <div class="col-12 col-md-4 col-xl-3 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Baños</label>
+                    <input type="number" class="form-control val" autocomplete="off" name="banio" placeholder="Ingrese numero departameto">
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <div class="card">
+        <div class="align-items-center card-header d-flex justify-content-between">
+            <h5 class="fw-semibold m-0">Propietarios</h5>
+            <div>
+                <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#modalProp"> <i class="bx bx-arrow-back pe-2"></i>Agregar</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Primer Apellido</th>
+                        <th scope="col">Segundo Apellido</th>
+                        <th scope="col">Numero Documento</th>
+                    </tr>
+                </thead>
+                <tbody id="table_prop">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="modalProp" tabindex="-1" aria-labelledby="modalPropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            </div>
+            <div class="modal-body row">
+                <input type="number" class="form-control d-none valProp" autocomplete="off" id="id_prop" name="id_propietario" placeholder="id">
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Nombres</label>
+                    <input type="text" class="form-control valProp" autocomplete="off" name="nombres" placeholder="Ingrese su nombre">
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Primer Apellido</label>
+                    <input type="text" class="form-control valProp" autocomplete="off" name="primer_apellido" placeholder="Ingrese su apellido">
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Segundo Apellido</label>
+                    <input type="text" class="form-control valProp" autocomplete="off" name="segundo_apellido" placeholder="Ingrese su apellido">
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Nacionalidad</label>
+                    <select class="form-control valProp" name="nacionalidad">
+                        <option value="" selected>...Seleccione...</option>
+                        <option value="1">Peruano</option>
+                        <option value="2">Extranjero</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Tipo Documento</label>
+                    <select class="form-control valProp" name="tipo_documento">
+                        <option value="" selected>...Seleccione...</option>
+                        <option value="1" selected>DNI</option>
+                        <option value="2" selected>Carnet de Extranjeria</option>
+                        <option value="3" selected>Pasaporte</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-6 mb-3 ">
+                    <label for="exampleFormControlInput1" class="form-label">Nro. Documento</label>
+                    <input type="text" class="form-control valProp" autocomplete="off" name="nro_documento" placeholder="Ingrese nro documento">
+                </div>
+
+                <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Tipo Propietario</label>
+                    <select class="form-control valProp" name="id_tipo">
+                        <option value="" selected>...Seleccione...</option>
+                        <option value="1">Dueño</option>
+                        <option value="2">Familiar</option>
+                        <option value="3">Mascota</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeModal" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="agregarProp()"> Agregar </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "Departamento")";
+    const urlSaveDepartamento = "@Url.Action("RegistrarDepartamento", "Departamento")";
+    const urlGetSector = "@Url.Action("ListarSector", "Torre")";
+    const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
+    const urlGetDepPropietario = "@Url.Action("ListarTorrePropietario","Departamento")";
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/Departamento/Mantenimiento.js"></script>
