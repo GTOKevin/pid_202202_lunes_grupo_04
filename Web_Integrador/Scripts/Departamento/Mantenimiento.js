@@ -5,10 +5,12 @@ var departamentoList = [];
 const removeDanger = () => {
     $(".val").click(function (e) {
         this.classList.remove("border-danger");
+        (this.parentElement).lastElementChild.classList.add("d-none");
     });
 
     $(".valProp").click(function (e) {
         this.classList.remove("border-danger");
+        (this.parentElement).lastElementChild.classList.add("d-none");
     });
 
 }
@@ -55,12 +57,14 @@ const btnAction = (t, tipo) => {
         case 'new':
             cleanForm();
             cleanSelect();
+            limpiarTable();
             mostrarForm();
             break;
         case 'cancel':
             mostrarTable();
             break;
         case 'edit':
+            limpiarTable();
             mostrarForm();
             let id = ((t.parentElement).parentElement).parentElement.id;
             getDepartamentoId(id);
@@ -121,21 +125,24 @@ $("#view-form").on("submit", function (e) {
     if (id_departamento.value == "" || id_departamento.value == undefined) {
         id_departamento.value = 0;
     }
+    let form = {};
 
     e.preventDefault();
-    let { formData, formEstado } = setValData();
-    console.log(formData);
-    console.log(formEstado);
-  
-    obtenerDataTable();
+    let { formData, formEstado } = setValDataLab();
+
+
+    let propietarios =obtenerDataTable();
+
+    form["departamento"] = formData;
+    form["propietarios"] = propietarios;
+
 
     if (formEstado) {
         showLoading();
-
         $.ajax({
             method: "POST",
             url: urlSaveDepartamento,
-            data: formData,
+            data: form,
             responseType: 'json',
             success: async function (res) {
                 console.log(res);
@@ -169,9 +176,11 @@ const getDepartamentoId = (id) => {
         url: urlGetDepPropietario + "?id_departamento=" + id,
         responseType: 'json',
         success: async function (res) {
-            let { lista_Departamento, lista_Propietario, oHeader } = res;
+            console.log(res);
+            let { lista_Departamento, propietarios, oHeader } = res;
             if (oHeader.estado) {
                 await llenarCampos(lista_Departamento);
+                await llenarTable(propietarios);
             } else {
                 Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
             }
@@ -214,6 +223,41 @@ const llenarCampos = async (list) => {
 
 
 
+}
+const llenarTable = async (propietario) => {
+    console.log(propietario);
+        let table_prop = document.getElementById("table_prop");
+    let row = ``;
+
+
+    if (propietario.length > 0) {
+
+
+        for (i = 0; i < propietario.length; i++) {
+            if (propietario[i].id_propietario != "" || propietario[i].id_propietario != undefined) {
+                row += `<tr data-id="${propietario[i].id_propietario}">`;
+            } else {
+                row += `<tr>`;
+            }
+            row += `
+            <td name="id_propietario" class="d-none">${propietario[i].id_propietario}</td>
+            <td name="nombres">${propietario[i].nombres}</td>
+            <td name="primer_apellido">${propietario[i].primer_apellido}</td>
+            <td name="segundo_apellido">${propietario[i].segundo_apellido}</td>
+            <td name="tipo_documento" class="d-none">${propietario[i].tipo_documento}</td>
+            <td name="nro_documento">${propietario[i].nro_documento}</td>
+            <td name="nombre_tipo">${propietario[i].nombre_tipo}</td>
+            <td name="nacionalidad" class="d-none">${propietario[i].nacionalidad}</td>
+            <td name="id_tipo" class="d-none">${propietario[i].id_tipo}</td>
+            <td name="id_departamento" class="d-none">${propietario[i].id_departamento}</td>
+            </tr>`;
+        }
+       
+    }
+        
+
+        table_prop.innerHTML += row;
+    
 }
 init();
 
@@ -283,7 +327,6 @@ const getSelectSector = (list) => {
 
 }
 
-
 const getSelectTorre = (list) => {
 
     let selTorre = document.getElementsByName("id_torre")[0];
@@ -307,6 +350,7 @@ const agregarProp = () => {
     console.log(propietario, estado);
     if (estado) {
         listaTableData(propietario);
+        $("#closeModal")[0].click();
     }
 }
 
@@ -319,9 +363,16 @@ const obtenerProp = () => {
     $(".valProp").each(function (e) {
         if (this.id !== "id_prop") {
             if (this.value.trim().length > 0) {
-                resJson.propietario[this.name] = this.value;
+                if (this.name == "id_tipo") {
+                    resJson.propietario[this.name] = this.value;
+                    resJson.propietario["nombre_tipo"] = $(this)[0].selectedOptions[0].innerText;
+                } else {
+                    resJson.propietario[this.name] = this.value;
+                }
+                
             } else {
                 this.classList.add("border-danger");
+                (this.parentElement).lastElementChild.classList.remove("d-none");
                 resJson.estado = false;
             }
            
@@ -332,6 +383,7 @@ const obtenerProp = () => {
     resJson.propietario["id_departamento"] = id_dep;
     return resJson;
 }
+
 const listaTableData = (propietario) => {
     let table_prop = document.getElementById("table_prop");
     let row = ``;
@@ -345,8 +397,10 @@ const listaTableData = (propietario) => {
             <td name="segundo_apellido">${propietario.segundo_apellido}</td>
             <td name="tipo_documento" class="d-none">${propietario.tipo_documento}</td>
             <td name="nro_documento">${propietario.nro_documento}</td>
+            <td name="nro_documento">${propietario.nombre_tipo}</td>
             <td name="nacionalidad" class="d-none">${propietario.nacionalidad}</td>
             <td name="id_tipo" class="d-none">${propietario.id_tipo}</td>
+            <td name="id_departamento" class="d-none">${propietario.id_departamento}</td>
             </tr>`;
 
     table_prop.innerHTML += row;
@@ -354,9 +408,26 @@ const listaTableData = (propietario) => {
 
 const obtenerDataTable = () => {
 
+    let tableProp = [];
+
     $("#table_prop tr").each(function (ind) {
-        (this.childElementCount)
-   
-            
-    })
+        console.log(this.childElementCount);
+        let jsonProp = {};
+        for (i = 0; i < this.childElementCount; i++) {
+            let name = $(this.children[i])[0].attributes.name.value;
+            jsonProp[name] = $(this.children[i])[0].textContent;
+        }
+        tableProp.push(jsonProp);
+    });
+
+    return tableProp;
+}
+
+
+const limpiarTable = () => {
+    let table_prop = document.getElementById("table_prop");
+
+    while (table_prop.firstChild) {
+        table_prop.removeChild(table_prop.firstChild);
+    }
 }

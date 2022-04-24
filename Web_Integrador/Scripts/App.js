@@ -184,6 +184,27 @@ const setValData = () => {
     return valores;
 }
 
+const setValDataLab = () => {
+    let valores = {
+        formData: {},
+        formEstado: true,
+    };
+    $('.val').each(function (e) {
+        if (this.id != "id") {
+            if (this.value.trim().length > 0) {
+                valores.formData[this.name] = this.value;
+            } else {
+                valores.formEstado = false;
+                this.classList.add("border-danger");
+                (this.parentElement).lastElementChild.classList.remove("d-none");
+            }
+        } else {
+            valores.formData[this.name] = this.value;
+        }
+    });
+    return valores;
+}
+
 const mostrarTabla = () => {
     $("#view-form").hide(500);
     $("#view-table").show(1000);
@@ -215,4 +236,47 @@ const FechaDate = (fecha) => {
         fechaConvt = anio + "-" + mes + "-" + dia  ;
     }
     return fechaConvt;
+}
+
+
+
+
+const soloLetras = (e) => {
+    let key = e.keyCode || e.which;
+    let tecla = String.fromCharCode(key).toString();
+    let letras = "ABCDEFGHIJKLMNÑOPQRSTUVWYXabcdefghijklmnñopqrstuvwxyzáéíóú";
+    let especiales = [8, 13, 32];
+    let tecla_especial = false;
+    for (var i in especiales) {
+        if (key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+        return false;
+    }
+}
+
+
+
+function soloNumeros(e) {
+    var key = e.charCode;
+    return (key >= 48 && key <= 57 || key == 8 || key == 13 || key == 32);
+}
+
+
+function alphaNumero(e) {
+    let key = e.keyCode || e.which;
+    let tecla = String.fromCharCode(key).toString();
+    var especiales = [8, 13, 32, 45, 46, 95]
+    let tecla_especial = false;
+    for (var i in especiales) {
+        if (key == especiales[i]) {
+            tecla_especial = true;
+            break;
+        }
+    }
+    let letras = "ABCDEFGHIJKLMNÑOPQRSTUVWYXabcdefghijklmnñopqrstuvwxyzáéíóú";
+    return (letras.indexOf(tecla)!=-1 || key >= 48 && key <= 57 || tecla_especial);
 }

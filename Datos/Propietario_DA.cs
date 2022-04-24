@@ -66,13 +66,17 @@ namespace Datos
                         propietario.nombres = dr["nombres"].ToString();
                         propietario.primer_apellido = dr["primer_apellido"].ToString();
                         propietario.segundo_apellido = dr["segundo_apellido"].ToString();
-                        propietario.tipo_documento = dr["tipo_documento"].ToString();
+                        propietario.tipo_documento = dr["tipo_documento"].ToInt();
                         propietario.nro_documento = dr["nro_documento"].ToString();
-                        propietario.nacionalidad = dr["nacionalidad"].ToString();
+                        propietario.nacionalidad = dr["nacionalidad"].ToInt();
                         propietario.fecha_registro = dr["fecha_registro"].ToDateTime();
                         propietario.estado = (byte)dr["estado"].ToInt();
                         propietario.id_departamento = dr["id_departamento"].ToInt();
                         propietario.id_tipo = dr["id_tipo"].ToInt();
+                        //adicionales
+                        propietario.nombre_documento = dr["nombre_documento"].ToString();
+                        propietario.nombre_nacionalidad = dr["nombre_nacionalidad"].ToString();
+                        propietario.nombre_tipo = dr["nombre_tipo"].ToString();
                         propietario_list.Add(propietario);
                     }
                     cn.Close();

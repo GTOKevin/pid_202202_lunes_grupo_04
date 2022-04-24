@@ -42,15 +42,17 @@
                 <label for="id_sucursal" class="form-label">Sucursal</label>
                 <select class="form-select val" name="id_sucursal">
                     <option value="" selected>..Seleccione..</option>
-                    @foreach(var item in Model)
-                        {
-                            <option value="@item.id_sucursal">@item.nombre</option>
-                        }
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.id_sucursal">@item.nombre</option>
+                    }
                 </select>
+                <label class="label-error d-none">Por selecciona una sucursal</label>
             </div>
             <div class="col-12 col-md-6 col-lg-5">
                 <label for="nombre_sector" class="form-label">Nombre Sector</label>
-                <input type="text" class="form-control val" autocomplete="off" name="nombre_sector" placeholder="Ingrese una breve descripción">
+                <input type="text" class="form-control val" autocomplete="off" name="nombre_sector" placeholder="Ingrese nombre" onkeypress="return alphaNumero(event)">
+                <label class="label-error d-none">Por favor ingrese un nombre al sector</label>
             </div>
 
         </div>

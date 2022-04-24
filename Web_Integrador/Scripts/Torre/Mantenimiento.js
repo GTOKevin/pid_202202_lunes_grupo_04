@@ -99,7 +99,7 @@ $("#view-form").on("submit", function (e) {
     }
 
     e.preventDefault();
-    let { formData, formEstado } = setValData();
+    let { formData, formEstado } = setValDataLab();
 
 
     if (formEstado) {
@@ -184,6 +184,7 @@ const llenarCampos =async (list) => {
 init();
 $(".val").click(function (e) {
     this.classList.remove("border-danger");
+    (this.parentElement).lastElementChild.classList.add("d-none");
 });
 
 

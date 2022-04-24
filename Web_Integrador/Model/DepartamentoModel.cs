@@ -15,7 +15,7 @@ namespace Web_Integrador.Model
 
     public class DepartamentoModel
     {
-        public List<Departamento> lista_Departamento { get; set; }
-        public List<Propietario> lista_Propietario { get; set; }
+        public List<Tipo> Tipos { get; set; }
+        public List<Sucursal> Sucursales { get; set; }
     }
 }
