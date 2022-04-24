@@ -11,17 +11,13 @@ namespace Negocio
 {
     public class Servicio_BS
     {
-        public Servicio_Res lista()
+        public Servicio_Res lista(int id_servicio)
         {
-            return new Servicio_DA().Listar();
+            return new Servicio_DA().Listar(id_servicio);
         }
-        public DTOHeader Registrar(Servicio s)
+        public Servicio_Register Registrar(Servicio ent)
         {
-            return new Servicio_DA().Registrar(s);
-        }
-        public DTOHeader Actualizar(Servicio s)
-        {
-            return new Servicio_DA().Actualizar(s);
+            return new Servicio_DA().Registrar(ent);
         }
     }
 }

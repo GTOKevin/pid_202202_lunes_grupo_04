@@ -13,7 +13,7 @@ namespace Datos
 {
     public class Servicio_DA
     {
-        public Servicio_Res Listar()
+        public Servicio_Res Listar(int id_servicio)
         {
             Servicio_Res servicio_res = new Servicio_Res();
             List<Servicio> servicio_list = new List<Servicio>();
@@ -24,16 +24,18 @@ namespace Datos
                 using(SqlConnection cn = Conexion.Conectar())
                 {
                     cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_LIST_SERVICIO", cn);
-                    SqlDataReader dr = cm.ExecuteReader();
+                    SqlCommand cmd = new SqlCommand("SP_SERVICIO_LISTAR", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_servicio", id_servicio);
+                    SqlDataReader dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
                         Servicio servicio = new Servicio();
                         servicio.id_servicio = dr["id_servicio"].ToInt();
-                        servicio.id_tipo = Convert.ToInt32(dr["id_tipo"].ToString());
-                        servicio.id_departamento = Convert.ToInt32(dr["id_departamento"].ToString());
+                        servicio.id_tipo = dr["id_tipo"].ToInt();
+                        servicio.id_departamento = dr["id_departamento"].ToInt();
                         servicio.nombre = dr["nombre"].ToString();
-                        servicio.fecha_registro = Convert.ToDateTime(dr["fecha_registro"].ToString());
+                        servicio.fecha_registro = dr["fecha_registro"].ToDateTime();
                         servicio_list.Add(servicio);
                     }
                     cn.Close();
@@ -53,60 +55,46 @@ namespace Datos
             return servicio_res;
         }
 
-       
-        public DTOHeader Registrar(Servicio s)
-        {
-            DTOHeader oHeader = new DTOHeader();
-            try
-            {
-                using (SqlConnection cn = Conexion.Conectar())
-                {
-                    cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_INSERT_SERVICIO", cn);
-                    cm.CommandType = CommandType.StoredProcedure;
-                    cm.Parameters.AddWithValue("@id_tipo", s.id_tipo);
-                    cm.Parameters.AddWithValue("@id_departamento", s.id_departamento);
-                    cm.Parameters.AddWithValue("@nombre", s.nombre);
-                    cm.Parameters.AddWithValue("@fecha_registro", s.fecha_registro);
-                    cm.ExecuteNonQuery();
-                    cn.Close();
-                }
-                oHeader.estado = true;
-            }
-            catch (Exception ex)
-            {
-                oHeader.estado = false;
-                oHeader.mensaje = ex.Message;
-            }
-            return oHeader;
-        }
 
-        public DTOHeader Actualizar(Servicio s)
+        public Servicio_Register Registrar(Servicio Enti)
         {
+            Servicio_Register Servicio = new Servicio_Register();
             DTOHeader oHeader = new DTOHeader();
+            int id_register = 0;
             try
             {
+                int rpta = 0;
                 using (SqlConnection cn = Conexion.Conectar())
                 {
                     cn.Open();
-                    SqlCommand cm = new SqlCommand("USP_UPDATE_SERVICIO", cn);
-                    cm.CommandType = CommandType.StoredProcedure;
-                    cm.Parameters.AddWithValue("@id_servicio", s.id_servicio);
-                    cm.Parameters.AddWithValue("@id_tipo", s.id_tipo);
-                    cm.Parameters.AddWithValue("@id_departamento", s.id_departamento);
-                    cm.Parameters.AddWithValue("@nombre", s.nombre);
-                    cm.Parameters.AddWithValue("@fecha_registro", s.fecha_registro);
-                    cm.ExecuteNonQuery();
+                    SqlCommand cmd = new SqlCommand("SP_SERVICIO_REGISTER", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_servicio", Enti.id_servicio);
+                    cmd.Parameters.AddWithValue("@id_tipo", Enti.id_tipo);
+                    cmd.Parameters.AddWithValue("@id_departamento", Enti.id_departamento);
+                    cmd.Parameters.AddWithValue("@nombre", Enti.nombre);
+                    rpta = Convert.ToInt32(cmd.ExecuteScalar());
                     cn.Close();
                 }
+                id_register = rpta;
                 oHeader.estado = true;
+                if (Enti.id_servicio > 0)
+                {
+                    oHeader.mensaje = "Se actualizo el servicio :" + Enti.nombre;
+                }
+                else
+                {
+                    oHeader.mensaje = "Se registro el servicio :" + Enti.nombre;
+                }
             }
             catch (Exception ex)
             {
                 oHeader.estado = false;
                 oHeader.mensaje = ex.Message;
             }
-            return oHeader;
-        }
+            Servicio.oHeader = oHeader;
+            Servicio.id_register = id_register;
+            return Servicio;
+        }      
     }
 }

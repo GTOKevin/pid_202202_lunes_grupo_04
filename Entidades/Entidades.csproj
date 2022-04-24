@@ -59,6 +59,8 @@
     <Compile Include="Servicio.cs" />
     <Compile Include="Sucursal.cs" />
     <Compile Include="Torre.cs" />
+    <Compile Include="Visitante.cs" />
+    <Compile Include="VISITA_REGISTRO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Helpers\Helpers.csproj">

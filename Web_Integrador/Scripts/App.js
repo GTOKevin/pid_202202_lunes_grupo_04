@@ -46,13 +46,16 @@ const convertFecha = (fecha) => {
         var fechaString = fecha.substr(6);
         var fechaActual = new Date(parseInt(fechaString));
         var mes = fechaActual.getMonth() + 1;
+        if (mes.toString().length == 1) {
+            mes = "0" + mes;
+        }
         var dia = fechaActual.getDate();
+        if (dia.toString().length == 1) {
+            dia = "0"+dia
+        }
         var anio = fechaActual.getFullYear();
         fechaConvt = dia + "/" + mes + "/" + anio;
     }
-
-
-
     return fechaConvt;
 }
 
@@ -117,4 +120,26 @@ const mostrarFormulario = () => {
     $("#view-table").hide(500);
     $("#view-form").show(1000);
    
+}
+
+
+
+
+const FechaDate = (fecha) => {
+    var fechaConvt = "";
+    if (fecha != undefined && fecha != null) {
+        var fechaString = fecha.substr(6);
+        var fechaActual = new Date(parseInt(fechaString));
+        var mes = fechaActual.getMonth() + 1;
+        if (mes.toString().length == 1) {
+            mes = "0" + mes;
+        }
+        var dia = fechaActual.getDate();
+        if (dia.toString().length == 1) {
+            dia = "0" + dia
+        }
+        var anio = fechaActual.getFullYear();
+        fechaConvt = anio + "-" + mes + "-" + dia  ;
+    }
+    return fechaConvt;
 }
