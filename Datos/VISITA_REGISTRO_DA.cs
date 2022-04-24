@@ -33,14 +33,14 @@ namespace Datos
                         visita.id_visita_registro = dr["id_visita_registro"].ToInt();
                         visita.fecha_ingreso = Convert.ToDateTime(dr["fecha_ingreso"].ToDateTime());
                         visita.fecha_salida = Convert.ToDateTime(dr["fecha_salida"].ToDateTime());
+                        visita.nombre_sucursal = dr["nombre_sucursal"].ToString();
+                        visita.nombre_sector = dr["nombre_sector"].ToString();
+                        visita.numero_torre = dr["numero_torre"].ToInt();
                         visita.id_departamento = dr["id_departamento"].ToInt();
+                        visita.numero_departamento = dr["numero_departamento"].ToInt();
                         visita.id_visitante = dr["id_visitante"].ToInt();
                         //
-                        visita.numero_departamento= dr["numero"].ToInt();
-                        visita.numero_torre= dr["numero"].ToInt();
-                        visita.nombre_sucursal= dr["nombre"].ToString();
-                        visita.nombre_sector = dr["nombre_sector"].ToString();
-                        visita.nombre_visitante = dr["nombre"].ToString();
+                       visita.nombre_visitante = dr["nombre_visitante"].ToString();
 
                         visitareg_list.Add(visita);
                     }

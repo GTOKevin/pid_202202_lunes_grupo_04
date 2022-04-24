@@ -122,30 +122,59 @@ AS
   GO
 
   --VISITA DE REGISTRO
-  create PROCEDURE USP_LISTAR_VISITAREG
+  CREATE PROCEDURE USP_LISTAR_VISITAREG
 	  @id_visita_registro int
 	  AS
 	  if @id_visita_registro =0
-	   BEGIN
-	  Select Vr.id_visita_registro,Vr.fecha_ingreso,Vr.fecha_salida , d.numero AS 'Departamento',t.numero as 'Torre',s.nombre as 'Sucursal'
-	  , 
-	  sec.nombre_sector AS 'Zona' , v.nombre as 'Nombre visitante' from
-	  VISITA_REGISTRO Vr join DEPARTAMENTO d on
-	  vr.id_departamento=d.id_departamento join VISITANTE v
-	  on v.id_visitante=vr.id_visitante join TORRE t on t.id_torre=d.id_torre join SUCURSAL s 
-	  on s.id_sucursal=s.id_sucursal join SECTOR sec on sec.id_sector=t.id_sector
-	  END
-	  else
-	  begin
-	 Select Vr.id_visita_registro,Vr.fecha_ingreso,Vr.fecha_salida , d.numero AS 'Departamento',t.numero as 'Torre',s.nombre as 'Sucursal'
-	  , 
-	  sec.nombre_sector AS 'Zona' , v.nombre as 'Nombre visitante' from
-	  VISITA_REGISTRO Vr join DEPARTAMENTO d on
-	  vr.id_departamento=d.id_departamento join VISITANTE v
-	  on v.id_visitante=vr.id_visitante join TORRE t on t.id_torre=d.id_torre join SUCURSAL s 
-	  on s.id_sucursal=s.id_sucursal join SECTOR sec on sec.id_sector=t.id_sector
+	BEGIN
+	 Select 
+		Vr.id_visita_registro,
+		Vr.fecha_ingreso,
+		Vr.fecha_salida , 
+		s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		v.id_visitante,
+		v.nombre AS 'nombre_visitante' 
+	from VISITA_REGISTRO Vr 
+		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=s.id_sucursal 
+	END
+	else
+	begin
+	 Select 
+		Vr.id_visita_registro,
+		Vr.fecha_ingreso,
+		Vr.fecha_salida , 
+		s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		v.id_visitante,
+		v.nombre AS 'nombre_visitante' 
+	 from
+	  VISITA_REGISTRO Vr 
+		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=s.id_sucursal 
 	  where vr.id_visita_registro=@id_visita_registro
-	  END
+	 END
+	GO
+
 ----CREAR
 create PROCEDURE USP_VISITAREG_REGISTER 
  @id_visita_registro int,      
