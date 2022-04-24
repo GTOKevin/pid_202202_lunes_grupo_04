@@ -1,18 +1,19 @@
-﻿
+﻿@model IEnumerable<Entidades.Sucursal>
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4 class="fw-bold py-3 mb-4">
-    <span class="text-muted fw-light">Sucursal /</span>
+    <span class="text-muted fw-light">Registro de Visita /</span>
     Mantenimiento
 </h4>
 
 <div id="view-table">
     <div class="card mb-4">
         <div class="card-body ms-auto">
-            <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nueva Sucursal</button>
+            <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nuevo Registro de Visita</button>
         </div>
     </div>
 
@@ -31,7 +32,7 @@
 <form id="view-form" style="display:none">
     <div class="card">
         <div class="align-items-center card-header d-flex justify-content-between">
-            <h5 class="fw-semibold m-0">Nueva Sucursal</h5>
+            <h5 class="fw-semibold m-0">Nuevo Registro de Visita</h5>
             <div>
                 <button class="btn btn-danger" type="button" onclick="btnAction(this,'cancel')"><i class="bx bx-arrow-back pe-2"></i>Cancelar</button>
                 <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Guardar</button>
@@ -39,16 +40,51 @@
         </div>
 
         <div class="card-body row">
-            <input type="text" class="form-control d-none" autocomplete="off" name="id_visita_registro" placeholder="id">
+            <input type="text" class="form-control val d-none" autocomplete="off" name="id_visita_registro" id="id" placeholder="id">
+            <div class="col-12 col-md-6 col-lg-3">
+                <label for="fecha_ingreso" class="form-label">Fecha de Ingreso</label>
+                <input type="date" class="form-control " autocomplete="off" name="fecha_ingreso" placeholder="Ingrese fecha de ingreso">
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <label for="fecha_salida" class="form-label">Fecha de Salida</label>
+                <input type="date" class="form-control " autocomplete="off" name="fecha_salida" placeholder="Ingrese fecha de salida">
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
+                <select class="form-control val" name="id_sucursal" id="id_sucursal">
+                    <option value="" selected>...Seleccione...</option>
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.id_sucursal">@item.nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Sector</label>
+                <select class="form-control val" name="id_sector" id="id_sector">
+                    <option value="" selected>...Seleccione...</option>
+
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Torre</label>
+                <select class="form-control val" name="id_torre" id="id_torre">
+                    <option value="" selected>...Seleccione...</option>
+                </select>
+            </div>
             <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">DEPARTAMENTO</label>
-                <input type="text" class="form-control" autocomplete="off" name="id_departamento" placeholder="Ingrese id departamento">
+                <label for="exampleFormControlInput1" class="form-label">Departamento</label>
+                <input type="text" class="form-control val" autocomplete="off" name="id_departamento" id="id_departamento" placeholder="Ingrese id departamento">
             </div>
-            <div class="col-8">
-                <label for="exampleFormControlInput1" class="form-label">VISITANTE</label>
-                <input type="text" class="form-control" autocomplete="off" name="id_visitante" placeholder="Ingrese id visitante">
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Nombre visitante</label>
+                <select class="form-control val" name="id_visitante" id="id_visitante">
+                    <option value="" selected>...Seleccione...</option>                
+                </select>
             </div>
-            
+
+
+
         </div>
     </div>
 </form>
@@ -57,6 +93,10 @@
 <script>
     const urlGetVisitaRegistro = "@Url.Action("ListarVisitasReg", "VisitaRegistro")";
     const urlSaveVisitaRegistro = "@Url.Action("RegistrarVisitasReg", "VisitaRegistro")";
+    const urlGetSector = "@Url.Action("ListarSector", "Torre")";
+    const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
+    const urlGetVisitante = "@Url.Action("ListarVisitantes", "Visitante")";
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>

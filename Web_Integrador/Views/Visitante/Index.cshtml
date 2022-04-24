@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<Entidades.Tipo>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -39,26 +39,44 @@
         </div>
 
         <div class="card-body row">
-            <input type="text" class="form-control d-none" autocomplete="off" name="id_visitante" placeholder="id">
+            <input type="text" class="form-control d-none cf" autocomplete="off" name="id_visitante" placeholder="id">
             <div class="col-4">
                 <label for="exampleFormControlInput1" class="form-label">Nombre</label>
-                <input type="text" class="form-control" autocomplete="off" name="nombre" placeholder="Ingrese nombre de visitante">
+                <input type="text" class="form-control cf" autocomplete="off" name="nombre" placeholder="Ingrese nombre de visitante">
             </div>
             <div class="col-8">
                 <label for="exampleFormControlInput1" class="form-label">Apellido</label>
-                <input type="text" class="form-control" autocomplete="off" name="apellidos" placeholder="Ingrese apellido de visitante">
+                <input type="text" class="form-control cf" autocomplete="off" name="apellidos" placeholder="Ingrese apellido de visitante">
             </div>
             <div class="col-8">
                 <label for="exampleFormControlInput1" class="form-label">Tipo Documento</label>
-                <input type="text" class="form-control" autocomplete="off" name="tipo_documento" placeholder="Ingrese tipo doc de visitante">
+                <select name="tipo_documento" class="form-control cf">
+                <option value="" selected>...Seleccione...</option>
+                @foreach(var item in Model)
+                {
+                    if(item.unidad== "DOCUMENTO")
+                {
+                    <option value="@item.id_tipo">@item.nombre</option>
+                }
+                    }
+                </select>
             </div>
             <div class="col-8">
                 <label for="exampleFormControlInput1" class="form-label">Nro Documento</label>
-                <input type="text" class="form-control" autocomplete="off" name="nro_documento" placeholder="Ingrese numero doc de visitante">
+                <input type="text" class="form-control cf" autocomplete="off" name="nro_documento" placeholder="Ingrese numero doc de visitante">
             </div>
             <div class="col-8">
                 <label for="exampleFormControlInput1" class="form-label">Genero</label>
-                <input type="text" class="form-control" autocomplete="off" name="genero" placeholder="Ingrese genero de visitante">
+                <select name="genero" class="form-control cf">
+                    <option value="" selected>...Seleccione...</option>
+                    @foreach (var item in Model)
+                    {
+                        if (item.unidad == "GENERO")
+                        {
+                            <option value="@item.id_tipo">@item.nombre</option>
+                        }
+                    }
+                </select>
             </div>
 
         </div>
