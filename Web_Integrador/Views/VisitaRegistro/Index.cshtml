@@ -1,5 +1,4 @@
-﻿@model IEnumerable<Entidades.Sucursal>
-
+﻿@model Web_Integrador.Model.VisitaRegistroModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -53,7 +52,7 @@
                 <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
                 <select class="form-control val" name="id_sucursal" id="id_sucursal">
                     <option value="" selected>...Seleccione...</option>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Sucursales)
                     {
                         <option value="@item.id_sucursal">@item.nombre</option>
                     }
@@ -72,14 +71,20 @@
                     <option value="" selected>...Seleccione...</option>
                 </select>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-6 mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Departamento</label>
-                <input type="text" class="form-control val" autocomplete="off" name="id_departamento" id="id_departamento" placeholder="Ingrese id departamento">
+                <select class="form-control val" name="id_departamento" id="id_departamento">
+                    <option value="" selected>...Seleccione...</option>
+                </select>
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Nombre visitante</label>
                 <select class="form-control val" name="id_visitante" id="id_visitante">
-                    <option value="" selected>...Seleccione...</option>                
+                    <option value="" selected>...Seleccione...</option>
+                    @foreach (var item in Model.Visitantes)
+                    {
+                        <option value="@item.id_visitante">@item.nombre</option>
+                    }
                 </select>
             </div>
 
@@ -95,6 +100,7 @@
     const urlSaveVisitaRegistro = "@Url.Action("RegistrarVisitasReg", "VisitaRegistro")";
     const urlGetSector = "@Url.Action("ListarSector", "Torre")";
     const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
+    const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "Departamento")";
     const urlGetVisitante = "@Url.Action("ListarVisitantes", "Visitante")";
 
 </script>

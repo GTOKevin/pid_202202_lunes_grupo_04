@@ -7,7 +7,7 @@ using Negocio;
 using Entidades;
 using Helpers;
 using Web_Integrador.Security;
-
+using Web_Integrador.Model;
 
 namespace Web_Integrador.Controllers
 {
@@ -29,9 +29,19 @@ namespace Web_Integrador.Controllers
 
         public ActionResult Index()
         {
+            VisitaRegistroModel oModoView = new VisitaRegistroModel();
             var sucursal = sucursal_BS.lista(0);
-            var listaSuc = sucursal.SucursalList;
-            return View(listaSuc);
+            var visitante = visitante_BS.lista(0);
+            if (sucursal.oHeader.estado)
+            {
+                oModoView.Sucursales = sucursal.SucursalList;
+            }
+            if (visitante.oHeader.estado)
+            {
+                oModoView.Visitantes = visitante.VisitanteList;
+            }
+            
+            return View(oModoView);
         }
         public JsonResult ListarVisitasReg(int id_visita_registro = 0)
         {
