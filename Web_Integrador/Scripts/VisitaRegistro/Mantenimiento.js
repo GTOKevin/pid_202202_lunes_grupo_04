@@ -32,11 +32,14 @@ const init = () => {
     $("#id_sector").on("change", function (e) {
         getTorre(this.value);
     });
+    $("#id_torre").on("change", function (e) {
+        getDepartamento(this.value);
+    });
 
     removeDanger();
     showLoading();
     setColumns("example", colsName, true);
-    getListaTorre();
+    getListaVisitaRegistro();
     Swal.close();
 };
 const mostrarForm = () => {
@@ -52,7 +55,6 @@ const btnAction = (t, tipo) => {
     switch (tipo) {
         
         case 'new':
-            console.log('nuevo');
             cleanForm();
             cleanSelect();
             $("#view-table").hide(500);
@@ -72,7 +74,7 @@ const btnAction = (t, tipo) => {
 
     }
 };
-const getListaTorre = () => {
+const getListaVisitaRegistro= () => {
     $.ajax({
         method: "GET",
         url: urlGetVisitaRegistro,
@@ -81,7 +83,7 @@ const getListaTorre = () => {
             let { VisitaRegistroList, oHeader } = res
             Swal.close();
             if (oHeader.estado) {
-
+                console.log(res);
                 await llenarVariable(VisitaRegistroList, 'new');
                 await listTable(visitanteregList);
             } else {
@@ -116,6 +118,28 @@ const getListaTorre = () => {
 
 //    });
 //}
+const getListaVisitante = () => {
+    $.ajax({
+        method: "GET",
+        url: urlGetVisitante,
+        responseType: 'json',
+        success: async function (res) {
+
+            Swal.close();
+            if (res.oHeader.estado) {
+                await llenarVariable(res.VisitanteList, 'new');
+                await listTable(visitanteList);
+
+            } else {
+                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
+            }
+        },
+        error: function (err) {
+            Swal.close();
+        }
+
+    });
+}
 
 const listTable = (res) => {
     $('#example').DataTable({
@@ -227,8 +251,10 @@ const llenarCampos = async (list) => {
     let idSucursal = "";
     let idSector = "";
     let idTorre = "";
+    let idDepartamento = "";
     let sector = document.getElementsByName("id_sector")[0];
     let torre = document.getElementsByName("id_torre")[0];
+    let departamento = document.getElementsByName("id_departamento")[0];
     if (list.length > 0) {
         $(".val").each(function (ind) {
             for (var propName in list[0]) {
@@ -241,6 +267,8 @@ const llenarCampos = async (list) => {
                     idSector = list[0][propName];
                 } else if (propName === "id_torre") {
                     idTorre = list[0][propName];
+                } else if (propName === "id_departamento") {
+                    idDepartamento = list[0][propName];
                 }
             }
         });
@@ -248,8 +276,10 @@ const llenarCampos = async (list) => {
 
     await getSector(idSucursal);
     sector.value = idSector;
-    await getTorre(idSector)
+    await getTorre(idSector);
     torre.value = idTorre;
+    await getDepartamento(idTorre)
+    departamento.value = idDepartamento;
 
 }
 
@@ -311,6 +341,26 @@ const getTorre = async (id) => {
     });
 }
 
+const getDepartamento = async (id) => {
+    await $.ajax({
+        method: "GET",
+        url: urlGetDepartamento + "?id_torre=" + id,
+        responseType: 'json',
+        success: async function (res) {
+            console.log(res);
+            let { lista_Departamento, oHeader } = res;
+            if (oHeader.estado) {
+                await getSelectDepartamento(lista_Departamento);
+            } else {
+                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
+            }
+        },
+        error: function (err) {
+            Swal.close();
+        }
+
+    });
+}
 const getSelectSector = (list) => {
 
     let selSector = document.getElementsByName("id_sector")[0];
@@ -343,5 +393,20 @@ const getSelectTorre = (list) => {
 
 }
 
+const getSelectDepartamento = (list) => {
+
+    let selDepartamento = document.getElementsByName("id_departamento")[0];
+    selDepartamento.innerHTML = "";
+    let str = ``;
+    str += `<option value="">...Seleccione...</option>`
+    if (list.length > 0) {
+        for (i = 0; i < list.length; i++) {
+            str += `<option value="${list[i].id_departamento}">${list[i].numero}</option>`;
+        }
+    }
+    selDepartamento.innerHTML = str;
+    selDepartamento.value = "";
+
+}
 
 
