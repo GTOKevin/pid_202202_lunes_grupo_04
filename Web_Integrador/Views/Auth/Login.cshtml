@@ -20,14 +20,26 @@
         <div class="form-container sign-up-container">
             <form id="form-create">
                 <h1>Crear Cuenta </h1>
-                <input type="text" class="creat" name="username" placeholder="Nombre" />
-                <div class="form-password">
-                    <input type="password" class="creat" name="clave" placeholder="Contraseña" autocomplete="off" />
-                    <i class="fa-solid fa-eye psw"></i>
+                <div class="formulario__grupo" id="grupo_username">
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input creat" name="username" placeholder="Nombre" />
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Este campo tiene que ser de 4 a 25 digitos y solo acepta numeros, letras y guion bajo.</p>
                 </div>
-                <div class="form-password">
-                    <input type="password" name="clave2" placeholder="Repetir Contraseña" autocomplete="off" />
-                    <i class="fa-solid fa-eye psw"></i>
+                <div class="formulario__grupo" id="grupo_clave">
+                    <div class="formulario__grupo-input">
+                        <input type="password" id="pass1" class="formulario__input creat" name="clave" placeholder="Contraseña" autocomplete="off" />
+                        <i class="formulario__validacion-estado fa-solid fa-eye psw"></i>
+                    </div>
+                    <p class="formulario__input-error">Este campo tiene que ser de 4 a 25 digitos.</p>
+                </div>
+                <div class="formulario__grupo" id="grupo_clave2">
+                    <div class="formulario__grupo-input">
+                        <input type="password" id="pass2" name="clave2" class="formulario__input" placeholder="Repetir Contraseña" autocomplete="off" />
+                        <i class="formulario__validacion-estado fa-solid fa-eye psw"></i>
+                    </div>
+                    <p class="formulario__input-error">Las contraseñas deben ser iguales.</p>
                 </div>
                 <button type="submit">Registrarse</button>
             </form>
@@ -36,10 +48,19 @@
             <form id="form-login">
                 <h1>Login</h1>
 
-                <input type="text" class="log" name="username" placeholder="Nombre" />
-                <div class="form-password">
-                    <input type="password" class="log" name="clave" placeholder="Password" autocomplete="off" />
-                    <i class="fa-solid fa-eye psw"></i>
+                <div class="formulario__grupo" id="grupo_usernameL">
+                    <div class="formulario__grupo-input">
+                        <input type="text" class="formulario__input log" name="username" placeholder="Nombre" />
+                        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+                    </div>
+                    <p class="formulario__input-error">Este campo tiene que ser de 4 a 25 digitos y solo acepta numeros, letras y guion bajo.</p>
+                </div>
+                <div class="formulario__grupo" id="grupo_claveL">
+                    <div class="formulario__grupo-input">
+                        <input type="password" id="pass1" class="formulario__input log" name="clave" placeholder="Contraseña" autocomplete="off" />
+                        <i class="formulario__validacion-estado fa-solid fa-eye psw"></i>
+                    </div>
+                    <p class="formulario__input-error">Este campo tiene que ser de 4 a 25 digitos.</p>
                 </div>
 
 

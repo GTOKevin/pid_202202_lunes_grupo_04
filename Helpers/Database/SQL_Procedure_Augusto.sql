@@ -375,4 +375,37 @@ BEGIN
 END
 GO
 
+ALTER TABLE PROPIETARIO
+ALTER COLUMN nacionalidad varchar(5)
+GO
+ALTER TABLE PROPIETARIO
+ALTER COLUMN tipo_documento varchar(5)
+GO
+
+ALTER PROCEDURE USP_PROPIETARIO_REGISTRAR      
+ @id_propietario int,      
+ @nombres varchar(50),      
+ @primer_apellido varchar(30),  
+ @segundo_apellido varchar(30),  
+ @tipo_documento varchar(5),  
+ @nro_documento varchar(20),  
+ @nacionalidad varchar(5),
+ --FK
+ @id_departamento int,
+ @id_tipo int
+ as      
+ declare @id int      
+  if @id_propietario=0      
+   begin      
+    INSERT INTO PROPIETARIO(nombres,primer_apellido,segundo_apellido,tipo_documento,nro_documento,nacionalidad,estado,id_departamento,id_tipo,fecha_registro)      
+        VALUES(@nombres,@primer_apellido,@segundo_apellido,@tipo_documento,@nro_documento,@nacionalidad,1,@id_departamento,@id_tipo,GETDATE())          
+   end      
+  else      
+   begin       
+    UPDATE PROPIETARIO SET nombres=@nombres,primer_apellido=@primer_apellido,segundo_apellido=@segundo_apellido,
+		tipo_documento=@tipo_documento,nro_documento=@nro_documento,nacionalidad=@nacionalidad,
+		id_tipo=@id_tipo
+       WHERE id_propietario=@id_propietario       
+   end      
+GO
 

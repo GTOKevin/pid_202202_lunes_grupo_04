@@ -63,7 +63,16 @@ namespace Web_Integrador.Controllers
                         Session["PI_IDUSER"] = userLogin.usuario.id_usuario;
                         Session["PI_IDPERFIL"] = userLogin.usuario.id_perfil;
                         Session["PI_ROL"] = userLogin.usuario.id_rol;
-                        Session["PI_FILE"] = userLogin.file.nombrefile;
+                        if (userLogin.file.nombrefile != "" && userLogin.file.nombrefile != null)
+                        {
+                            Session["PI_FILE"] = userLogin.file.nombrefile;
+                        }
+                        else
+                        {
+                            
+                            string ruta = "/Assets/img/avatars/default.jpg";
+                            Session["PI_FILE"] = ruta;
+                        }
                         oHeader.estado = true;
                         oHeader.mensaje = "Conectarse";
 
