@@ -5,6 +5,17 @@ GO
 
 -- PROCEDURES DE LA TABLA TIPO --
 
+
+ALTER TABLE PERFIL
+ALTER COLUMN tipo_documento VARCHAR(5)
+GO
+ALTER TABLE PERFIL
+ALTER COLUMN genero VARCHAR(5)
+GO
+ALTER TABLE PERFIL
+ALTER COLUMN nacionalidad VARCHAR(5)
+GO
+
 CREATE PROC USP_CREAR_TIPO
 (
 @nombre VARCHAR(50),
@@ -55,10 +66,10 @@ CREATE PROC USP_CREATE_PERFIL
 ,@primer_apellido VARCHAR(30)
 ,@segundo_apellido VARCHAR(30)
 ,@fecha_nacimiento DATETIME
-,@tipo_documento VARCHAR(1)
+,@tipo_documento VARCHAR(5)
 ,@nro_documento VARCHAR(20)
-,@genero VARCHAR(1)
-,@nacionalidad VARCHAR(1)
+,@genero VARCHAR(5)
+,@nacionalidad VARCHAR(5)
 ,@direccion VARCHAR(200)
 )
 AS
@@ -76,10 +87,10 @@ CREATE PROC USP_UPDATE_PERFIL
 ,@primer_apellido VARCHAR(30)
 ,@segundo_apellido VARCHAR(30)
 ,@fecha_nacimiento DATETIME
-,@tipo_documento VARCHAR(1)
+,@tipo_documento VARCHAR(5)
 ,@nro_documento VARCHAR(20)
-,@genero VARCHAR(1)
-,@nacionalidad VARCHAR(1)
+,@genero VARCHAR(5)
+,@nacionalidad VARCHAR(5)
 ,@direccion VARCHAR(200)
 )
 AS
@@ -160,10 +171,10 @@ CREATE PROCEDURE USP_PERFIL_REGISTER
 ,@primer_apellido VARCHAR(30)
 ,@segundo_apellido VARCHAR(30)
 ,@fecha_nacimiento DATETIME
-,@tipo_documento VARCHAR(1)
+,@tipo_documento VARCHAR(5)
 ,@nro_documento VARCHAR(20)
-,@genero VARCHAR(1)
-,@nacionalidad VARCHAR(1)
+,@genero VARCHAR(5)
+,@nacionalidad VARCHAR(5)
 ,@direccion VARCHAR(200))
 AS    
    DECLARE @id int 
@@ -194,10 +205,10 @@ CREATE PROCEDURE USP_PERFIL_EDIT_US
 ,@primer_apellido VARCHAR(30)
 ,@segundo_apellido VARCHAR(30)
 ,@fecha_nacimiento DATETIME
-,@tipo_documento VARCHAR(1)
+,@tipo_documento VARCHAR(5)
 ,@nro_documento VARCHAR(20)
-,@genero VARCHAR(1)
-,@nacionalidad VARCHAR(1)
+,@genero VARCHAR(5)
+,@nacionalidad VARCHAR(5)
 ,@direccion VARCHAR(200))
 AS    
    DECLARE @id int 
@@ -276,3 +287,92 @@ DECLARE @id int
 END
  SELECT @id
 GO
+
+CREATE TABLE PERFIL_FILE
+(
+id_file INT IDENTITY (1,1) PRIMARY KEY,
+nombrefile VARCHAR(MAX),
+id_perfil INT
+FOREIGN KEY (id_perfil) REFERENCES PERFIL(id_perfil)
+)
+GO
+
+CREATE PROCEDURE USP_FILE_PERFIL    
+@id_perfil int,    
+@nombrefile varchar(max)     
+AS    
+   DECLARE @id int 
+ if exists(select * from PERFIL_FILE where id_perfil=@id_perfil)    
+  BEGIN    
+   update PERFIL_FILE set nombrefile=@nombrefile    
+       where id_perfil=@id_perfil    
+	SET @id = @id_perfil    
+  END    
+ ELSE    
+  BEGIN    
+  insert into PERFIL_FILE(nombrefile,id_perfil)VALUES(@nombrefile,@id_perfil)    
+   SET @id=SCOPE_IDENTITY()    
+  END  
+  SELECT @id
+GO
+
+CREATE TRIGGER TRG_FILE_PERFIL
+ON PERFIL
+AFTER INSERT
+AS
+	declare	@id_perfil int
+	set @id_perfil =(select id_perfil from inserted)
+	BEGIN
+		insert into PERFIL_FILE(nombrefile, id_perfil)
+			values('/Assets/img/avatars/default.jpg', @id_perfil);
+
+		SET @id_perfil = SCOPE_IDENTITY();
+
+	END
+GO
+
+CREATE PROCEDURE USP_LISTAR_PERFILFILE
+@id_file int
+as
+	if @id_file=0
+		BEGIN
+			select * from PERFIL_FILE
+		END
+	else
+		BEGIN
+			select * from PERFIL_FILE where id_file=@id_file
+		END
+go
+
+CREATE PROCEDURE USP_LISTAR_USUARIO_PORPERFIL
+@id_perfil int
+as
+	if @id_perfil = 0
+		BEGIN
+			select us.id_usuario, us.username,us.fecha_registro,us.id_rol,us.id_perfil,us.id_estado  from USUARIO us
+		END
+	else
+		BEGIN
+			select us.id_usuario, us.username,us.fecha_registro,us.id_rol,us.id_perfil,us.id_estado  from USUARIO us where id_perfil=@id_perfil
+		END
+go
+
+CREATE PROC USP_LISTAR_TIPO_PORUNIDAD
+@unidad varchar(50)
+as
+begin
+	SELECT * FROM TIPO where unidad = @unidad
+end
+go
+
+CREATE PROC USP_LISTA_MI_PERFIL
+@id_perfil INT
+AS
+BEGIN
+	SELECT P.id_perfil, P.nombres, P.primer_apellido,P.segundo_apellido, P.fecha_nacimiento,T.nombre as 'tipo_documento' , P.nro_documento, T1.nombre as 'genero' ,T2.nombre as 'nacionalidad',P.direccion FROM PERFIL P 
+	INNER JOIN TIPO T ON P.tipo_documento = T.id_tipo 
+	INNER JOIN TIPO T1 ON P.genero = T1.id_tipo INNER JOIN TIPO T2 ON P.nacionalidad = T2.id_tipo WHERE P.id_perfil = @id_perfil
+END
+GO
+
+

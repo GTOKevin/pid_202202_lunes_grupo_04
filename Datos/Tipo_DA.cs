@@ -163,5 +163,43 @@ namespace Datos
             return tr;
         }
 
+        public Tipo_res Listar_TipoUtil(string unidad)
+        {
+            Tipo_res tipo_res = new Tipo_res();
+            List<Tipo> tipo_list = new List<Tipo>();
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_LISTAR_TIPO_PORUNIDAD", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@unidad", unidad);
+                    SqlDataReader dr = cm.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        Tipo t = new Tipo();
+                        t.id_tipo = dr["id_tipo"].ToInt();
+                        t.nombre = dr["nombre"].ToString();
+                        t.unidad = dr["unidad"].ToString();
+                        tipo_list.Add(t);
+                    }
+                    cn.Close();
+                }
+                oHeader.estado = true;
+
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            tipo_res.TipoList = tipo_list;
+            tipo_res.oHeader = oHeader;
+
+            return tipo_res;
+        }
+
     }
 }

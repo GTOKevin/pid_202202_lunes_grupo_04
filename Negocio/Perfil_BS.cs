@@ -33,5 +33,9 @@ namespace Negocio
         {
             return new Perfil_DA().Eliminar_Perfil(id);
         }
+        public Perfil_res Listar_PerfilData(int id_perfil)
+        {
+            return new Perfil_DA().Listar_PerfilData(id_perfil) ;
+        }
     }
 }
