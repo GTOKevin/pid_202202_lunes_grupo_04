@@ -30,14 +30,16 @@ const btnAction = (t, tipo) => {
     switch (tipo) {
         case 'new':
             cleanForm();
+            limpiarErr();
             mostrarFormulario();
             break;
         case 'cancel':
             mostrarTabla();
             break;
         case 'edit':
+            cleanForm();
+            limpiarErr();
             mostrarFormulario();
-
             let id = ((t.parentElement).parentElement).parentElement.id;
             getSucursalId(id);
 
@@ -175,3 +177,12 @@ $(".val").click(function (e) {
 });
 
 
+const limpiarErr = () => {
+    $("#view-form .border-danger").each(function (e) {
+        this.classList.remove("border-danger");
+    });
+
+    $("#view-form .label-error").each(function (e) {
+        this.classList.add("d-none");
+    })
+}
