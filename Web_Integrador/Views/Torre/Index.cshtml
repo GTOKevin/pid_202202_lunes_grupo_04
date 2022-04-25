@@ -50,16 +50,19 @@
                         <option value="@item.id_sucursal">@item.nombre</option>
                     }
                 </select>
+                <label class="label-error d-none">Por selecciona una Sucursal</label>
             </div>
             <div class="col-12 col-md-6">
                 <label for="exampleFormControlInput1" class="form-label">Sector</label>
                 <select class="form-control val" name="id_sector">
                     <option value="" selected>...Seleccione...</option>
                 </select>
+                <label class="label-error d-none">Por selecciona un Sector</label>
             </div>
             <div class="col-12 col-md-6">
                 <label for="exampleFormControlInput1" class="form-label">Torre</label>
-                <input type="number" class="form-control val" autocomplete="off" name="numero" placeholder="Ingrese una breve descripción">
+                <input type="text" class="form-control val" autocomplete="off" name="numero" placeholder="Ingrese una breve descripción" onkeypress="return soloNumeros(event)">
+                <label class="label-error d-none">Por selecciona ingresa numero de Torre</label>
             </div>
         </div>
     </div>

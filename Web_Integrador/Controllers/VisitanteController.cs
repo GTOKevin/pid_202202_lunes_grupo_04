@@ -15,12 +15,16 @@ namespace Web_Integrador.Controllers
     public class VisitanteController : Controller
     {
         Visitante_BS visitante_BS = new Visitante_BS();
+        Tipo_BS tipo_BS = new Tipo_BS();
         // GET: Sucursal
         [PermisosRol(Roles.AgenteVisitas)]
 
         public ActionResult Index()
         {
-            return View();
+            var tiposView = tipo_BS.lista_Tipos(0);
+
+            var listaTipos = tiposView.TipoList;
+            return View(listaTipos);
         }
         public JsonResult ListarVisitantes(int id_visitante = 0)
         {

@@ -50,7 +50,10 @@
   <ItemGroup>
     <Content Include="Database\DB_INMOBILARIA.sql" />
     <Content Include="Database\sp_David_Malca.sql" />
+    <Content Include="Database\SP_Jimmy.sql" />
     <Content Include="Database\SP_Kevin_Virgilio.sql" />
+    <Content Include="Database\SP_Solay.sql" />
+    <Content Include="Database\SQL_Procedure_Augusto.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

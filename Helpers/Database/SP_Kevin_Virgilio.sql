@@ -251,11 +251,20 @@ GO
 
 
 
-CREATE PROCEDURE USP_PROPIETARIO_DEP_LISTAR
- @id_departamento int
- as
-	if @id_departamento>0
-		begin
-			select * from PROPIETARIO
-		end
+CREATE PROCEDURE USP_PROPIETARIO_DEP_LISTAR  
+ @id_departamento int  
+ as  
+ if @id_departamento>0  
+  begin  
+   select A.id_propietario,A.nombres,A.primer_apellido,A.segundo_apellido,A.tipo_documento,	
+          (select b.nombre from tipo b where b.id_tipo=a.tipo_documento)as 'nombre_documento',
+		  A.nro_documento,
+          (select b.nombre from tipo b where b.id_tipo=a.nacionalidad)as 'nombre_nacionalidad',
+		  A.nacionalidad,
+		  A.fecha_registro,
+		  A.estado,
+		  A.id_departamento,
+		  A.id_tipo,
+          (select b.nombre from tipo b where b.id_tipo=a.id_tipo)as 'nombre_tipo'	from PROPIETARIO A  WHERE A.id_departamento=@id_departamento
+  end  
 GO

@@ -85,7 +85,14 @@ $("#form-create").on('submit', function (e) {
                         icon: 'success',
                         title: 'Exito..',
                         text: 'Usuario registrado!'
+
+                    }
+                    ).then(function () {
+                        container.classList.remove("right-panel-active");
                     });
+                    var form = document.getElementById("form-create");
+                    form.reset();
+                    
                 } else {
                     Swal.fire({
                         icon: 'error',

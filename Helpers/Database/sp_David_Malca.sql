@@ -33,18 +33,31 @@ as
   GO
   --VISITANTE
   --LISTAR
-  CREATE PROCEDURE SP_VISITANTE_LISTAR
-@id_visitante int
-as
-	if @id_visitante=0
-		BEGIN
-			select * from VISITANTE
-		END
-	else
-		BEGIN
-			select * from VISITANTE where id_visitante=@id_visitante
-		END
-		GO
+ CREATE PROCEDURE SP_VISITANTE_LISTAR    
+@id_visitante int    
+as    
+ if @id_visitante=0    
+  BEGIN    
+   select A.id_visitante,A.nombre,A.apellidos,A.tipo_documento,  
+   (select B.nombre from TIPO B WHERE B.id_tipo=A.tipo_documento)AS 'nombre_tipo',  
+ A.nro_documento,  
+ A.genero,  
+   (select B.nombre from TIPO B WHERE B.id_tipo=A.genero)AS 'nombre_genero',  
+   
+ a.fecha_creacion from VISITANTE A    
+  END    
+ else    
+  BEGIN    
+    select A.id_visitante,A.nombre,A.apellidos,A.tipo_documento,  
+   (select B.nombre from TIPO B WHERE B.id_tipo=A.tipo_documento)AS 'nombre_tipo',  
+	A.nro_documento,  
+	A.genero,  
+   (select B.nombre from TIPO B WHERE B.id_tipo=A.genero)AS 'nombre_genero',  
+   
+	 a.fecha_creacion from VISITANTE A where A.id_visitante=@id_visitante    
+  END 
+GO
+
 --REGISTRO
 CREATE PROCEDURE SP_VISITANTE_REGISTER  
 @id_visitante int,    
@@ -106,6 +119,84 @@ AS
    SET @id=SCOPE_IDENTITY()    
   END  
   SELECT @id
+  GO
 
+  --VISITA DE REGISTRO
+  CREATE PROCEDURE USP_LISTAR_VISITAREG
+	  @id_visita_registro int
+	  AS
+	  if @id_visita_registro =0
+	BEGIN
+	 Select 
+		Vr.id_visita_registro,
+		Vr.fecha_ingreso,
+		Vr.fecha_salida , 
+		s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		v.id_visitante,
+		v.nombre AS 'nombre_visitante' 
+	from VISITA_REGISTRO Vr 
+		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=s.id_sucursal 
+	END
+	else
+	begin
+	 Select 
+		Vr.id_visita_registro,
+		Vr.fecha_ingreso,
+		Vr.fecha_salida , 
+		s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		v.id_visitante,
+		v.nombre AS 'nombre_visitante' 
+	 from
+	  VISITA_REGISTRO Vr 
+		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=s.id_sucursal 
+	  where vr.id_visita_registro=@id_visita_registro
+	 END
+	GO
+
+----CREAR
+create PROCEDURE USP_VISITAREG_REGISTER 
+ @id_visita_registro int,      
+ @fecha_ingreso datetime,      
+ @fecha_salida datetime,  
+ @id_departamento int,  
+ @id_visitante int
+ as      
+ declare @id int      
+  if @id_visita_registro=0      
+   begin      
+    INSERT INTO VISITA_REGISTRO(fecha_ingreso,fecha_salida,id_departamento,id_visitante)      
+        VALUES(@fecha_ingreso,@fecha_salida,@id_departamento,@id_visitante)      
+    set @id=SCOPE_IDENTITY()      
+   end      
+  else      
+   begin       
+    UPDATE VISITA_REGISTRO SET fecha_ingreso=@fecha_ingreso,fecha_salida=@fecha_salida,id_departamento=@id_departamento,
+	id_visitante=@id_visitante
+       WHERE id_visita_registro=@id_visita_registro      
+    set @id=@id_visita_registro    
+   end      
+   select @id   
 
 

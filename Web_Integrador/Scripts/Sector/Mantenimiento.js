@@ -52,7 +52,6 @@ const getListaSector = () => {
         url: urlGetSector,
         responseType: 'json',
         success: async function (res) {
-            console.log(res);
             Swal.close();
             if (res.oHeader.estado) {
                 
@@ -68,6 +67,7 @@ const getListaSector = () => {
 
     });
 }
+
 const listTable = (res) => {
     $('#example').DataTable({
         destroy: true,
@@ -98,21 +98,16 @@ $("#view-form").on("submit", function (e) {
     if (id_sector.value == "" || id_sector.value == undefined) {
         id_sector.value = 0;
     }
-
     e.preventDefault();
-    let { formData, formEstado } = setValData();
-
-
+    let { formData, formEstado } = setValDataLab();
     if (formEstado) {
         showLoading();
-
         $.ajax({
             method: "POST",
             url: urlSaveSector,
             data: formData,
             responseType: 'json',
             success: async function (res) {
-                console.log(res);
                 Swal.close();
                 let { SectorList, oHeader } = res;
                 if (oHeader.estado) {
@@ -134,8 +129,6 @@ $("#view-form").on("submit", function (e) {
         });
 
     }
-
-
 });
 
 const getSucursalId = (id) => {
@@ -178,6 +171,7 @@ init();
 
 $(".val").click(function (e) {
     this.classList.remove("border-danger");
+    (this.parentElement).lastElementChild.classList.add("d-none");
 });
 
 
