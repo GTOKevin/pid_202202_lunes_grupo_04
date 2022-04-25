@@ -34,5 +34,9 @@ namespace Negocio
         {
             return new Usuario_DA().ValidarUsuarioLogin(userName,clave);
         }
+        public Usuario_Res ListarUsuarioPorIDPerfil(int id)
+        {
+            return new Usuario_DA().ListarUsuarioPorIDPerfil(id);
+        }
     }
 }

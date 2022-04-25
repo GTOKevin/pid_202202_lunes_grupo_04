@@ -19,6 +19,9 @@ const cleanForm = () => {
     if (document.getElementById("form-usuario-estado")) {
         var form = document.getElementById("form-usuario-estado");
     }
+    if (document.getElementById("form-create-editpass")) {
+        var form = document.getElementById("form-create-editpass");
+    }
     form.reset();
 }
 
@@ -70,49 +73,25 @@ const convertFecha = (fecha) => {
     return fechaConvt;
 }
 
-const convertGenero = (genero) => {
-    var generoConvert = "";
-    if (genero != undefined && genero != null) {
-        switch (genero) {
-            case "1":
-                generoConvert = "Masculino"
-                break;
-            case "2":
-                generoConvert = "Femenino"
-                break;
-            case "3":
-                generoConvert = "Sin Especificar"
-                break;
-            default:
-                generoConvert = "#####"
-                break;
+const convertFechav2 = (fecha) => {
+    var fechaConvt = "";
+    if (fecha != undefined && fecha != null) {
+        var fechaString = fecha.substr(6);
+        var fechaActual = new Date(parseInt(fechaString));
+        var mes = fechaActual.getMonth() + 1;
+        if (mes.toString().length == 1) {
+            mes = "0" + mes;
         }
-
-        return generoConvert;
-        
-    }
-}
-
-const convertNacionalidad = (nacionalidad) => {
-    var nacionalidadConvert = "";
-    if (nacionalidad != undefined && nacionalidad != null) {
-        switch (nacionalidad) {
-            case "1":
-                nacionalidadConvert = "Peruano"
-                break;
-            case "2":
-                nacionalidadConvert = "Extranjero"
-                break;
-            default:
-                nacionalidadConvert = "#####"
-                break;
+        var dia = fechaActual.getDate();
+        if (dia.toString().length == 1) {
+            dia = "0" + dia
         }
-
-        return nacionalidadConvert;
-
+        var anio = fechaActual.getFullYear();
+        fechaConvt = anio + "-" + mes + "-" + dia;
     }
     return fechaConvt;
 }
+
 
 const buttonsDatatTable = (opcion) => {
     let buttonJson = {};
@@ -162,7 +141,6 @@ const buttonsDatatTable = (opcion) => {
 
     return buttonJson;
 }
-
 
 const setValData = () => {
     let valores = {

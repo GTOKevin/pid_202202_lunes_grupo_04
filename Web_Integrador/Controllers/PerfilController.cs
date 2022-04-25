@@ -15,23 +15,20 @@ namespace Web_Integrador.Controllers
     {
         Usuario_BS ub = new Usuario_BS();
         Perfil_BS pb = new Perfil_BS();
+        Tipo_BS tb = new Tipo_BS();
         // GET: Usuario
         public ActionResult Index()
         {
 
-            ViewBag.lstgenero = new List<SelectListItem>() {
-                new SelectListItem() { Value = "1", Text = "Masculino" },
-                new SelectListItem() { Value = "2", Text = "Femenino" },
-                new SelectListItem() { Value = "3", Text = "Sin Especificar" }
-            };
-            ViewBag.lstdocumento = new List<SelectListItem>() {
-                new SelectListItem() { Value = "1", Text = "DNI" },
-                new SelectListItem() { Value = "2", Text = "Pasaporte" }
-            };
-            ViewBag.lstnacionalidad = new List<SelectListItem>() {
-                new SelectListItem() { Value = "1", Text = "Peruano" },
-                new SelectListItem() { Value = "2", Text = "Extranjero" }
-            };
+            var dataDocumento = tb.Listar_TipoUtil("documento");
+            var dataGenero = tb.Listar_TipoUtil("genero");
+            var datanacionalidad = tb.Listar_TipoUtil("nacionalidad");
+
+            ViewBag.lstgenero = dataGenero.TipoList.ToList();
+            ViewBag.lstdocumento = dataDocumento.TipoList.ToList();
+            ViewBag.lstnacionalidad = datanacionalidad.TipoList.ToList();
+
+            
 
             return View();
         }

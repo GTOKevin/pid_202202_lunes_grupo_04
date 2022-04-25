@@ -307,5 +307,46 @@ namespace Datos
             return usuarioRes;
          
         }
+
+        public Usuario_Res ListarUsuarioPorIDPerfil(int id)
+        {
+            Usuario_Res pfr = new Usuario_Res();
+            List<Usuario> flist = new List<Usuario>();
+            DTOHeader oHeader = new DTOHeader();
+
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_LISTAR_USUARIO_PORPERFIL", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id_perfil", id);
+                    SqlDataReader dr = cm.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        Usuario usuario = new Usuario();
+                        usuario.id_usuario = dr["id_usuario"].ToInt();
+                        usuario.username = dr["username"].ToString();
+                        usuario.fecha_registro = dr["fecha_registro"].ToDateTime();
+                        usuario.id_rol = (Roles)dr["id_rol"];
+                        usuario.id_perfil = dr["id_perfil"].ToInt();
+                        usuario.id_estado = dr["id_estado"].ToInt();
+                        flist.Add(usuario);
+                    }
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            pfr.UsuarioList = flist;
+            pfr.oHeader = oHeader;
+
+            return pfr;
+        }
     }
 }

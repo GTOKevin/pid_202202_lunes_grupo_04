@@ -108,6 +108,59 @@ namespace Datos
             return pr;
         }
 
+        public Perfil_res Listar_PerfilData(int id_perfil)
+        {
+            Perfil_res pr = new Perfil_res();
+            List<Perfil> list = new List<Perfil>();
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                if (id_perfil > 0)
+                {
+                    using (SqlConnection cn = Conexion.Conectar())
+                    {
+                        cn.Open();
+                        SqlCommand cm = new SqlCommand("USP_LISTA_MI_PERFIL", cn);
+                        cm.CommandType = CommandType.StoredProcedure;
+                        cm.Parameters.AddWithValue("@id_perfil", id_perfil);
+                        SqlDataReader dr = cm.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            Perfil p = new Perfil();
+                            p.id_perfil = dr["id_perfil"].ToInt();
+                            p.nombres = dr["nombres"].ToString();
+                            p.primer_apellido = dr["primer_apellido"].ToString();
+                            p.segundo_apellido = dr["segundo_apellido"].ToString();
+                            p.fecha_nacimiento = dr["fecha_nacimiento"].ToDateTime();
+                            p.tipo_documento = dr["tipo_documento"].ToString().ToLower();
+                            p.nro_documento = dr["nro_documento"].ToString();
+                            p.genero = dr["genero"].ToString().ToLower();
+                            p.nacionalidad = dr["nacionalidad"].ToString().ToLower();
+                            p.direccion = dr["direccion"].ToString();
+                            list.Add(p);
+                        }
+                        cn.Close();
+                    }
+                    oHeader.estado = true;
+                }
+                else
+                {
+                    oHeader.estado = false;
+                    oHeader.mensaje = "no se encontro perfil";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            pr.Lista_Perfiles = list;
+            pr.oHeader = oHeader;
+
+            return pr;
+        }
+
         public Perfil_Register Registrar_Perfil(Perfil perfil)
         {
             Perfil_Register pr = new Perfil_Register();

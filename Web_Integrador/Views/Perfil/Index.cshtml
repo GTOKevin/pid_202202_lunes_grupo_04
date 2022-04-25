@@ -2,13 +2,15 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    List<SelectListItem> list = ViewBag.lstdocumento;
-    List<SelectListItem> list2 = ViewBag.lstgenero;
-    List<SelectListItem> list3 = ViewBag.lstnacionalidad;
+    List<Entidades.Tipo> list = ViewBag.lstdocumento;
+    List<Entidades.Tipo> list2 = ViewBag.lstgenero;
+    List<Entidades.Tipo> list3 = ViewBag.lstnacionalidad;
+
+    
 }
 
 
-<form id="form-create">
+<form id="form-create-editpass">
     <div class="card">
         <div class="align-items-center card-header d-flex justify-content-between">
             <h5 class="fw-semibold m-0">Cambiar Contraseña</h5>
@@ -64,7 +66,7 @@
             </div>
             <div class="col-4">
                 <label for="exampleFormControlInput1" class="form-label">Fecha Nacimiento</label>
-                <input type="datetime" class="form-control creat" autocomplete="off" name="fecha_nacimiento" placeholder="Ingrese su fecha de nacimiento">
+                <input type="date" class="form-control creat" autocomplete="off" name="fecha_nacimiento" placeholder="Ingrese su fecha de nacimiento">
             </div>
             <div class="col-4">
                 <label for="exampleFormControlInput1" class="form-label">Tipo Documento</label>
@@ -72,7 +74,7 @@
                     <option value="">..Seleccione..</option>
                     @for (int i = 0; i < list.Count; i++)
                     {
-                        <option value="@list[i].Value">@list[i].Text</option>
+                        <option value="@list[i].id_tipo">@list[i].nombre</option>
                     }
                 </select>
             </div>
@@ -86,7 +88,7 @@
                     <option value="">..Seleccione..</option>
                     @for (int i = 0; i < list2.Count; i++)
                     {
-                        <option value="@list2[i].Value">@list2[i].Text</option>
+                        <option value="@list2[i].id_tipo">@list2[i].nombre</option>
                     }
                 </select>
             </div>
@@ -96,7 +98,7 @@
                     <option value="">..Seleccione..</option>
                     @for (int i = 0; i < list3.Count; i++)
                     {
-                        <option value="@list3[i].Value">@list3[i].Text</option>
+                        <option value="@list3[i].id_tipo">@list3[i].nombre</option>
                     }
                 </select>
             </div>
