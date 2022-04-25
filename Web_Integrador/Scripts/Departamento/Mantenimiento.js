@@ -157,7 +157,7 @@ $("#view-form").on("submit", function (e) {
 
                     await listTable(departamentoList);
                     Swal.fire('ok', oHeader.mensaje, 'success');
-                    await mostrarTabla();
+                    await mostrarTable();
                 }
 
             },
@@ -430,4 +430,15 @@ const limpiarTable = () => {
     while (table_prop.firstChild) {
         table_prop.removeChild(table_prop.firstChild);
     }
+
+    $("#div-form .border-danger").each(function (e) {
+        this.classList.remove("border-danger");
+    });
+
+    $("#div-form .label-error").each(function (e) {
+        this.classList.add("d-none");
+    })
+
 }
+
+
