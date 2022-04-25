@@ -22,8 +22,11 @@ const llenarVariable = (lista, option) => {
 const init = () => {
     showLoading();
     setColumns("example", colsName, true);
+    setTimeout(function () {
+        getListaTipo();
+    },500)
 
-    getListaTipo();
+   
     Swal.close();
 };
 
@@ -109,7 +112,16 @@ $("#view-form").on("submit", function (e) {
         }
 
     });
+    $("#view-form select").each(function (index) {
+        if (this.value.trim().length != 0) {
+            formData[this.name] = this.value;
+        } else {
+            validate = false;
+        }
 
+    });
+    
+    //const { formData, validate } = validar();
     if (validate) {
         showLoading();
 
@@ -175,8 +187,36 @@ const llenarCampos = (list) => {
             }
 
         });
+        $("#view-form select").each(function (ind) {
+            for (var propName in list[0]) {
+                if (this.name === propName) {
+                    this.value = list[0][propName];
+                }
+            }
+
+        });
     }
 
 }
 
 init();
+/*
+const validar = () => {
+    let formData = { formData: {}, validate: true }
+    $("#view-form input").each(function (index) {
+        if (this.value.trim().length != 0) {
+            formData.formData[this.name] = this.value;
+        } else {
+            formData.validate = false;
+            this.classList.add("border-danger");
+            (this.parentElement).lastElementChild.classList.remove("d-none");
+        }
+    });
+
+    return formData;
+}
+
+$(".val").click(function (e) {
+    this.classList.remove("border-danger");
+    (this.parentElement).lastElementChild.classList.add("d-none");
+});*/
