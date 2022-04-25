@@ -178,22 +178,26 @@ $("#view-form").on("submit", function (e) {
     }
 
     e.preventDefault();
-    let { formData, formEstado } = setValData();
-    console.log(formData);
-    console.log(formEstado);
-    
-    //let formData = {};
-    //let validate = true;
-    //$("#view-form input").each(function (index) {
-    //    if (this.value.trim().length != 0) {
-    //        formData[this.name] = this.value;
-    //    } else {
-    //        validate = false;
-    //    }
+    let formData = {};
+    let validate = true;
 
-    //});
+    $("#view-form input").each(function (index) {
+        if (this.value.trim().length != 0) {
+            formData[this.name] = this.value;
+        } else {
+            validate = false;
+        }
 
-    if (formEstado) {
+    });
+    $("#view-form select").each(function (index) {
+        if (this.value.trim().length != 0) {
+            formData[this.name] = this.value;
+        } else {
+            validate = false;
+        }
+
+    });
+    if (validate) {
         showLoading();
 
         $.ajax({

@@ -75,8 +75,8 @@ namespace Datos
                     SqlCommand cmd = new SqlCommand("SP_VISITAREGISTER_REGISTER", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id_visita_registro", visreg.id_visita_registro);
-                    cmd.Parameters.AddWithValue("@fecha_ingreso", visreg.fecha_ingreso);
-                    cmd.Parameters.AddWithValue("@fecha_salida", visreg.fecha_salida);
+                    cmd.Parameters.AddWithValue("@fecha_ingreso", visreg.fecha_ingreso.ToDateTime());
+                    cmd.Parameters.AddWithValue("@fecha_salida", visreg.fecha_salida.ToDateTime());
                     cmd.Parameters.AddWithValue("@id_departamento", visreg.id_departamento);
                     cmd.Parameters.AddWithValue("@id_visitante", visreg.id_visitante);
                     rpta = Convert.ToInt32(cmd.ExecuteScalar());
