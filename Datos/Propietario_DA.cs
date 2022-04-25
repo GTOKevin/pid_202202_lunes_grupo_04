@@ -28,9 +28,9 @@ namespace Datos
                     cmd.Parameters.AddWithValue("@nombres", enti.nombres);
                     cmd.Parameters.AddWithValue("@primer_apellido", enti.primer_apellido);
                     cmd.Parameters.AddWithValue("@segundo_apellido", enti.segundo_apellido);
-                    cmd.Parameters.AddWithValue("@tipo_documento", enti.tipo_documento);
+                    cmd.Parameters.AddWithValue("@tipo_documento", enti.tipo_documento.ToString());
                     cmd.Parameters.AddWithValue("@nro_documento", enti.nro_documento);
-                    cmd.Parameters.AddWithValue("@nacionalidad", enti.nacionalidad);
+                    cmd.Parameters.AddWithValue("@nacionalidad", enti.nacionalidad.ToString());
                     cmd.Parameters.AddWithValue("@id_departamento", enti.id_departamento);
                     cmd.Parameters.AddWithValue("@id_tipo", enti.id_tipo);
                     cmd.ExecuteNonQuery();
