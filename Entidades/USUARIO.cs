@@ -16,6 +16,7 @@ namespace Entidades
     {
         public Usuario usuario { get; set; }
         public Perfil perfil { get; set; }
+        public Perfil_File file { get; set; }
     }
     public class Usuario_Res
     {

@@ -78,7 +78,7 @@ namespace Datos
                     cmd.Parameters.AddWithValue("@apellido",visi.apellidos);
                     cmd.Parameters.AddWithValue("@tipo_documento", visi.tipo_documento);
                     cmd.Parameters.AddWithValue("@nro_documento", visi.nro_documento);
-                    cmd.Parameters.AddWithValue("@genero", visi.genero);
+                    cmd.Parameters.AddWithValue("@genero", visi.genero.ToString());
 
                     rpta = Convert.ToInt32(cmd.ExecuteScalar());
                     cn.Close();

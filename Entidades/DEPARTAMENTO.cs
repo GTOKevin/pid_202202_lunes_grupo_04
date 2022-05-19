@@ -35,4 +35,18 @@ namespace Entidades
         public int id_sucursal { get; set; }
         public string nombre_sucursal { get; set; }
     }
+
+
+    public class DepartamentoPropietario
+    {
+        public Departamento departamento { get; set; }
+        public List<Propietario> propietarios { get; set; }
+    }
+
+    public class DepartamentoPropietarioRes
+    {
+        public DTOHeader oHeader { get; set; }
+        public List<Departamento> lista_Departamento { get; set; }
+        public List<Propietario> propietarios { get; set; }
+    }
 }

@@ -22,10 +22,11 @@ const llenarVariable = (lista, option) => {
 const init = () => {
     showLoading();
     setColumns("tblUsuario", colsName, true);
+    
 
     setTimeout(function () {
         getListaUsuario();
-    },500)
+    }, 500)
     Swal.close();
 };
 
@@ -51,7 +52,9 @@ const btnAction = (t, tipo) => {
         case 'edit':
             $("#view-table").hide(500);
             $("#form-create-perfil").show(1000);
+            $("#form-create-editpass").show(1000);
             let id = ((t.parentElement).parentElement).parentElement.id;
+            getUsuariolId(id);
             getPerfilId(id);
             break;
         case 'est_1':
@@ -106,7 +109,7 @@ const listTable = (res) => {
         data: res,
         columns: [{ data: "id_usuario" }, { data: "username" },
             { data: "fecha_registro", render: function (data) { return convertFecha(data) } }, { data: "nombre_rol" },
-            { data: "nombre_perfil" }, { data: "nombre_estado" },
+            { data: "nombre_perfil" }, { data: "nombre_estado"}, 
             buttonsDatatTable("mantUsP")],
         rowId: "id_usuario",
         columnDefs:
@@ -235,7 +238,7 @@ const llenarCampos = (list) => {
                 if (this.name === propName) {
                     this.value = list[0][propName];
                     if (this.name === 'fecha_nacimiento') {
-                        this.value = convertFecha(list[0]['fecha_nacimiento']);
+                        this.value = convertFechav2(list[0]['fecha_nacimiento']);
                     }
                 }
                 
@@ -265,6 +268,15 @@ const llenarCamposUs = (list) => {
                 if (this.name === propName) {
                     this.value = list[0][propName];
                     
+                }
+            }
+
+        });
+        $("#form-create-editpass input").each(function (ind) {
+            for (var propName in list[0]) {
+                if (this.name === propName) {
+                    this.value = list[0][propName];
+
                 }
             }
 
@@ -322,6 +334,9 @@ $("#form-create-perfil").on("submit", function (e) {
                     Swal.fire('ok', oHeader.mensaje, 'success');
                     document.getElementById("form-create-perfil").reset();
                 }
+                else {
+                    Swal.fire('Error', 'Error al cambiar los datos', 'error');
+                }
 
             },
             error: function (err) {
@@ -335,6 +350,7 @@ $("#form-create-perfil").on("submit", function (e) {
     $("#form-create-perfil").hide(500);
     $("#view-table").show(1000);
 });
+
 
 $("#form-usuario-estado").on("submit", function (e) {
 
@@ -393,6 +409,8 @@ $("#form-usuario-estado").on("submit", function (e) {
     $("#view-table").show(1000);
 
 });
+
+
 
 
 

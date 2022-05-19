@@ -16,24 +16,19 @@ namespace Web_Integrador.Controllers
     {
         Usuario_BS ub = new Usuario_BS();
         Perfil_BS pb = new Perfil_BS();
+        Tipo_BS tb = new Tipo_BS();
         // GET: Usuario
         [PermisosRol(Roles.Administrador)]
         public ActionResult Index()
         {
 
-            ViewBag.lstgenero = new List<SelectListItem>() { 
-                new SelectListItem() { Value = "1", Text = "Masculino" },
-                new SelectListItem() { Value = "2", Text = "Femenino" },
-                new SelectListItem() { Value = "3", Text = "Sin Especificar" }
-            };
-            ViewBag.lstdocumento = new List<SelectListItem>() {
-                new SelectListItem() { Value = "1", Text = "DNI" },
-                new SelectListItem() { Value = "2", Text = "Pasaporte" }
-            };
-            ViewBag.lstnacionalidad = new List<SelectListItem>() {
-                new SelectListItem() { Value = "1", Text = "Peruano" },
-                new SelectListItem() { Value = "2", Text = "Extranjero" }
-            };
+            var dataDocumento = tb.Listar_TipoUtil("documento");
+            var dataGenero = tb.Listar_TipoUtil("genero");
+            var datanacionalidad = tb.Listar_TipoUtil("nacionalidad");
+
+            ViewBag.lstgenero = dataGenero.TipoList.ToList();
+            ViewBag.lstdocumento = dataDocumento.TipoList.ToList();
+            ViewBag.lstnacionalidad = datanacionalidad.TipoList.ToList();
 
             return View();
         }
@@ -108,7 +103,7 @@ namespace Web_Integrador.Controllers
             DTOHeader oHeader = new DTOHeader();
             try
             {
-                var rpta = pb.Registrar_Perfil(p);
+                var rpta = pb.Editar_MiPerfil(p);
                 oHeader = rpta.oHeader;
                 if (rpta.oHeader.estado)
                 {
@@ -140,6 +135,36 @@ namespace Web_Integrador.Controllers
             try
             {
                 var rpta = ub.CambiarEstado_Us(u);
+                oHeader = rpta.oHeader;
+                if (rpta.oHeader.estado)
+                {
+                    var getUsuario = ub.lista(rpta.id_register);
+                    if (getUsuario.oHeader.estado)
+                    {
+                        ulist = getUsuario.UsuarioList;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ur.oHeader.estado = false;
+                ur.oHeader.mensaje = ex.Message;
+            }
+            ur.oHeader = oHeader;
+            ur.UsuarioList = ulist;
+
+
+            return Json(ur, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CambiarContraseña(Usuario u)
+        {
+            Usuario_General_Res ur = new Usuario_General_Res();
+            List<UsuarioGeneral> ulist = new List<UsuarioGeneral>();
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                var rpta = ub.CambiarContraseña_Us(u);
                 oHeader = rpta.oHeader;
                 if (rpta.oHeader.estado)
                 {

@@ -31,6 +31,7 @@ const btnAction = (t, tipo) => {
     switch (tipo) {
         case 'new':
             cleanForm();
+            limpiarErr();
             $("#view-table").hide(500);
             $("#view-form").show(1000);      
             break;
@@ -39,6 +40,8 @@ const btnAction = (t, tipo) => {
             $("#view-table").show(1000);
             break;
         case 'edit':
+            cleanForm();
+            limpiarErr();
             $("#view-table").hide(500);
             $("#view-form").show(1000);
 
@@ -56,6 +59,7 @@ const getListaSucursal = () => {
         url: urlGetSucursal,
         responseType: 'json',
         success: async function (res) {
+            console.log(res);
             Swal.close();
             if (res.oHeader.estado) {
                 await llenarVariable(res.SucursalList, 'new');
@@ -69,7 +73,8 @@ const getListaSucursal = () => {
         }
 
     });
-} 
+}
+
 const listTable = (res) => {
     $('#example').DataTable({
         destroy:true,
@@ -93,27 +98,20 @@ const listTable = (res) => {
 };
 
 $("#view-form").on("submit", function (e) {
+    e.preventDefault();
+
     let id_sucursal = document.getElementsByName("id_sucursal")[0];
 
     if (id_sucursal.value == "" || id_sucursal.value == undefined) {
         id_sucursal.value = 0;
     }
 
-    e.preventDefault();
-    let formData = {};
-    let validate = true;
-    $("#view-form input").each(function (index) {
-        if (this.value.trim().length != 0) {
-            formData[this.name] = this.value;
-        } else {
-            validate = false;
-        }
+ 
 
-    });
+    const { formData, validate } = validar();
 
     if (validate) {
         showLoading();
-
         $.ajax({
             method: "POST",
             url: urlSaveSucursal,
@@ -121,16 +119,20 @@ $("#view-form").on("submit", function (e) {
             responseType: 'json',
             success: async function (res) {
                 Swal.close();
+       
                 let { SucursalList, oHeader } = res;
                 if (oHeader.estado) {
                     if (id_sucursal.value == "0") {
                         await llenarVariable(SucursalList, 'new');
                     } else {
                         await llenarVariable(SucursalList, 'edit');
+                  
                     }
                     
                     await listTable(sucursalList);
                     Swal.fire('ok', oHeader.mensaje, 'success');
+                    $("#view-form").hide(500);
+                    $("#view-table").show(1000);
                 }
 
             },
@@ -141,8 +143,7 @@ $("#view-form").on("submit", function (e) {
 
     }
 
-    $("#view-form").hide(500);
-    $("#view-table").show(1000);
+ 
 
 });
 
@@ -182,6 +183,39 @@ const llenarCampos = (list) => {
 }
 
 init();
+
+
+const validar = () => {
+    let formData = { formData: {}, validate:true }
+    $("#view-form input").each(function (index) {
+        if (this.value.trim().length != 0) {
+            formData.formData[this.name] = this.value;
+        } else {
+            formData.validate = false;
+            this.classList.add("border-danger");
+            (this.parentElement).lastElementChild.classList.remove("d-none");
+        }
+    });
+
+    return formData;
+}
+
+$(".val").click(function (e) {
+    this.classList.remove("border-danger");
+    (this.parentElement).lastElementChild.classList.add("d-none");
+});
+
+
+const limpiarErr = () => {
+    $("#view-form .border-danger").each(function (e) {
+        this.classList.remove("border-danger");
+    });
+
+    $("#view-form .label-error").each(function (e) {
+        this.classList.add("d-none");
+    })
+}
+
 
 
 

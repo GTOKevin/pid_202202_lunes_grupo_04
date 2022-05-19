@@ -174,6 +174,13 @@ const getVisitanteId = (id) => {
     });
 }
 
+$(".val").click(function (e) {
+    this.classList.remove("border-danger");
+    (this.parentElement).lastElementChild.classList.add("d-none");
+});
+
+
+
 const llenarCampos = (list) => {
 
     if (list.length > 0) {

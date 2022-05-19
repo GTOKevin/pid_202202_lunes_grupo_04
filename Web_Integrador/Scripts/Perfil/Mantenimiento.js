@@ -26,7 +26,7 @@ const llenarCampos = (list) => {
                 if (this.name === propName) {
                     this.value = list[0][propName];
                     if (this.name === 'fecha_nacimiento') {
-                        this.value = convertFecha(list[0]['fecha_nacimiento']);
+                        this.value = convertFechav2(list[0]['fecha_nacimiento']);
                     }
                 }
             }
@@ -50,32 +50,7 @@ const init = () => {
     Swal.close();
 };
 
-const btnAction = (t, tipo) => {
-    switch (tipo) {
-        case 'new':
-            cleanForm();
-            $("#view-table").hide(500);
-            $("#form-create").show(1000);
-            break;
-        case 'cancel':
-            $("#form-create").hide(500);
-            $("#view-table").show(1000);
-            break;
-        case 'cancel-perfil':
-            $("#form-create-perfil").hide(500);
-            $("#view-table").show(1000);
-            break;
-        case 'edit':
-            $("#view-table").hide(500);
-            $("#form-create-perfil").show(1000);
-            let id = ((t.parentElement).parentElement).parentElement.id;
-            getPerfilId(id);
-            break;
-       
-     
 
-    }
-};
 
 
 
@@ -95,7 +70,7 @@ const validarFormCreate = () => {
 
 }
 
-$("#form-create").on('submit', function (e) {
+$("#form-create-editpass").on('submit', function (e) {
     e.preventDefault();
 
     if (validarFormCreate()) {
@@ -115,7 +90,7 @@ $("#form-create").on('submit', function (e) {
                 let { UsuarioList, oHeader } = res;
                 if (oHeader.estado) {
                     Swal.fire('ok', oHeader.mensaje, 'success');
-                    document.getElementById("form-create").reset();
+                    document.getElementById("form-create-editpass").reset();
                   
                 }
                 else {
@@ -178,6 +153,9 @@ $("#form-create-perfil").on("submit", function (e) {
                 let { ListaUsuarioP, oHeader } = res;
                 if (oHeader.estado) {                 
                     Swal.fire('ok', oHeader.mensaje, 'success');
+                }
+                else {
+                    Swal.fire('Error', 'Error al cambiar los datos', 'error');
                 }
 
             },
