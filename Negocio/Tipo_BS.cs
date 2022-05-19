@@ -28,5 +28,10 @@ namespace Negocio
         {
             return new Tipo_DA().Eliminar_Tipo(id);
         }
+
+        public Tipo_res Listar_TipoUtil(string unidad)
+        {
+            return new Tipo_DA().Listar_TipoUtil(unidad);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Entidades.Sucursal>
+﻿@model Web_Integrador.Model.DepartamentoModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -28,7 +28,7 @@
 
 
 <div id="div-form" style="display:none">
-    <form id="view-form">
+    <form id="view-form" class="mb-5">
         <div class="card">
             <div class="align-items-center card-header d-flex justify-content-between">
                 <h5 class="fw-semibold m-0">Nuevo Departamento</h5>
@@ -45,45 +45,53 @@
                     <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
                     <select class="form-control val" name="id_sucursal" id="id_sucursal">
                         <option value="" selected>...Seleccione...</option>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Sucursales)
                         {
                             <option value="@item.id_sucursal">@item.nombre</option>
                         }
                     </select>
+                    <label class="label-error d-none">Por selecciona una Sucursal</label>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Sector</label>
                     <select class="form-control val" id="id_sector" name="id_sector">
                         <option value="" selected>...Seleccione...</option>
                     </select>
+                    <label class="label-error d-none">Por favor selecciona un Sector</label>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Torre</label>
                     <select class="form-control val" name="id_torre">
                         <option value="" selected>...Seleccione...</option>
                     </select>
+                    <label class="label-error d-none">Por favor selecciona una Torre</label>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Metros Cuadrados</label>
-                    <input type="number" class="form-control val" autocomplete="off" name="metros_cuadrado" placeholder="Ingrese numero departameto">
+                    <input type="text" class="form-control val" autocomplete="off" name="metros_cuadrado" placeholder="Ingrese numero departameto" onkeypress="return soloNumeros(event)">
+                    <label class="label-error d-none">Por favor favor ingresar Metros cuadrados</label>
                 </div>
 
                 <div class="col-12 col-md-4 col-xl-3 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Piso</label>
-                    <input type="number" class="form-control val" autocomplete="off" name="piso" placeholder="Ingrese numero departameto">
+                    <input type="text" class="form-control val" autocomplete="off" name="piso" placeholder="Ingrese numero departameto" onkeypress="return soloNumeros(event)">
+                    <label class="label-error d-none">Por favor ingresa numero de Piso</label>
                 </div>
                 <div class="col-12 col-md-4 col-xl-3 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Numero</label>
-                    <input type="number" class="form-control val" autocomplete="off" name="numero" placeholder="Ingrese numero departameto">
+                    <input type="text" class="form-control val" autocomplete="off" name="numero" placeholder="Ingrese numero departameto" onkeypress="return soloNumeros(event)">
+                    <label class="label-error d-none">Por favor ingresa numero de Piso</label>
                 </div>
 
                 <div class="col-12 col-md-4 col-xl-3 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Dormitorios</label>
-                    <input type="number" class="form-control val" autocomplete="off" name="dormitorio" placeholder="Ingrese numero departameto">
+                    <input type="text" class="form-control val" autocomplete="off" name="dormitorio" placeholder="Ingrese numero departameto" onkeypress="return soloNumeros(event)">
+                    <label class="label-error d-none">Por favor ingresa numero de dormitorios</label>
                 </div>
                 <div class="col-12 col-md-4 col-xl-3 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Baños</label>
-                    <input type="number" class="form-control val" autocomplete="off" name="banio" placeholder="Ingrese numero departameto">
+                    <input type="text" class="form-control val" autocomplete="off" name="banio" placeholder="Ingrese numero departameto" onkeypress="return soloNumeros(event)">
+                    <label class="label-error d-none">Por favor ingresa numero de baños</label>
                 </div>
 
             </div>
@@ -94,17 +102,18 @@
         <div class="align-items-center card-header d-flex justify-content-between">
             <h5 class="fw-semibold m-0">Propietarios</h5>
             <div>
-                <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#modalProp"> <i class="bx bx-arrow-back pe-2"></i>Agregar</button>
+                <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalProp"> <i class="bx bx-user-plus"></i>Agregar</button>
             </div>
         </div>
         <div class="card-body">
-            <table class="table">
+            <table class="table table-hover table-responsive">
                 <thead>
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Primer Apellido</th>
                         <th scope="col">Segundo Apellido</th>
                         <th scope="col">Numero Documento</th>
+                        <th scope="col">Propietario</th>
                     </tr>
                 </thead>
                 <tbody id="table_prop">
@@ -121,52 +130,75 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo Propietario</h5>
             </div>
             <div class="modal-body row">
                 <input type="number" class="form-control d-none valProp" autocomplete="off" id="id_prop" name="id_propietario" placeholder="id">
                 <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Nombres</label>
-                    <input type="text" class="form-control valProp" autocomplete="off" name="nombres" placeholder="Ingrese su nombre">
+                    <input type="text" class="form-control valProp" autocomplete="off" name="nombres" placeholder="Ingrese su nombre" onkeypress="return soloLetras(event)">
+                    <label class="label-error d-none">Por favor ingresa tu nombre</label>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Primer Apellido</label>
-                    <input type="text" class="form-control valProp" autocomplete="off" name="primer_apellido" placeholder="Ingrese su apellido">
+                    <input type="text" class="form-control valProp" autocomplete="off" name="primer_apellido" placeholder="Ingrese su apellido" onkeypress="return soloLetras(event)">
+                    <label class="label-error d-none">Por favor ingresa primer apellido</label>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Segundo Apellido</label>
-                    <input type="text" class="form-control valProp" autocomplete="off" name="segundo_apellido" placeholder="Ingrese su apellido">
+                    <input type="text" class="form-control valProp" autocomplete="off" name="segundo_apellido" placeholder="Ingrese su apellido" onkeypress="return soloLetras(event)">
+                    <label class="label-error d-none">Por favor ingresa segundo apellido</label>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Nacionalidad</label>
                     <select class="form-control valProp" name="nacionalidad">
                         <option value="" selected>...Seleccione...</option>
-                        <option value="1">Peruano</option>
-                        <option value="2">Extranjero</option>
+                        @foreach (var item in Model.Tipos)
+                        {
+                            if (item.unidad == "NACIONALIDAD")
+                            {
+                                <option value="@item.id_tipo">@item.nombre</option>
+
+                            }
+                        }
                     </select>
+                    <label class="label-error d-none">Por favor selecciona Nacionalidad</label>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Tipo Documento</label>
                     <select class="form-control valProp" name="tipo_documento">
                         <option value="" selected>...Seleccione...</option>
-                        <option value="1" selected>DNI</option>
-                        <option value="2" selected>Carnet de Extranjeria</option>
-                        <option value="3" selected>Pasaporte</option>
+                        @foreach (var item in Model.Tipos)
+                        {
+                            if (item.unidad == "DOCUMENTO")
+                            {
+                                <option value="@item.id_tipo">@item.nombre</option>
+
+                            }
+                        }
                     </select>
+                    <label class="label-error d-none">Por favor seleccionar Tip Documento</label>
                 </div>
                 <div class="col-12 col-md-6 mb-3 ">
                     <label for="exampleFormControlInput1" class="form-label">Nro. Documento</label>
-                    <input type="text" class="form-control valProp" autocomplete="off" name="nro_documento" placeholder="Ingrese nro documento">
+                    <input type="text" class="form-control valProp" autocomplete="off" name="nro_documento" placeholder="Ingrese nro documento" onkeypress="return soloNumeros(event)">
+                    <label class="label-error d-none">Ingresa dni 8 digitos, otros 20 digitos</label>
                 </div>
 
                 <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Tipo Propietario</label>
                     <select class="form-control valProp" name="id_tipo">
                         <option value="" selected>...Seleccione...</option>
-                        <option value="1">Dueño</option>
-                        <option value="2">Familiar</option>
-                        <option value="3">Mascota</option>
+                        @foreach (var item in Model.Tipos)
+                        {
+                            if (item.unidad == "PROPIETARIO")
+                            {
+                                <option value="@item.id_tipo">@item.nombre</option>
+
+                            }
+                        }
                     </select>
+                    <label class="label-error d-none">Por favor selecciona Tipo Propietario</label>
                 </div>
             </div>
             <div class="modal-footer">

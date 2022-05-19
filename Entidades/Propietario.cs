@@ -17,12 +17,16 @@ namespace Entidades
         public string nombres { get; set; }
         public string primer_apellido { get; set; }
         public string segundo_apellido { get; set; }
-        public string tipo_documento { get; set; }
+        public int tipo_documento { get; set; }
         public string nro_documento { get; set; }
-        public string nacionalidad { get; set; }
+        public int nacionalidad { get; set; }
         public DateTime? fecha_registro { get; set; }
         public byte estado { get; set; }
         public int id_departamento { get; set; }
         public int id_tipo { get; set; }
+        //adicionales
+        public string nombre_documento { get; set; }
+        public string nombre_nacionalidad { get; set; }
+        public string nombre_tipo { get; set; }
     }
 }

@@ -5,6 +5,102 @@ const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container');
 
+const formulario = document.getElementById('form-create');
+const inputs = document.querySelectorAll('#form-create input');
+const inputsL = document.querySelectorAll('#form-login input');
+
+const expresiones = {
+    username: /^[a-zA-Z0-9\_\-]{4,25}$/,
+    contra: /^[\w@ñ.]{6,50}$/
+}
+
+const campos = {
+    username: false,
+    clave: false,
+    usernameL: false,
+    claveL: false
+}
+
+const validarFormulario = (e) => {
+    switch (e.target.name) {
+        case "username":
+            validarCampos(expresiones.username, e.target, 'username');
+            break;
+        case "clave":
+            validarCampos(expresiones.contra, e.target, 'clave');
+            validarContraseñas();
+            break;
+        case "clave2":
+            validarContraseñas();
+            break;
+    }
+}
+
+const validarFormularioL = (e) => {
+    switch (e.target.name) {
+        case "username":
+            validarCampos(expresiones.username, e.target, 'usernameL');
+            break;
+        case "clave":
+            validarCampos(expresiones.contra, e.target, 'claveL');
+            break;
+    }
+}
+
+const validarContraseñas = () => {
+    const inputPass = document.getElementById('pass1');
+    const inputPass2 = document.getElementById('pass2');
+
+    if (inputPass.value !== inputPass2.value) {
+        document.getElementById(`grupo_clave2`).classList.remove('formulario__grupo-correcto');
+        document.getElementById(`grupo_clave2`).classList.add('formulario__grupo-incorrecto');
+        document.querySelector(`#grupo_clave2 i`).classList.add('fa-times-circle');
+        document.querySelector(`#grupo_clave2 i`).classList.remove('fa-check-circle');
+        document.querySelector(`#grupo_clave2 .formulario__input-error`).classList.add('formulario__input-error-activo')
+        campos['clave'] = false;
+    }
+    else {
+        document.getElementById(`grupo_clave2`).classList.remove('formulario__grupo-incorrecto');
+        document.getElementById(`grupo_clave2`).classList.add('formulario__grupo-correcto');
+        document.querySelector(`#grupo_clave2 i`).classList.add('fa-check-circle');
+        document.querySelector(`#grupo_clave2 i`).classList.remove('fa-times-circle');
+        document.querySelector(`#grupo_clave2 .formulario__input-error`).classList.remove('formulario__input-error-activo')
+        campos['clave'] = true;
+    }
+}
+
+const validarCampos = (expresion, input, campo) => {
+    if (expresion.test(input.value)) {
+        document.getElementById(`grupo_${campo}`).classList.remove('formulario__grupo-incorrecto');
+        document.getElementById(`grupo_${campo}`).classList.add('formulario__grupo-correcto');
+        document.querySelector(`#grupo_${campo} i`).classList.add('fa-check-circle');
+        document.querySelector(`#grupo_${campo} i`).classList.remove('fa-times-circle');
+        document.querySelector(`#grupo_${campo} .formulario__input-error`).classList.remove('formulario__input-error-activo')
+        campos[campo] = true;
+
+    } else {
+        document.getElementById(`grupo_${campo}`).classList.remove('formulario__grupo-correcto');
+        document.getElementById(`grupo_${campo}`).classList.add('formulario__grupo-incorrecto');
+        document.querySelector(`#grupo_${campo} i`).classList.add('fa-times-circle');
+        document.querySelector(`#grupo_${campo} i`).classList.remove('fa-check-circle');
+        document.querySelector(`#grupo_${campo} .formulario__input-error`).classList.add('formulario__input-error-activo')
+        campos[campo] = false;
+        console.log()
+        
+    }
+}
+
+inputs.forEach((input) => {
+    input.addEventListener('keyup', validarFormulario);
+    input.addEventListener('blur', validarFormulario);
+});
+inputsL.forEach((input) => {
+    input.addEventListener('keyup', validarFormularioL);
+    input.addEventListener('blur', validarFormularioL);
+});
+
+
+
 signUpButton.addEventListener('click', () => {
     container.classList.add("right-panel-active");
 });
@@ -58,8 +154,7 @@ const validarFormLogin = () => {
 $("#form-create").on('submit', function (e) {
     e.preventDefault();
 
-
-    if (validarFormCreate()) {
+    if (campos.username && campos.clave) {
 
 
         showLoading();
@@ -85,7 +180,17 @@ $("#form-create").on('submit', function (e) {
                         icon: 'success',
                         title: 'Exito..',
                         text: 'Usuario registrado!'
+
+                    }
+                    ).then(function () {
+                        container.classList.remove("right-panel-active");
                     });
+                    var form = document.getElementById("form-create");
+                    document.querySelectorAll('.formulario__grupo-correcto').forEach((icono) => {
+                        icono.classList.remove('formulario__grupo-correcto');
+                    });
+                    form.reset();
+                    
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -110,7 +215,7 @@ $("#form-login").on('submit', function (e) {
 
     let formData = {};
 
-    if (validarFormLogin()) {
+    if (campos.usernameL && campos.claveL) {
 
 
         showLoading();

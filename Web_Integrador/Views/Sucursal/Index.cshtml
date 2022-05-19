@@ -42,11 +42,13 @@
             <input type="text" class="form-control d-none" autocomplete="off" name="id_sucursal" placeholder="id">
             <div class="col-4">
                 <label for="exampleFormControlInput1" class="form-label">Nombre</label>
-                <input type="text" class="form-control" autocomplete="off" name="nombre" placeholder="Ingrese nombre de sucursal">
+                <input type="text" class="form-control val" autocomplete="off" name="nombre" placeholder="Ingrese nombre de sucursal" maxlength="50" onkeypress="return alphaNumero(event)" />
+                <label class="label-error d-none">Por favor ingrese un nombre</label>
             </div>
             <div class="col-8">
                 <label for="exampleFormControlInput1" class="form-label">Descripción</label>
-                <input type="text" class="form-control" autocomplete="off" name="descripcion" placeholder="Ingrese una breve descripción">
+                <input type="text" class="form-control val" autocomplete="off" name="descripcion" placeholder="Ingrese una breve descripción" maxlength="100" onkeypress="return alphaNumero(event)">
+                <label class="label-error d-none">Por favor ingrese una descripción</label>
             </div>
 
         </div>

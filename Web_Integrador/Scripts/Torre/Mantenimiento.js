@@ -29,6 +29,7 @@ const init = () => {
 const btnAction = (t, tipo) => {
     switch (tipo) {
         case 'new':
+            limpiarErr();
             cleanForm();
             cleanSelect();
             mostrarFormulario();
@@ -37,8 +38,9 @@ const btnAction = (t, tipo) => {
             mostrarTabla();
             break;
         case 'edit':
+            limpiarErr();
+            cleanForm();
             mostrarFormulario();
-
             let id = ((t.parentElement).parentElement).parentElement.id;
             getTorreId(id);
 
@@ -99,7 +101,7 @@ $("#view-form").on("submit", function (e) {
     }
 
     e.preventDefault();
-    let { formData, formEstado } = setValData();
+    let { formData, formEstado } = setValDataLab();
 
 
     if (formEstado) {
@@ -184,6 +186,7 @@ const llenarCampos =async (list) => {
 init();
 $(".val").click(function (e) {
     this.classList.remove("border-danger");
+    (this.parentElement).lastElementChild.classList.add("d-none");
 });
 
 
@@ -230,4 +233,14 @@ const getSelectSector = (list) => {
     selSector.innerHTML = str;
     selSector.value = "";
 
+}
+
+const limpiarErr = () => {
+    $("#view-form .border-danger").each(function (e) {
+        this.classList.remove("border-danger");
+    });
+
+    $("#view-form .label-error").each(function (e) {
+        this.classList.add("d-none");
+    })
 }

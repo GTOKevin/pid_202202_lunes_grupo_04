@@ -13,6 +13,7 @@ namespace Web_Integrador.Controllers
     {
         Usuario_BS user_bs = new Usuario_BS();
         Perfil_BS perfil_bs = new Perfil_BS();
+        Perfil_File_BS perfil_file_bs = new Perfil_File_BS();
         // GET: Auth
         public ActionResult Login()
         {
@@ -43,24 +44,45 @@ namespace Web_Integrador.Controllers
             try
             {
                 var respUser = user_bs.ValidarUsuarioLogin(user.username,user.clave);
+                var respFile = perfil_file_bs.ListarFile(user.id_perfil);
                 if (respUser.oHeader.estado == true)
                 {
                     userLogin.usuario = respUser.UsuarioList.FirstOrDefault();
+                    userLogin.file = respFile.FileList.FirstOrDefault();
                     userLogin.usuario.clave = null;
                     var respPerfil = perfil_bs.Listar_Perfil_Usuario(userLogin.usuario.id_perfil);
                     if (respPerfil.oHeader.estado == true)
                     {
                         userLogin.perfil = respPerfil.Lista_Perfiles.FirstOrDefault();
                     }
-                    Session["PI_USUARIO"] = userLogin;
-                    Session["PI_USERNAME"] = userLogin.usuario.username;
-                    Session["PI_IDUSER"] = userLogin.usuario.id_usuario;
-                    Session["PI_IDPERFIL"] = userLogin.usuario.id_perfil;
-                    Session["PI_ROL"] = userLogin.usuario.id_rol;
-                    oHeader.estado = true;
-                    oHeader.mensaje = "Conectarse";
+                    if (userLogin.usuario.id_estado == 1)
+                    {
 
-                    FormsAuthentication.SetAuthCookie(userLogin.usuario.username, false);
+                        Session["PI_USUARIO"] = userLogin;
+                        Session["PI_USERNAME"] = userLogin.usuario.username;
+                        Session["PI_IDUSER"] = userLogin.usuario.id_usuario;
+                        Session["PI_IDPERFIL"] = userLogin.usuario.id_perfil;
+                        Session["PI_ROL"] = userLogin.usuario.id_rol;
+                        if (userLogin.file.nombrefile != "" && userLogin.file.nombrefile != null)
+                        {
+                            Session["PI_FILE"] = userLogin.file.nombrefile;
+                        }
+                        else
+                        {
+                            
+                            string ruta = "/Assets/img/avatars/default.jpg";
+                            Session["PI_FILE"] = ruta;
+                        }
+                        oHeader.estado = true;
+                        oHeader.mensaje = "Conectarse";
+
+                        FormsAuthentication.SetAuthCookie(userLogin.usuario.username, false);
+                    }
+                    else
+                    {
+                        oHeader.estado = false;
+                        oHeader.mensaje = "Acceso no permitido: Su cuenta no se encuentra disponible";
+                    }
                 }
                 else
                 {

@@ -2,6 +2,12 @@
 * admin.css
 * File include item admin only specific css only
 ******************************************************************************/
+.label-error {
+    margin-top: 0.2rem;
+    color: #ff3e1d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
 
 .menu .app-brand.admin {
   height: 64px;

@@ -1,8 +1,11 @@
-﻿
+﻿@model Entidades.Perfil_File
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
+
 
 <h2>Mis Datos</h2>
 
@@ -14,18 +17,53 @@
 
         <div class="card-body row">
             <div class="col-md-3 text-center">
-                <img src="~/Assets/img/avatars/1.png" class="w-px-150 h-auto rounded-circle" />
+                <img src="@Session["PI_FILE"]" class="w-px-150 h-auto rounded-circle" />
             </div>
-            <div class="col-md-6" id=mis_datos></div>
+            <div class="col-md-6" id=mis_datos>
+                
+            </div>
+            
 
         </div>
     </div>
 </form>
+<br />
+
+@using (Html.BeginForm("Index", "Seguridad", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card">
+        <div class="align-items-center card-header d-flex justify-content-between">
+            <h5 class="fw-semibold m-0">Foto de Perfil</h5>
+            <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Cambiar Foto</button>
+        </div>
+
+        <div class="card-body row">
+            <input type="text" value="@Session["PI_IDPERFIL"]" class="form-control d-none" autocomplete="off" name="id_perfil" placeholder="id">
+            <div>
+                <input type="file" name="ImagenFile" required />
+            </div>
+
+        </div>
+    </div>
+
+
+
+}
 
 <script>
     const urlGetPerfil = "@Url.Action("ListarPerfil", "Seguridad")";
+    var myJsVariable = null;
 </script>
 
+@if (ViewBag.ErrorMessage != null)
+{
+    <script> var myJsVariable = '@ViewBag.ErrorMessage' </script>
+}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script src="~/Scripts/App.js"></script>
 <script src="~/Scripts/Seguridad/Mantenimiento.js"></script>
+
+
+
