@@ -23,3 +23,8 @@
 /Entidades/obj/Release
 /.vs/proyecto_pid/v17
 /.vs
+/packages/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.10.13
+/Web_Integrador/obj/Container
+/Web_Integrador/.dockerignore
+/Web_Integrador/Dockerfile
+/Negocio/Negocio.csproj.user
