@@ -30,3 +30,11 @@
 /Negocio/Negocio.csproj.user
 /Helpers
 /Negocio
+/packages/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.10.13/build/Rules
+/packages/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.10.13/build
+/packages/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.10.13/tools
+/packages/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.1.10.13
+/Web_Integrador/obj/Container
+/Negocio/Negocio.csproj.user
+/Web_Integrador/Dockerfile
+/Web_Integrador/.dockerignore
