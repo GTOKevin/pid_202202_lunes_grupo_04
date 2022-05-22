@@ -8,6 +8,7 @@ using Negocio;
 using Entidades;
 using Helpers;
 using Web_Integrador.Security;
+using Web_Integrador.Model;
 
 namespace Web_Integrador.Controllers
 {
@@ -15,11 +16,27 @@ namespace Web_Integrador.Controllers
     public class ServicioController : Controller
     {
         Servicio_BS servicio_BS = new Servicio_BS();
+        Departamento_BS departamento_BS = new Departamento_BS();
+        Torre_BS torre_BS = new Torre_BS();
+        Sector_BS sector_BS = new Sector_BS();
+        Sucursal_BS sucursal_BS = new Sucursal_BS();
+        Tipo_BS tipo_BS = new Tipo_BS();
         // GET: Servicio
         [PermisosRol(Roles.AgenteVisitas)]
         public ActionResult Index()
         {
-            return View();
+            ServicioModel oModeView = new ServicioModel();
+            var sucursal = sucursal_BS.lista(0);
+            var tipo = tipo_BS.lista_Tipos(0);
+            if (sucursal.oHeader.estado)
+            {
+                oModeView.Sucursales = sucursal.SucursalList;
+            }
+            if (tipo.oHeader.estado)
+            {
+                oModeView.Tipos = tipo.TipoList;
+            }
+            return View(oModeView);
         }
         public JsonResult ListarServicios(int id_servicio = 0)
         {
@@ -37,6 +54,54 @@ namespace Web_Integrador.Controllers
             return Json(servicio_Res, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult ListarSectores(int id_sector = 0)
+        {
+            Sector_Suc_Res sector_res = new Sector_Suc_Res();
+            try
+            {
+                var rpta = sector_BS.listar_suc(id_sector);
+                sector_res = rpta;
+            }
+            catch (Exception ex)
+            {
+                sector_res.oHeader.estado = false;
+                sector_res.oHeader.mensaje = ex.Message;
+            }
+            return Json(sector_res, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ListarDepartamentos(int id_departamento = 0)
+        {
+            var departamento = departamento_BS.lista(id_departamento);
+            return Json(departamento, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ListarTorre(int id_sector = 0)
+        {
+            Torre_Res torre_Res = new Torre_Res();
+            try
+            {
+                var rpta = torre_BS.Listar(0);
+                if (rpta.oHeader.estado)
+                {
+                    var lista = rpta.TorreList;
+                    var listaTorre = lista.Where(x => x.id_sector == id_sector).ToList();
+                    torre_Res.oHeader = rpta.oHeader;
+                    torre_Res.TorreList = listaTorre;
+                }
+                else
+                {
+                    torre_Res = rpta;
+                }
+            }
+            catch (Exception ex)
+            {
+                torre_Res.oHeader.estado = false;
+                torre_Res.oHeader.mensaje = ex.Message;
+            }
+
+            return Json(torre_Res, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult RegistrarServicio(Servicio enti)
         {
             Servicio_Res servicio_Res = new Servicio_Res();

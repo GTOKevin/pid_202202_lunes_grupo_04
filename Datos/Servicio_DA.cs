@@ -21,7 +21,7 @@ namespace Datos
 
             try
             {
-                using(SqlConnection cn = Conexion.Conectar())
+                using (SqlConnection cn = Conexion.Conectar())
                 {
                     cn.Open();
                     SqlCommand cmd = new SqlCommand("SP_SERVICIO_LISTAR", cn);
@@ -33,9 +33,17 @@ namespace Datos
                         Servicio servicio = new Servicio();
                         servicio.id_servicio = dr["id_servicio"].ToInt();
                         servicio.id_tipo = dr["id_tipo"].ToInt();
+                        servicio.nombre_tipo = dr["nombre_tipo"].ToString();
+                        servicio.id_sucursal = dr["id_sucursal"].ToInt();
+                        servicio.nombre_sucursal = dr["nombre_sucursal"].ToString();
+                        servicio.id_sector = dr["id_sector"].ToInt();
+                        servicio.nombre_sector = dr["nombre_sector"].ToString();
+                        servicio.id_torre = dr["id_torre"].ToInt();
+                        servicio.numero_torre = dr["numero_torre"].ToInt();
                         servicio.id_departamento = dr["id_departamento"].ToInt();
+                        servicio.numero_departamento = dr["numero_departamento"].ToInt();
                         servicio.nombre = dr["nombre"].ToString();
-                        servicio.fecha_registro = dr["fecha_registro"].ToDateTime();
+
                         servicio_list.Add(servicio);
                     }
                     cn.Close();
@@ -54,7 +62,6 @@ namespace Datos
 
             return servicio_res;
         }
-
 
         public Servicio_Register Registrar(Servicio Enti)
         {

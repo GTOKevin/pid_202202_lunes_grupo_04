@@ -37,41 +37,7 @@ AS
   END  
   SELECT @id
 GO
------------------------     SERVICIO     ----------------------------------
-CREATE PROCEDURE SP_SERVICIO_LISTAR
-@id_servicio int
-as
-	if @id_servicio=0
-		BEGIN
-			select * from SERVICIO
-		END
-	else
-		BEGIN
-			select * from SERVICIO where id_servicio=@id_servicio
-		END
-go
 
-CREATE PROCEDURE SP_SERVICIO_REGISTER    
-@id_servicio int,
-@id_tipo int,
-@id_departamento int,
-@nombre varchar(50)    
- 
-AS    
-   DECLARE @id int 
- if exists(select * from SERVICIO where id_servicio=@id_servicio)    
-  BEGIN    
-   update SERVICIO set id_tipo=@id_tipo,id_departamento=@id_departamento, nombre=@nombre    
-       where id_servicio=@id_servicio    
-	SET @id = @id_servicio    
-  END    
- ELSE    
-  BEGIN    
-  insert into SERVICIO(id_tipo,id_departamento,nombre)VALUES(@id_tipo,@id_departamento,@nombre)    
-   SET @id=SCOPE_IDENTITY()    
-  END  
-  SELECT @id
-GO
 
 ------LISTAR SERVICIO EN EL RECIBO ----------------
 
@@ -88,3 +54,87 @@ as
 	where R.id_recibo=@id_recibo
   end  
 GO
+
+-----------------------     SERVICIO     ----------------------------------
+
+------LISTAR SERVICIO ----------------
+CREATE PROCEDURE SP_SERVICIO_LISTAR 
+@id_servicio int  
+as  
+ if @id_servicio=0  
+  begin  
+   select 
+		s.id_servicio, 
+		ti.id_tipo,
+		ti.nombre AS 'nombre_tipo',
+		su.id_sucursal,
+		su.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',		
+		s.nombre 
+   from SERVICIO s 
+
+   join DEPARTAMENTO d on s.id_departamento=d.id_departamento 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL su on sec.id_sucursal=su.id_sucursal 	
+		   join TIPO ti on s.id_tipo=ti.id_tipo
+  end  
+ else  
+  begin   
+    select 
+	s.id_servicio, 
+		ti.id_tipo,
+		ti.nombre AS 'nombre_tipo',
+		su.id_sucursal,
+		su.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',		
+		s.nombre 
+   from SERVICIO s 
+   join DEPARTAMENTO d on s.id_departamento=d.id_departamento 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL su on sec.id_sucursal=su.id_sucursal 
+		join TIPO ti on s.id_tipo=ti.id_tipo
+		where s.id_servicio=@id_servicio
+  end  
+
+GO
+
+
+
+
+------REGISTRAR SERVICIO ----------------
+CREATE PROCEDURE SP_SERVICIO_REGISTER    
+@id_servicio int,
+@id_tipo int,
+@id_departamento int,
+@nombre varchar(50)    
+ 
+AS    
+   DECLARE @id int
+   IF @id_servicio=0
+  BEGIN    
+  INSERT INTO SERVICIO(id_tipo,id_departamento,nombre)
+  VALUES(@id_tipo,@id_departamento,@nombre)    
+   SET @id=SCOPE_IDENTITY()    
+  END  
+   
+ ELSE    
+  BEGIN    
+   UPDATE SERVICIO SET id_tipo=@id_tipo,id_departamento=@id_departamento, nombre=@nombre    
+       WHERE id_servicio=@id_servicio    
+	SET @id = @id_servicio    
+  END  
+  SELECT @id
+GO
+
