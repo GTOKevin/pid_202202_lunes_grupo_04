@@ -251,7 +251,7 @@ const soloLetras = (e) => {
     let key = e.keyCode || e.which;
     let tecla = String.fromCharCode(key).toString();
     let letras = "ABCDEFGHIJKLMNÑOPQRSTUVWYXabcdefghijklmnñopqrstuvwxyzáéíóú";
-    let especiales = [8, 13, 32];
+    let especiales = [8, 13, 32,164,165];
     let tecla_especial = false;
     for (var i in especiales) {
         if (key == especiales[i]) {
@@ -275,7 +275,7 @@ function soloNumeros(e) {
 function alphaNumero(e) {
     let key = e.keyCode || e.which;
     let tecla = String.fromCharCode(key).toString();
-    var especiales = [8, 13, 32, 45, 46, 95]
+    var especiales = [8, 13, 32, 45, 46, 95,164,165]
     let tecla_especial = false;
     for (var i in especiales) {
         if (key == especiales[i]) {

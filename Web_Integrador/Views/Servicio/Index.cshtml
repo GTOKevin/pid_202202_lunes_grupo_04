@@ -1,4 +1,4 @@
-﻿
+﻿@model Web_Integrador.Model.ServicioModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -39,19 +39,53 @@
         </div>
 
         <div class="card-body row">
-            <input type="text" class="form-control d-none" autocomplete="off" name="id_servicio" placeholder="id">
-            <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">ID Tipo</label>
-                <input type="text" class="form-control" autocomplete="off" name="id_tipo" placeholder="Ingrese el ID del Tipo">
+            <input type="text" class="form-control val d-none" autocomplete="off" name="id_servicio" placeholder="id">
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
+                <select class="form-control val" name="id_sucursal" id="id_sucursal">
+                    <option value="" selected>...Seleccione...</option>
+                    @foreach (var item in Model.Sucursales)
+                    {
+                        <option value="@item.id_sucursal">@item.nombre</option>
+                    }
+                </select>
             </div>
-            <div class="col-4">
-                <label for="exampleFormControlInput1" class="form-label">ID Departamento</label>
-                <input type="text" class="form-control" autocomplete="off" name="id_departamento" placeholder="Ingrese el ID del Departamento">
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Sector</label>
+                <select class="form-control val" name="id_sector" id="id_sector">
+                    <option value="" selected>...Seleccione...</option>
+
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Torre</label>
+                <select class="form-control val" name="id_torre" id="id_torre">
+                    <option value="" selected>...Seleccione...</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Departamento</label>
+                <select class="form-control val" name="id_departamento" id="id_departamento">
+                    <option value="" selected>...Seleccione...</option>
+                </select>
+            </div>
+            <div class="col-8">
+                <label for="exampleFormControlInput1" class="form-label">Nombre Tipo</label>
+                <select class="form-control val" name="id_tipo" id="nombre_tipo">
+                    <option value="" selected>...Seleccione...</option>
+                    @foreach (var item in Model.Tipos)
+                    {
+                        if (item.unidad == "SERVICIO")
+                        {
+                            <option value="@item.id_tipo">@item.nombre</option>
+                        }
+                    }
+                </select>
             </div>
             <div class="col-4">
                 <label for="exampleFormControlInput1" class="form-label">Nombre</label>
-                <input type="text" class="form-control" autocomplete="off" name="nombre" placeholder="Ingrese nombre del servicio">
-            </div>           
+                <input type="text" class="form-control val" autocomplete="off" name="nombre" placeholder="Ingrese nombre de Servicio">
+            </div>
         </div>
     </div>
 </form>
@@ -60,6 +94,10 @@
 <script>
     const urlGetServicio = "@Url.Action("ListarServicios", "Servicio")";
     const urlSaveServicio = "@Url.Action("RegistrarServicio", "Servicio")";
+    const urlGetSector = "@Url.Action("ListarSector", "Torre")";
+    const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
+    const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "Departamento")";
+    const urlGetTipo= "@Url.Action("ListarTipos", "Tipo")";
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>

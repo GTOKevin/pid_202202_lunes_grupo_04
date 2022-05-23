@@ -440,6 +440,10 @@ const limpiarTable = () => {
         this.classList.add("d-none");
     })
 
+    $("#modalProp .valProp").each(function (e) {
+        this.value = "";
+    })
+
 }
 
 
