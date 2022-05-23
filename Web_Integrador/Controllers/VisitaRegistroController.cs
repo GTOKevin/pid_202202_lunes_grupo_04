@@ -155,6 +155,37 @@ namespace Web_Integrador.Controllers
 
             return Json(visreg_Res, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult RegistrarVisitasRegSalida(VISITA_REGISTRO visreg)
+        {
+            VISITAREGISTRO_Res visreg_Res = new VISITAREGISTRO_Res();
+            List<VISITA_REGISTRO> visreg_List = new List<VISITA_REGISTRO>();
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                var rpta = visitareg_BS.Registrar_Salida(visreg);
+                oHeader = rpta.oHeader;
+                if (rpta.oHeader.estado)
+                {
+                    var getVisitaReg = visitareg_BS.lista(rpta.id_register);
+                    if (getVisitaReg.oHeader.estado)
+                    {
+                        visreg_List = getVisitaReg.VisitaRegistroList;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                visreg_Res.oHeader.estado = false;
+                visreg_Res.oHeader.mensaje = ex.Message;
+            }
+            visreg_Res.oHeader = oHeader;
+            visreg_Res.VisitaRegistroList = visreg_List;
+
+
+            return Json(visreg_Res, JsonRequestBehavior.AllowGet);
+        }
     }
 }
     

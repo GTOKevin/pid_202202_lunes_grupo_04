@@ -10,17 +10,21 @@ namespace Negocio
 {
     public class Departamento_File_BS
     {
-        public Departamento_File_Res lista()
+        public Departamento_File_Res lista(int id_departamento_file)
         {
-            return new Departamento_File_DA().Listar();
+            return new Departamento_File_DA().Listar(id_departamento_file);
         }
-        public DTOHeader Registrar(Departamento_File depf)
+        public DepartamentoFile_Register Registrar(Departamento_File depf)
         {
             return new Departamento_File_DA().Registrar(depf);
         }
-        public DTOHeader Actualizar(Departamento_File depf)
+        /* public DTOHeader Actualizar(Departamento_File depf)
+         {
+             return new Departamento_File_DA().Actualizar(depf);
+         }*/
+        public Departamento_File_Res listaIDDepartamentofile(int id_dep)
         {
-            return new Departamento_File_DA().Actualizar(depf);
+            return new Departamento_File_DA().ListarFileIDDep(id_dep);
         }
     }
 }

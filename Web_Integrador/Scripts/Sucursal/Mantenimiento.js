@@ -31,6 +31,7 @@ const btnAction = (t, tipo) => {
     switch (tipo) {
         case 'new':
             cleanForm();
+            limpiarErr();
             $("#view-table").hide(500);
             $("#view-form").show(1000);      
             break;
@@ -39,6 +40,8 @@ const btnAction = (t, tipo) => {
             $("#view-table").show(1000);
             break;
         case 'edit':
+            cleanForm();
+            limpiarErr();
             $("#view-table").hide(500);
             $("#view-form").show(1000);
 
@@ -201,5 +204,18 @@ $(".val").click(function (e) {
     this.classList.remove("border-danger");
     (this.parentElement).lastElementChild.classList.add("d-none");
 });
+
+
+const limpiarErr = () => {
+    $("#view-form .border-danger").each(function (e) {
+        this.classList.remove("border-danger");
+    });
+
+    $("#view-form .label-error").each(function (e) {
+        this.classList.add("d-none");
+    })
+}
+
+
 
 

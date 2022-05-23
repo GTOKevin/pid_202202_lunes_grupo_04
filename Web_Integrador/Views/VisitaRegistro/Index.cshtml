@@ -40,14 +40,6 @@
 
         <div class="card-body row">
             <input type="text" class="form-control val d-none" autocomplete="off" name="id_visita_registro" id="id" placeholder="id">
-            <div class="col-12 col-md-6 col-lg-3">
-                <label for="fecha_ingreso" class="form-label">Fecha de Ingreso</label>
-                <input type="date" class="form-control " autocomplete="off" name="fecha_ingreso" placeholder="Ingrese fecha de ingreso">
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <label for="fecha_salida" class="form-label">Fecha de Salida</label>
-                <input type="date" class="form-control " autocomplete="off" name="fecha_salida" placeholder="Ingrese fecha de salida">
-            </div>
             <div class="col-12 col-md-6 mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
                 <select class="form-control val" name="id_sucursal" id="id_sucursal">
@@ -95,8 +87,10 @@
 </form>
 
 
+
 <script>
     const urlGetVisitaRegistro = "@Url.Action("ListarVisitasReg", "VisitaRegistro")";
+    const urlSaveSalida = "@Url.Action("RegistrarVisitasRegSalida", "VisitaRegistro")";
     const urlSaveVisitaRegistro = "@Url.Action("RegistrarVisitasReg", "VisitaRegistro")";
     const urlGetSector = "@Url.Action("ListarSector", "Torre")";
     const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";

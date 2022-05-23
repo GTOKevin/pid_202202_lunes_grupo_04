@@ -29,6 +29,7 @@ const init = () => {
 const btnAction = (t, tipo) => {
     switch (tipo) {
         case 'new':
+            limpiarErr();
             cleanForm();
             cleanSelect();
             mostrarFormulario();
@@ -37,8 +38,9 @@ const btnAction = (t, tipo) => {
             mostrarTabla();
             break;
         case 'edit':
+            limpiarErr();
+            cleanForm();
             mostrarFormulario();
-
             let id = ((t.parentElement).parentElement).parentElement.id;
             getTorreId(id);
 
@@ -231,4 +233,14 @@ const getSelectSector = (list) => {
     selSector.innerHTML = str;
     selSector.value = "";
 
+}
+
+const limpiarErr = () => {
+    $("#view-form .border-danger").each(function (e) {
+        this.classList.remove("border-danger");
+    });
+
+    $("#view-form .label-error").each(function (e) {
+        this.classList.add("d-none");
+    })
 }

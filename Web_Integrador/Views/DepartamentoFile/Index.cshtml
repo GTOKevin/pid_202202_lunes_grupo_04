@@ -1,0 +1,83 @@
+﻿@model Entidades.Departamento_File
+
+@{
+    
+    List<Entidades.Departamento_File> data = ViewBag.listadata;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .bimg {
+        width: 200px; 
+        height:125px;
+    }
+    .dimg{
+        margin-bottom: 10px;
+    }
+</style>
+<div id="view-table">
+    
+
+    <div class="card">
+        <div class="table-responsive text-nowrap card-body">
+            <table id="example" class="table table-hover" style="width:100%">
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+@using (Html.BeginForm("Index", "DepartamentoFile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.AntiForgeryToken()
+<div id="form-file" style="display:none">
+    <div class="card">
+        <div class="align-items-center card-header d-flex justify-content-between">
+            <h5 class="fw-semibold m-0">Galeria de Departamentos</h5>
+            <div>
+                <button class="btn btn-danger" type="button" onclick="btnAction(this,'cancel')"><i class="bx bx-arrow-back pe-2"></i>Cancelar</button>
+                <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Agregar imagen</button>
+            </div>
+        </div>
+
+        <div class="card-body row">
+           
+            <input type="text" class="form-control val d-none " autocomplete="off" name="id_departamento" id="id" placeholder="id">
+            <div>
+                <input type="file" name="imagen" required /><div class="form-group">
+                </div>
+
+            </div>
+
+            <br />
+            <div class="card-body row">
+                <div class="table-responsive text-nowrap card-body">
+                    <div id="divimagen" class="row"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+    
+
+}
+
+
+
+<script>
+    const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "DepartamentoFile")";
+    const imagen = "@Url.Action("ListarImagenes", "DepartamentoFile")";
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/Departamentofile/Mantenimiento.js"></script>

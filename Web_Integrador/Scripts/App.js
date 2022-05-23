@@ -105,9 +105,37 @@ const buttonsDatatTable = (opcion) => {
                 <i class='bx bx-edit'></i>
                 `
             }
-
             break;
-
+        case 'mantVistSalida':
+            buttonJson = {
+                data: null,
+                defaultContent: `
+                <div class="w-100">
+                <button type='button' onclick='btnAction(this,"edit");' class='btn btn-sm btn-warning' style='padding:2px 4px;'>
+                <i class='bx bx-edit'></i>
+                </button>
+                <button type='button' onclick='btnAction(this,"regvistsalid");'  class='btn btn-sm btn-danger btnEstado' style='padding:2px 4px;'>
+                <i class="bx bx-x"></i>
+                </button>
+                </div>
+                `
+            }
+            break;
+        case 'mantVist':
+            buttonJson = {
+                data: null,
+                defaultContent: `
+                <div class="w-100">
+                <button type='button' onclick='btnAction(this,"edit");' class='btn btn-sm btn-warning' style='padding:2px 4px;'>
+                <i class='bx bx-edit'></i>
+                </button>
+                <button type='button' onclick='btnAction(this,"regvist");'  class='btn btn-sm btn-success btnEstado' style='padding:2px 4px;'>
+                <i class="bx bx-check"></i>
+                </button>
+                </div>
+                `
+            }
+            break;
         case 'mantUsP':
             buttonJson = {
                 data: null,
@@ -223,7 +251,7 @@ const soloLetras = (e) => {
     let key = e.keyCode || e.which;
     let tecla = String.fromCharCode(key).toString();
     let letras = "ABCDEFGHIJKLMNÑOPQRSTUVWYXabcdefghijklmnñopqrstuvwxyzáéíóú";
-    let especiales = [8, 13, 32];
+    let especiales = [8, 13, 32,164,165];
     let tecla_especial = false;
     for (var i in especiales) {
         if (key == especiales[i]) {
@@ -249,7 +277,7 @@ function soloNumeros(e) {
 function alphaNumero(e) {
     let key = e.keyCode || e.which;
     let tecla = String.fromCharCode(key).toString();
-    var especiales = [8, 13, 32, 45, 46, 95]
+    var especiales = [8, 13, 32, 45, 46, 95,164,165]
     let tecla_especial = false;
     for (var i in especiales) {
         if (key == especiales[i]) {

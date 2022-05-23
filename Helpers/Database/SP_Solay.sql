@@ -5,6 +5,8 @@ Select * from DEPARTAMENTO_FILE
 END  
 GO
 
+
+
 Create Proc USP_DEPARTAMENTO_FILE_CREAR  
 @url_imagen varchar(300), @id_departamento int  
 As  
@@ -13,47 +15,7 @@ Insert dbo.DEPARTAMENTO_FILE(url_imagen,id_departamento)
 Values (@url_imagen,@id_departamento)  
 End  
 GO
-
-CREATE Proc USP_DEPARTAMENTO_FILE_ACTUALIZAR  
-@id_departamento_file int,@url_imagen varchar, @fecha_creacion datetime, @id_departamento int  
-As  
-Begin   
-Update dbo.DEPARTAMENTO_FILE set url_imagen=@url_imagen,fecha_creacion=@fecha_creacion, id_departamento=@id_departamento  
-Where id_departamento_file=@id_departamento_file  
-End
-GO
-
-Create Proc USP_DEPARTAMENTO_LISTAR  
-As  
-Begin Select D.id_departamento,D.piso,D.numero,D.metros_cuadrado,D.dormitorio,  
-D.banio,D.fecha_creacion,D.fecha_actualizacion  
-From dbo.DEPARTAMENTO D INNER JOIN dbo.TORRE T  
-On D.id_torre=T.id_torre  
-INNER JOIN dbo.USUARIO U On D.id_usuario=U.id_usuario  
-End  
-GO
-
-CREATE Proc USP_DEPARTAMENTO_CREAR  
-@piso numeric,@numero numeric,@metros_cuadrado numeric,@dormitorio numeric,  
-@banio numeric,@id_torre int  
-As  
-Begin  
-Insert dbo.DEPARTAMENTO(piso,numero,metros_cuadrado,dormitorio,banio,id_torre,fecha_actualizacion)  
-Values (@piso,@numero,@metros_cuadrado,@dormitorio,@banio,@id_torre,GETDATE())  
-End  
-GO	
-
-CREATE Proc [dbo].[USP_DEPARTAMENTO_ACTUALIZAR]  
-@id_departamento int,@piso numeric,@numero numeric,@metros_cuadrado numeric,@dormitorio numeric,  
-@banio numeric,@fecha_creacion datetime,@id_torre int,@id_usuario int  
-As  
-Begin   
-Update dbo.DEPARTAMENTO set piso=@piso,numero=@numero,metros_cuadrado=@metros_cuadrado,dormitorio=@dormitorio,  
-banio=@banio,fecha_creacion=@fecha_creacion, id_torre=@id_torre,id_usuario=@id_usuario  
-Where id_departamento=@id_departamento  
-End
-GO
-
+--
 Create Proc USP_INCIDENTE_LISTAR  
 AS  
 BEGIN  
@@ -141,3 +103,87 @@ AS
 	  END    
   SELECT @id 
 GO
+
+Create Proc USP_REGISTRARROL_VAL
+@id_rol int,
+@nombre varchar(50),
+@descripcion varchar(50)
+AS
+DECLARE @id int
+if exists (select * from ROL where nombre = @nombre)
+BEGIN
+SET @id = -1
+END
+ELSE 
+begin 
+if exists (select * from ROL where id_rol= @id_rol)
+BEGIN
+UPDATE ROL SET nombre=@nombre, descripcion=@descripcion where id_rol=@id_rol
+SET @id=@id_rol
+END
+ELSE
+INSERT INTO ROL (nombre,descripcion)
+VALUES (@nombre,@descripcion)
+SET @id = SCOPE_IDENTITY()
+END
+SELECT @id
+go
+
+create procedure USP_INSERTARDEPARTMENTOFILE
+@id_departamento int,
+@url_imagen varchar(max)
+AS
+DECLARE @id int
+BEGIN
+Insert into DEPARTAMENTO_FILE ( id_departamento, url_imagen, fecha_creacion) 
+values (@id_departamento, @url_imagen, GETDATE())
+SET @id=SCOPE_IDENTITY();
+END
+select @id
+GO
+
+ALTER TABLE DEPARTAMENTO_FILE
+alter column url_imagen varchar(max)
+GO
+
+Create Proc USP_DEPARTAMENTO_FILE_CREAR  
+@id_departamento_file int,
+@url_imagen varchar(300), @id_departamento int  
+As
+DECLARE @id int
+if exists(select * from DEPARTAMENTO_FILE where id_departamento_file=@id_departamento_file)
+Begin
+update DEPARTAMENTO_FILE set url_imagen =@url_imagen, id_departamento=@id_departamento
+where id_departamento_file=@id_departamento_file
+set @id=@id_departamento_file
+end
+else 
+begin
+Insert into dbo.DEPARTAMENTO_FILE(url_imagen,id_departamento)
+Values (@url_imagen,@id_departamento)  
+set @id=SCOPE_IDENTITY()
+end
+select @id
+GO
+
+Create Proc USP_DEPARTAMENTO_FILE_LISTAR 
+@id_departamento_file int
+AS
+IF @id_departamento_file=0
+BEGIN  
+Select * from DEPARTAMENTO_FILE  
+END
+ELSE
+BEGIN
+SELECT * FROM DEPARTAMENTO_FILE WHERE id_departamento_file=@id_departamento_file
+END
+GO
+
+Create Proc USP_LISTARDEPARTAMENTOFILEPORIDDEPARTAMENTO
+@id_departamento int 
+AS
+BEGIN
+SELECT * FROM DEPARTAMENTO_FILE
+WHERE id_departamento= @id_departamento
+END 
+Go

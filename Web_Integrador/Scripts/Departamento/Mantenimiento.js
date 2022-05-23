@@ -119,6 +119,7 @@ const listTable = (res) => {
         }
     });
 };
+
 $("#view-form").on("submit", function (e) {
     let id_departamento = document.getElementsByName("id_departamento")[0];
 
@@ -157,7 +158,7 @@ $("#view-form").on("submit", function (e) {
 
                     await listTable(departamentoList);
                     Swal.fire('ok', oHeader.mensaje, 'success');
-                    await mostrarTabla();
+                    await mostrarTable();
                 }
 
             },
@@ -176,7 +177,7 @@ const getDepartamentoId = (id) => {
         url: urlGetDepPropietario + "?id_departamento=" + id,
         responseType: 'json',
         success: async function (res) {
-            console.log(res);
+            console.log("Res",res);
             let { lista_Departamento, propietarios, oHeader } = res;
             if (oHeader.estado) {
                 await llenarCampos(lista_Departamento);
@@ -430,4 +431,19 @@ const limpiarTable = () => {
     while (table_prop.firstChild) {
         table_prop.removeChild(table_prop.firstChild);
     }
+
+    $("#div-form .border-danger").each(function (e) {
+        this.classList.remove("border-danger");
+    });
+
+    $("#div-form .label-error").each(function (e) {
+        this.classList.add("d-none");
+    })
+
+    $("#modalProp .valProp").each(function (e) {
+        this.value = "";
+    })
+
 }
+
+
