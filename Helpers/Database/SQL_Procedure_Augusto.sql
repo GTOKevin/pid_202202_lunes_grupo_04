@@ -409,3 +409,14 @@ ALTER PROCEDURE USP_PROPIETARIO_REGISTRAR
    end      
 GO
 
+CREATE PROC [dbo].[USP_SET_ROL_USER]
+@id_usuario int,
+@id_rol int
+AS
+DECLARE @id int
+BEGIN
+	UPDATE USUARIO SET id_rol = @id_rol 
+	WHERE id_usuario = @id_usuario
+	SET @id = @id_usuario
+END
+SELECT @id

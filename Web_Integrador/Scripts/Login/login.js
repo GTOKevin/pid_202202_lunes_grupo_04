@@ -10,8 +10,8 @@ const inputs = document.querySelectorAll('#form-create input');
 const inputsL = document.querySelectorAll('#form-login input');
 
 const expresiones = {
-    username: /^[a-zA-Z0-9\_\-]{4,25}$/,
-    contra: /^[\w@ñ.]{6,50}$/
+    username: /^[a-zA-Z0-9\_\-]{3,25}$/,
+    contra: /^[\w@ñ.]{4,50}$/
 }
 
 const campos = {
