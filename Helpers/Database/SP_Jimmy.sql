@@ -1,24 +1,67 @@
 -------------------------------------------------------------------------------------------------------------
 
 ------------------------    RECIBO       -----------------------------------
-CREATE PROCEDURE SP_RECIBO_LISTAR
-@id_recibo int
-as
-	if @id_recibo=0
-		BEGIN
-			select * from RECIBO
-		END
-	else
-		BEGIN
-			select * from RECIBO where id_recibo=@id_recibo
-		END
-go
+CREATE PROCEDURE SP_RECIBO_LISTAR 
+@id_recibo int  
+as  
+ if @id_recibo=0  
+  begin  
+   select 
+		r.id_recibo, 
+		su.id_sucursal,
+		su.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		ser.id_servicio,
+		ser.nombre AS 'nombre_servicio',
+		r.monto,
+		r.fecha_pago,
+		fecha_vencimiento	 
+   from RECIBO r
+   		join SERVICIO ser on r.id_servicio=ser.id_servicio
+	    join DEPARTAMENTO d on ser.id_departamento=d.id_departamento 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL su on sec.id_sucursal=su.id_sucursal
 
-CREATE PROCEDURE SP_RECIBO_REGISTER    
+  end  
+ else  
+  begin   
+   select 
+   r.id_recibo, 
+		su.id_sucursal,
+		su.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		ser.id_servicio,
+		ser.nombre AS 'nombre_servicio',
+		r.monto,
+		r.fecha_pago,
+		fecha_vencimiento	 
+   from RECIBO r
+   		join SERVICIO ser on r.id_servicio=ser.id_servicio
+	    join DEPARTAMENTO d on ser.id_departamento=d.id_departamento 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL su on sec.id_sucursal=su.id_sucursal
+		where r.id_recibo=@id_recibo
+  end  
+
+GO
+
+-----------------------------------RECIBO REGISTRAR---------------------------------
+ALTER PROCEDURE SP_RECIBO_REGISTER    
 @id_recibo int,    
 @id_servicio int,    
 @monto decimal,
-@estado bit,
 @fecha_pago datetime,
 @fecha_vencimiento datetime
  
@@ -26,34 +69,18 @@ AS
    DECLARE @id int 
  if exists(select * from RECIBO where id_recibo=@id_recibo)    
   BEGIN    
-   update RECIBO set id_servicio=@id_servicio,monto=@monto,estado=@estado, fecha_pago=@fecha_pago,fecha_vencimiento=@fecha_vencimiento
+   update RECIBO set id_servicio=@id_servicio,monto=@monto, fecha_pago=@fecha_pago,fecha_vencimiento=@fecha_vencimiento
        where id_recibo=@id_recibo    
 	SET @id = @id_recibo    
   END    
  ELSE    
   BEGIN    
-  insert into RECIBO(id_servicio,monto,estado,fecha_pago,fecha_vencimiento)VALUES(@id_servicio,@monto,@estado,@fecha_pago,@fecha_vencimiento)    
+  insert into RECIBO(id_servicio,monto,fecha_pago,fecha_vencimiento)VALUES(@id_servicio,@monto,@fecha_pago,@fecha_vencimiento)    
    SET @id=SCOPE_IDENTITY()    
   END  
   SELECT @id
 GO
 
-
-------LISTAR SERVICIO EN EL RECIBO ----------------
-
-CREATE PROCEDURE USP_RECIBO_LISTAR_SERVICIO
-@id_recibo int  
-as  
- if @id_recibo=0  
-  begin  
-   select R.*,S.nombre as 'nombre_servicio' from RECIBO R INNER JOIN SERVICIO S ON R.id_servicio=S.id_servicio
-  end  
- else  
-  begin   
-    select R.*,S.nombre as 'nombre_servicio' from RECIBO R INNER JOIN SERVICIO S ON R.id_servicio=S.id_servicio 
-	where R.id_recibo=@id_recibo
-  end  
-GO
 
 -----------------------     SERVICIO     ----------------------------------
 
