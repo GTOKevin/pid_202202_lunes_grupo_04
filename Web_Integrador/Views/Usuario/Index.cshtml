@@ -38,21 +38,22 @@
             </div>
         </div>
 
-        <div class="card-body row">
-
-            <div class="col-4">
+        <div class="card-body row" id="BodyInptus">
+            <div class="col-4" id="SwUsername">
                 <label for="exampleFormControlInput1" class="form-label">username</label>
-                <input type="text" class="form-control creat"  autocomplete="off" name="username" placeholder="Ingrese nombre de usuario">
+                <input type="text" class="form-control creat swValidI"  autocomplete="off" name="username" placeholder="Ingrese nombre de usuario">
+                <p class="label-error d-none">Por favor ingrese un username correcto.</p>
             </div>
-            <div class="col-4">
+            <div class="col-4" id="SwContrasenia1">
                 <label for="exampleFormControlInput1" class="form-label">Contraseña</label>
-                <input type="password" class="form-control creat" autocomplete="off" name="clave" placeholder="Ingrese su contraseña">
+                <input type="password" class="form-control creat swValidI" autocomplete="off" name="clave" id="contra1" placeholder="Ingrese su contraseña">
+                <p class="label-error d-none">Por favor ingrese un contraseña correcta.</p>
             </div>
-            <div class="col-4">
+            <div class="col-4" id="SwContrasenia2">
                 <label for="exampleFormControlInput1" class="form-label">Repetir Contraseña</label>
-                <input type="password" class="form-control" autocomplete="off" name="clave2" placeholder="Repita su contraseña">
+                <input type="password" class="form-control swValidI" autocomplete="off" name="clave2" id="contra2" placeholder="Repita su contraseña">
+                <p class="label-error d-none">Las contraseñas deben ser iguales.</p>
             </div>
-
         </div>
     </div>
 </form>
@@ -67,62 +68,71 @@
             </div>
         </div>
 
-        <div class="card-body row">
+        <div class="card-body row" id="BodyInptus">
             <input type="text" class="form-control d-none" autocomplete="off" name="id_perfil" placeholder="id">
-            <div class="col-4">
+            <div class="col-4" id="swNombre">
                 <label for="exampleFormControlInput1" class="form-label">Nombre</label>
-                <input type="text" class="form-control creat" autocomplete="off" name="nombres" placeholder="Ingrese nombre de usuario">
+                <input type="text" class="form-control creat swValidI" autocomplete="off" name="nombres" placeholder="Ingrese nombre de usuario">
+                <p class="label-error d-none">Por favor ingrese un nombre correcto.</p>
             </div>
-            <div class="col-4">
+            <div class="col-4" id="swApellidoP">
                 <label for="exampleFormControlInput1" class="form-label">Primer Apellido
                 </label>
-                <input type="text" class="form-control creat" autocomplete="off" name="primer_apellido" placeholder="Ingrese su apellido">
+                <input type="text" class="form-control creat swValidI" autocomplete="off" name="primer_apellido" placeholder="Ingrese su apellido">
+                <p class="label-error d-none">Por favor ingrese un apellido correcto.</p>
             </div>
-            <div class="col-4">
+            <div class="col-4" id="swApellidoM">
                 <label for="exampleFormControlInput1" class="form-label">Segundo Apellido</label>
-                <input type="text" class="form-control creat" autocomplete="off" name="segundo_apellido" placeholder="Ingrese su apellido">
+                <input type="text" class="form-control creat swValidI" autocomplete="off" name="segundo_apellido" placeholder="Ingrese su apellido">
+                <p class="label-error d-none">Por favor ingrese un apellido correcto.</p>
             </div>
-            <div class="col-4">
+            <div class="col-4" id="swFecha">
                 <label for="exampleFormControlInput1" class="form-label">Fecha Nacimiento</label>
-                <input type="date" class="form-control creat" autocomplete="off" name="fecha_nacimiento" placeholder="Ingrese su fecha de nacimiento">
+                <input type="date" class="form-control creat swValidI" autocomplete="off" name="fecha_nacimiento" placeholder="Ingrese su fecha de nacimiento">
+                <p class="label-error d-none">Por favor ingrese una fecha correcta.</p>
             </div>
-            <div class="col-4">
+            <div class="col-4" id="swTipoDocumento">
                 <label for="exampleFormControlInput1" class="form-label">Tipo Documento</label>
-                <select class="form-select val creat" name="tipo_documento">
-                    <option value="" >..Seleccione..</option>
+                <select class="form-select val creat swValidC" id="idtipoDocumento" name="tipo_documento">
+                    <option value="">..Seleccione..</option>
                     @for (int i = 0; i < list.Count; i++)
                     {
                         <option value="@list[i].id_tipo">@list[i].nombre</option>
                     }
                 </select>
+                <p class="label-error d-none">Por favor seleccione un tipo correcto.</p>
             </div>
-            <div class="col-4">
+            <div class="col-4" id="swDocumento">
                 <label for="exampleFormControlInput1" class="form-label">Nro de Documento</label>
-                <input type="text" class="form-control creat" autocomplete="off" name="nro_documento" placeholder="Ingrese su nro de documento">
+                <input type="text" class="form-control creat swValidI" autocomplete="off" name="nro_documento" id="iddocumento" placeholder="Ingrese su nro de documento">
+                <p class="label-error d-none">Por favor ingrese un documento correcto.</p>
             </div>
-            <div class="col-4">
+            <div class="col-4" id="swGenero">
                 <label for="exampleFormControlInput1" class="form-label">Genero</label>
-                <select class="form-select val creat" name="genero">
+                <select class="form-select val creat swValidC" name="genero">
                     <option value="">..Seleccione..</option>
                     @for (int i = 0; i < list2.Count; i++)
                     {
                         <option value="@list2[i].id_tipo">@list2[i].nombre</option>
                     }
                 </select>
+                <p class="label-error d-none">Por favor seleccione un genero correcto.</p>
             </div>
-            <div class="col-4">
+            <div class="col-4" id="swNacionalidad">
                 <label for="exampleFormControlInput1" class="form-label">Nacionalidad</label>
-                <select class="form-select val creat" name="nacionalidad">
+                <select class="form-select val creat swValidC" name="nacionalidad">
                     <option value="">..Seleccione..</option>
                     @for (int i = 0; i < list3.Count; i++)
                     {
                         <option value="@list3[i].id_tipo">@list3[i].nombre</option>
                     }
                 </select>
+                <p class="label-error d-none">Por favor seleccione una nacionalidad correcta.</p>
             </div>
-            <div class="col-10">
+            <div class="col-10" id="swDireccion">
                 <label for="exampleFormControlInput1" class="form-label">Direccion</label>
-                <input type="text" class="form-control creat" autocomplete="off" name="direccion" placeholder="Ingrese su direccion">
+                <input type="text" class="form-control creat swValidI" autocomplete="off" name="direccion" placeholder="Ingrese su direccion">
+                <p class="label-error d-none">Por favor ingrese una dirección correcta.</p>
             </div>
         </div>
     </div>
@@ -159,6 +169,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/ValidatorApp.js"></script>
 <script src="~/Scripts/Usuario/Mantenimiento.js"></script>
 
 

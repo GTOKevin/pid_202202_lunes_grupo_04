@@ -231,7 +231,6 @@ namespace Datos
 
 
 
-
         public Usuario_Res ValidarUsuarioLogin(string userName,string clave)
         {
             Usuario_Res usuarioRes = new Usuario_Res();
@@ -348,5 +347,48 @@ namespace Datos
 
             return pfr;
         }
+
+        public Usuario_Register CambiarRolUsuario(SetRolUser usu)
+        {
+            Usuario_Register ur = new Usuario_Register();
+            DTOHeader oHeader = new DTOHeader();
+            int id_register = 0;
+            try
+            {
+                int rpta = 0;
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("USP_SET_ROL_USER", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_usuario", usu.id_usuario);
+                    cmd.Parameters.AddWithValue("@id_rol", usu.id_rol);
+                    rpta = Convert.ToInt32(cmd.ExecuteScalar());
+                    cn.Close();
+
+                }
+                id_register = rpta;
+                if (usu.id_usuario > 0)
+                {
+                    oHeader.mensaje = "Se Actualizo correctamento";
+                    oHeader.estado = true;
+                }
+                else
+                {
+                    oHeader.mensaje = "Error al Cambiar Contraseña";
+                    oHeader.estado = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+
+            ur.oHeader = oHeader;
+            ur.id_register = id_register;
+            return ur;
+        }
+
     }
 }
