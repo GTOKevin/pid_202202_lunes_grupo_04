@@ -119,6 +119,7 @@ const listTable = (res) => {
         }
     });
 };
+
 $("#view-form").on("submit", function (e) {
     let id_departamento = document.getElementsByName("id_departamento")[0];
 
@@ -176,7 +177,7 @@ const getDepartamentoId = (id) => {
         url: urlGetDepPropietario + "?id_departamento=" + id,
         responseType: 'json',
         success: async function (res) {
-            console.log(res);
+            console.log("Res",res);
             let { lista_Departamento, propietarios, oHeader } = res;
             if (oHeader.estado) {
                 await llenarCampos(lista_Departamento);

@@ -105,9 +105,37 @@ const buttonsDatatTable = (opcion) => {
                 <i class='bx bx-edit'></i>
                 `
             }
-
             break;
-
+        case 'mantVistSalida':
+            buttonJson = {
+                data: null,
+                defaultContent: `
+                <div class="w-100">
+                <button type='button' onclick='btnAction(this,"edit");' class='btn btn-sm btn-warning' style='padding:2px 4px;'>
+                <i class='bx bx-edit'></i>
+                </button>
+                <button type='button' onclick='btnAction(this,"regvistsalid");'  class='btn btn-sm btn-danger btnEstado' style='padding:2px 4px;'>
+                <i class="bx bx-x"></i>
+                </button>
+                </div>
+                `
+            }
+            break;
+        case 'mantVist':
+            buttonJson = {
+                data: null,
+                defaultContent: `
+                <div class="w-100">
+                <button type='button' onclick='btnAction(this,"edit");' class='btn btn-sm btn-warning' style='padding:2px 4px;'>
+                <i class='bx bx-edit'></i>
+                </button>
+                <button type='button' onclick='btnAction(this,"regvist");'  class='btn btn-sm btn-success btnEstado' style='padding:2px 4px;'>
+                <i class="bx bx-check"></i>
+                </button>
+                </div>
+                `
+            }
+            break;
         case 'mantUsP':
             buttonJson = {
                 data: null,

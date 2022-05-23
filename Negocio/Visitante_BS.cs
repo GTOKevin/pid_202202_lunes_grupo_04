@@ -15,11 +15,23 @@ namespace Negocio
         {
             return new Visitante_DA().Listar(id_visitante);
         }
+        //FILTROXDNI
+        public Visitante_Res listaXDni(string nro_documento)
+        {
+            return new Visitante_DA().ListarXDni(nro_documento);
+        }
+
 
         public Visitante_Register Registrar(Visitante vis)
         {
             return new Visitante_DA().Registrar(vis);
         }
+
+        public VISITA_REGISTRO_Register RegistrarEntradaUsuario(VISITA_REGISTRO visreg)
+        {
+            return new Visitante_DA().RegistrarEntradaUsuario(visreg);
+        }
+
 
     }
 }
