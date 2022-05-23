@@ -46,6 +46,7 @@ namespace Web_Integrador.Controllers
             DTOHeader oHeader = new DTOHeader();
             try
             {
+
                 var rpta = Departamento_File_BS.Registrar(depf);
                 oHeader = rpta.oHeader;
                 if (rpta.oHeader.estado)
@@ -55,12 +56,14 @@ namespace Web_Integrador.Controllers
                     {
                        departamentofileList = getDepartamentoFile.DepartamentoFileList;
                     }
+                    
                 }
             }
             catch (Exception ex)
             {
                 departamentofile_Res.oHeader.estado = false;
                 departamentofile_Res.oHeader.mensaje = ex.Message;
+               
             }
             departamentofile_Res.oHeader = oHeader;
             departamentofile_Res.DepartamentoFileList = departamentofileList;
@@ -125,7 +128,6 @@ namespace Web_Integrador.Controllers
 
                 }
 
-
             }
 
             catch(Exception ex)
@@ -133,7 +135,7 @@ namespace Web_Integrador.Controllers
                 ViewBag.ErrorMsg = "Error:" + ex;
             }
 
-            return View();
+            return Redirect("Index");
         }
 
          public JsonResult ListarDepartamentos(int id_departamento = 0)

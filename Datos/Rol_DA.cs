@@ -29,10 +29,10 @@ namespace Datos
                     while (dr.Read())
                     {
                         Rol rol = new Rol();
-                        rol.id_rol=dr["id_rol"].ToInt();
+                        rol.id_rol = dr["id_rol"].ToInt();
                         rol.nombre = dr["nombre"].ToString();
                         rol.descripcion = dr["descripcion"].ToString();
-                        rol_list.Add(rol);     
+                        rol_list.Add(rol);
                     }
                     cn.Close();
                 }
@@ -80,9 +80,63 @@ namespace Datos
                 oHeader.mensaje = ex.Message;
             }
 
-           Rol.oHeader = oHeader;
+            Rol.oHeader = oHeader;
             Rol.id_registrar = id_registrar;
             return Rol;
         }
+
+        public Rol_Register Registrarrolval(Rol rol)
+        {
+            Rol_Register Rol = new Rol_Register();
+            DTOHeader oHeader = new DTOHeader();
+
+            int rpta=0;
+
+            try
+            {
+               
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("USP_REGISTRARROL_VAL", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_rol", rol.id_rol);
+                    cmd.Parameters.AddWithValue("@nombre", rol.nombre);
+                    cmd.Parameters.AddWithValue("@descripcion", rol.descripcion);
+                    rpta = Convert.ToInt32(cmd.ExecuteScalar());
+                    cn.Close();
+                }
+                if (rpta > 0)
+                {
+                    oHeader.estado = true;
+                    oHeader.mensaje = "Se Registro Correctamente: " + rol.nombre;
+                }
+                else if(rpta == -1)
+                {
+                    oHeader.estado = false;
+                    oHeader.mensaje = "El Rol '"+ rol.nombre + "' ya existe";
+                }
+                else
+                {
+                    oHeader.estado = false;
+                    oHeader.mensaje = "No pudo registrarse, contacte con un administrador";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            Rol.oHeader = oHeader;
+            Rol.id_registrar = rpta;
+            return Rol;
+        }
+
+
+
     }
+
 }
+
+

@@ -38,15 +38,17 @@
             </div>
         </div>
 
-        <div class="card-body row">
+        <div class="card-body row" id="bodyinputs">
             <input type="text" class="form-control d-none" autocomplete="off" name="id_rol" placeholder="id">
-            <div class="col-4">
+            <div class="col-4" id="nombreID">
                 <label for="exampleFormControlInput1" class="form-label">Nombre</label>
                 <input type="text" class="form-control" autocomplete="off" name="nombre" placeholder="Ingrese nombre de rol">
+                <p class="label-error d-none">Por favor ingrese una nombre</p>
             </div>
-            <div class="col-8">
+            <div class="col-8" id="descripcionID">
                 <label for="exampleFormControlInput1" class="form-label">Descripción</label>
-                <input type="text" class="form-control" autocomplete="off" name="descripcion" placeholder="Ingrese una breve descripción">
+                <input type="text" class="form-control" autocomplete="off" name="descripcion"  placeholder="Ingrese una breve descripción">
+                <p class="label-error d-none">Por favor ingrese una descripción</p>
             </div>
 
         </div>

@@ -5,6 +5,8 @@ Select * from DEPARTAMENTO_FILE
 END  
 GO
 
+
+
 Create Proc USP_DEPARTAMENTO_FILE_CREAR  
 @url_imagen varchar(300), @id_departamento int  
 As  
@@ -101,6 +103,31 @@ AS
 	  END    
   SELECT @id 
 GO
+
+Create Proc USP_REGISTRARROL_VAL
+@id_rol int,
+@nombre varchar(50),
+@descripcion varchar(50)
+AS
+DECLARE @id int
+if exists (select * from ROL where nombre = @nombre)
+BEGIN
+SET @id = -1
+END
+ELSE 
+begin 
+if exists (select * from ROL where id_rol= @id_rol)
+BEGIN
+UPDATE ROL SET nombre=@nombre, descripcion=@descripcion where id_rol=@id_rol
+SET @id=@id_rol
+END
+ELSE
+INSERT INTO ROL (nombre,descripcion)
+VALUES (@nombre,@descripcion)
+SET @id = SCOPE_IDENTITY()
+END
+SELECT @id
+go
 
 create procedure USP_INSERTARDEPARTMENTOFILE
 @id_departamento int,

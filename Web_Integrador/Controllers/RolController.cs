@@ -44,7 +44,7 @@ namespace Web_Integrador.Controllers
             DTOHeader oHeader = new DTOHeader();
             try
             {
-                var rpta = Rol_BS.Registrar(ro);
+                var rpta = Rol_BS.Registrarrol(ro);
                 oHeader = rpta.oHeader;
                 if (rpta.oHeader.estado)
                 {
@@ -66,5 +66,7 @@ namespace Web_Integrador.Controllers
 
             return Json(rol_Res, JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }
