@@ -21,7 +21,7 @@
 }
 
 .formulario__grupo-incorrecto .formulario__input {
-    border: 3px solid #bb2929;
+    border: 0.1rem #ff3e1d solid !important;
 }
 
 .formulario__grupo-input {
@@ -33,7 +33,10 @@
     right: 10px;
     bottom: 22px;
     z-index: 100;
-    font-size: 16px;
+    margin-top: 0.2rem;
+    color: #ff3e1d;
+    font-size: 0.9rem;
+    font-weight: 500;
     opacity: 0;
 }
 
@@ -63,11 +66,12 @@
 }
 
 .formulario__input-error {
-    margin-top:-5px;
-    font-size: 10px;
-    font-weight:900;
+    margin-top: 0.2rem;
+    color: #ff3e1d;
+    font-size: 0.6rem;
+    font-weight: 900;
     margin-bottom: 0;
-    width:100%;
+    width: 100%;
     display: none;
 }
 

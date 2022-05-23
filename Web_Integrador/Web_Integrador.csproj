@@ -225,7 +225,9 @@
     <Content Include="Scripts\Sucursal\Mantenimiento.js" />
     <Content Include="Scripts\Tipo\Mantenimiento.js" />
     <Content Include="Scripts\Torre\Mantenimiento.js" />
+    <Content Include="Scripts\Usuario\Mantenimiento-Control-Usuario.js" />
     <Content Include="Scripts\Usuario\Mantenimiento.js" />
+    <Content Include="Scripts\ValidatorApp.js" />
     <Content Include="Scripts\Visitante\Mantenimiento.js" />
     <Content Include="Scripts\VisitaRegistro\Mantenimiento.js" />
     <Content Include="Web.config" />
@@ -281,6 +283,7 @@
     <Content Include="Views\Sector\Index.cshtml" />
     <Content Include="Views\Home\index2.cshtml" />
     <Content Include="Views\Departamento\Index.cshtml" />
+    <Content Include="Views\Usuario\SetRolMantenimiento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj">

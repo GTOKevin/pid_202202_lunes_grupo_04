@@ -238,6 +238,8 @@ const soloLetras = (e) => {
 
 
 
+
+
 function soloNumeros(e) {
     var key = e.charCode;
     return (key >= 48 && key <= 57 || key == 8 || key == 13 || key == 32);

@@ -2,6 +2,24 @@
 var usuarioList = [];
 var idEstado = "";
 
+const Formulario = document.getElementById('form-create');
+const ClearClassInput = document.querySelectorAll('#BodyInptus .swValidI');
+const ClearClassCombo = document.querySelectorAll('#BodyInptus .swValidC');
+const ClearErrorMess = document.querySelectorAll('#BodyInptus .label-error')
+
+const ClearValues = () => {
+    ClearClassInput.forEach((inputs) => {
+        inputs.classList.remove('border-danger');
+    });
+    ClearClassCombo.forEach((select) => {
+        select.classList.remove('border-danger');
+    });
+    ClearErrorMess.forEach((error) => {
+        error.classList.add('d-none');
+    });
+}
+
+
 const llenarVariable = (lista, option) => {
     let newArray;
     switch (option) {
@@ -22,7 +40,6 @@ const llenarVariable = (lista, option) => {
 const init = () => {
     showLoading();
     setColumns("tblUsuario", colsName, true);
-    
 
     setTimeout(function () {
         getListaUsuario();
@@ -40,10 +57,14 @@ const btnAction = (t, tipo) => {
         case 'cancel':
             $("#form-create").hide(500);
             $("#view-table").show(1000);
+            Formulario.reset();
+            ClearValues();
             break;
         case 'cancel-perfil':
             $("#form-create-perfil").hide(500);
             $("#view-table").show(1000);
+            Formulario.reset();
+            ClearValues();
             break;
         case 'cancel-estado':
             $("#form-usuario-estado").hide(500);
@@ -148,44 +169,55 @@ const validarFormCreate = () => {
 $("#form-create").on('submit', function (e) {
     e.preventDefault();
 
-    if (validarFormCreate()) {
-        showLoading();
-        let formData = {};
-        $('.creat').each(function (e) {
-            formData[this.name] = this.value;
+    if (swCamposValid.SwUsername && swCamposValid.SwContrasenia1) {
+        if (validarFormCreate()) {
+            showLoading();
+            let formData = {};
+            $('.creat').each(function (e) {
+                formData[this.name] = this.value;
+            });
+
+            $.ajax({
+                method: "POST",
+                url: urlCreateUser,
+                responseType: 'json',
+                data: formData,
+                success: async function (res) {
+                    Swal.close();
+                    let { UsuarioList, oHeader } = res;
+                    if (oHeader.estado) {
+                        await llenarVariable(UsuarioList, 'new');
+                        await listTable(usuarioList);
+                        Swal.fire('ok', oHeader.mensaje, 'success');
+                        ClearValues();
+                        document.getElementById("form-create").reset();
+                        $("#form-create").hide(500);
+                        $("#form-create-perfil").show(1000);
+                        document.getElementsByName("id_perfil")[0].value = res.UsuarioList[0].id_perfil;
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: res.oHeader.mensaje
+                        });
+                    }
+                },
+                error: function (err) {
+                    Swal.close();
+                    console.log(err);
+                }
+
+            })
+        }
+    }
+
+    else {
+        Swal.fire({
+            icon: 'error',
+            title: 'ERROR EN EL FORMULARIO',
+            text: 'Ingrese datos Correctos'
         });
-
-        $.ajax({
-            method: "POST",
-            url: urlCreateUser,
-            responseType: 'json',
-            data: formData,
-            success: async function (res) {
-                Swal.close();
-                let { UsuarioList, oHeader } = res;
-                if (oHeader.estado) {
-                    await llenarVariable(UsuarioList, 'new');
-                    await listTable(usuarioList);
-                    Swal.fire('ok', oHeader.mensaje, 'success');
-                    document.getElementById("form-create").reset();
-                    $("#form-create").hide(500);
-                    $("#form-create-perfil").show(1000);
-                    document.getElementsByName("id_perfil")[0].value = res.UsuarioList[0].id_perfil;
-                }
-                else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: res.oHeader.mensaje
-                    });
-                }
-            },
-            error: function (err) {
-                Swal.close();
-                console.log(err);
-            }
-
-        })
     }
 
 });
@@ -294,61 +326,73 @@ $("#form-create-perfil").on("submit", function (e) {
     }
 
     e.preventDefault();
-    let formData = {};
-    let validate = true;
-    $("#form-create-perfil input").each(function (index) {
-        if (this.value.trim().length != 0) {
-            formData[this.name] = this.value;
-        } else {
-            validate = false;
-        }
-
-    });
-    $("#form-create-perfil select").each(function (index) {
-        if (this.value.trim().length != 0) {
-            formData[this.name] = this.value;
-        } else {
-            validate = false;
-        }
-
-    });
-
-    if (validate) {
-        showLoading();
-
-        $.ajax({
-            method: "POST",
-            url: urlSavePerfil,
-            data: formData,
-            responseType: 'json',
-            success: async function (res) {
-                Swal.close();
-                let { ListaUsuarioP, oHeader } = res;
-                if (oHeader.estado) {
-                    if (id_perfil.value == "0") {
-                        await llenarVariable(ListaUsuarioP, 'new');
-                    } else {
-                        await llenarVariable(ListaUsuarioP, 'edit');
-                    }
-                    await listTable(usuarioList);
-                    Swal.fire('ok', oHeader.mensaje, 'success');
-                    document.getElementById("form-create-perfil").reset();
-                }
-                else {
-                    Swal.fire('Error', 'Error al cambiar los datos', 'error');
-                }
-
-            },
-            error: function (err) {
-                Swal.close();
+    if (
+        swCamposValid.swNombre && swCamposValid.swApellidoP && swCamposValid.swApellidoM &&
+        swCamposValid.swDocumento && swCamposValid.swTipoDocumento && swCamposValid.swFecha &&
+        swCamposValid.swGenero && swCamposValid.swNacionalidad && swCamposValid.swDireccion
+    ) {
+        let formData = {};
+        let validate = true;
+        $("#form-create-perfil input").each(function (index) {
+            if (this.value.trim().length != 0) {
+                formData[this.name] = this.value;
+            } else {
+                validate = false;
             }
+
+        });
+        $("#form-create-perfil select").each(function (index) {
+            if (this.value.trim().length != 0) {
+                formData[this.name] = this.value;
+            } else {
+                validate = false;
+            }
+
         });
 
-    }
-   
+        if (validate) {
+            showLoading();
 
-    $("#form-create-perfil").hide(500);
-    $("#view-table").show(1000);
+            $.ajax({
+                method: "POST",
+                url: urlSavePerfil,
+                data: formData,
+                responseType: 'json',
+                success: async function (res) {
+                    Swal.close();
+                    let { ListaUsuarioP, oHeader } = res;
+                    if (oHeader.estado) {
+                        if (id_perfil.value == "0") {
+                            await llenarVariable(ListaUsuarioP, 'new');
+                        } else {
+                            await llenarVariable(ListaUsuarioP, 'edit');
+                        }
+                        await listTable(usuarioList);
+                        Swal.fire('ok', oHeader.mensaje, 'success');
+                        ClearValues();
+                        document.getElementById("form-create-perfil").reset();
+                    }
+                    else {
+                        Swal.fire('Error', 'Error al cambiar los datos', 'error');
+                    }
+
+                },
+                error: function (err) {
+                    Swal.close();
+                }
+            });
+
+        }
+        else {
+            Swal.fire('ERROR EN EL FORMULARIO', 'error en los datos del formulario', 'error');
+        }
+
+        $("#form-create-perfil").hide(500);
+        $("#view-table").show(1000);
+    }
+    else {
+        Swal.fire('ERROR EN EL FORMULARIO', 'error en los datos del formulario', 'error');
+    }
 });
 
 

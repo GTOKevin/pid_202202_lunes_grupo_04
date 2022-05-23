@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "SetRolMantenimiento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Entidades.Rol> lstRoles = ViewBag.lstRoles;
+}
+
+<h4 class="fw-bold py-3 mb-4">
+    <span class="text-muted fw-light">Usuario /</span>
+    Mantenimiento
+</h4>
+
+<div id="view-table">
+    <div class="card">
+        <div class="table-responsive text-nowrap card-body">
+            <table id="tblUsuario" class="table table-hover" style="width:100%">
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<form id="form-create-perfil" style="display:none">
+    <div class="card">
+        <div class="align-items-center card-header d-flex justify-content-between">
+            <h5 class="fw-semibold m-0">Configurar Perfil</h5>
+            <div>
+                <button class="btn btn-danger" type="button" onclick="btnAction(this,'cancel-perfil')"><i class="bx bx-arrow-back pe-2"></i>Cancelar</button>
+                <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Guardar</button>
+            </div>
+        </div>
+
+        <div class="card-body row" id="BodyInptus">
+            <input type="text" class="form-control d-none" autocomplete="off" name="id_usuario" placeholder="id">
+            <div class="col-6" id="SwUsername">
+                <label for="exampleFormControlInput1" class="form-label">Username</label>
+                <input type="text" class="form-control creat swValidI" disabled autocomplete="off" name="username" placeholder="Ingrese nombre de usuario">
+                <p class="label-error d-none">Por favor ingrese un username correcto.</p>
+            </div>
+            <div class="col-6" id="swRoles">
+                <label for="exampleFormControlInput1" class="form-label">Rol</label>
+                <select class="form-select val creat swValidC" name="id_rol">
+                    <option value="">..Seleccione..</option>
+                    @for (int i = 0; i < lstRoles.Count; i++)
+                    {
+                        <option value="@lstRoles[i].id_rol">@lstRoles[i].nombre</option>
+                    }
+                </select>
+                <p class="label-error d-none">Por favor seleccione un rol correcta.</p>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    const urlGetUsuario = "@Url.Action("ListarUsuarios", "Usuario")";
+    const urlSaveUsuario = "@Url.Action("CambiarRolSet", "Usuario")";
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/ValidatorApp.js"></script>
+<script src="~/Scripts/Usuario/Mantenimiento-Control-Usuario.js"></script>

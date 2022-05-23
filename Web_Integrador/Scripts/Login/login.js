@@ -15,10 +15,10 @@ const expresiones = {
 }
 
 const campos = {
-    username: false,
-    clave: false,
-    usernameL: false,
-    claveL: false
+    username: true,
+    clave: true,
+    usernameL: true,
+    claveL: true
 }
 
 const validarFormulario = (e) => {
@@ -130,7 +130,7 @@ const validarFormCreate = () => {
     if (username.value.trim().length === 0) {
         return false;
     }
-    if (clave.value.trim().length < 5) {
+    if (clave.value.trim().length <= 5) {
         return false;
     }
     if (clave.value != clave2.value) {
@@ -159,8 +159,6 @@ $("#form-create").on('submit', function (e) {
 
         showLoading();
 
-
-
         let formData = {};
 
         $('.creat').each(function (e) {
@@ -168,43 +166,51 @@ $("#form-create").on('submit', function (e) {
         });
 
 
-        $.ajax({
-            method: "POST",
-            url: urlCreateUser,
-            responseType: 'json',
-            data: formData,
-            success: function (res) {
-                Swal.close();
-                if (res.estado) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Exito..',
-                        text: 'Usuario registrado!'
+        if (validarFormCreate()) {
+            $.ajax({
+                method: "POST",
+                url: urlCreateUser,
+                responseType: 'json',
+                data: formData,
+                success: function (res) {
+                    Swal.close();
+                    if (res.estado) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Exito..',
+                            text: 'Usuario registrado!'
 
+                        }
+                        ).then(function () {
+                            container.classList.remove("right-panel-active");
+                        });
+                        var form = document.getElementById("form-create");
+                        document.querySelectorAll('.formulario__grupo-correcto').forEach((icono) => {
+                            icono.classList.remove('formulario__grupo-correcto');
+                        });
+                        form.reset();
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: res.mensaje
+                        });
                     }
-                    ).then(function () {
-                        container.classList.remove("right-panel-active");
-                    });
-                    var form = document.getElementById("form-create");
-                    document.querySelectorAll('.formulario__grupo-correcto').forEach((icono) => {
-                        icono.classList.remove('formulario__grupo-correcto');
-                    });
-                    form.reset();
-                    
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: res.mensaje
-                    });
+                },
+                error: function (err) {
+                    Swal.close();
+                    console.log(err);
                 }
-            },
-            error: function (err) {
-                Swal.close();
-                console.log(err);
-            }
 
-        })
+            });
+        }
+        else {
+            Swal.fire('ERROR EN EL FORMULARIO', 'error en los datos del formulario', 'error');
+        }
+    }
+    else {
+        Swal.fire('ERROR EN EL FORMULARIO', 'error en los datos del formulario', 'error');
     }
 
 })
@@ -224,27 +230,31 @@ $("#form-login").on('submit', function (e) {
             formData[this.name] = this.value;
         })
 
-
-        $.ajax({
-            method: "POST",
-            url: urlLogin,
-            responseType: 'json',
-            data: formData,
-            success: function (res) {
-                Swal.close();
-                if (res.oHeader.estado) {
-                    location.href = "/Home/Index";
-                } else {
-                    Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
+        
+        if (validarFormLogin()) {
+            $.ajax({
+                method: "POST",
+                url: urlLogin,
+                responseType: 'json',
+                data: formData,
+                success: function (res) {
+                    Swal.close();
+                    if (res.oHeader.estado) {
+                        location.href = "/Home/Index";
+                    } else {
+                        Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
+                    }
+                },
+                error: function (err) {
+                    Swal.close();
+                    console.log(err);
                 }
-            },
-            error: function (err) {
-                Swal.close();
-                console.log(err);
-            }
 
-        });
-
+            });
+        }
+        else {
+            Swal.fire('Ooops!', 'Error al Ingresar al Sistema', 'error');
+        }
     }
 
 })

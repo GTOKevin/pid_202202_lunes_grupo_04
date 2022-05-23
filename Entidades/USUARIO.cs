@@ -54,6 +54,12 @@ namespace Entidades
        
     }
 
+    public class SetRolUser
+    {
+        public int id_usuario { get; set; }
+        public int id_rol { get; set; }
+    }
+
     public class Usuario_Register
     {
         public DTOHeader oHeader { get; set; }
