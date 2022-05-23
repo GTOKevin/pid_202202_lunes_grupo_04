@@ -87,22 +87,27 @@ namespace Web_Integrador.Controllers
                 var rpta = departamento_BS.Registrar(enti.departamento);
                 oHeader = rpta.oHeader;
                 if (rpta.oHeader.estado)
+                    
                 {
-                    for(int i = 0; i < enti.propietarios.Count; i++)
+                    if (enti.propietarios != null)
                     {
-                        Propietario prop = new Propietario();
-                        prop.id_propietario = enti.propietarios[i].id_propietario;
-                        prop.nombres = enti.propietarios[i].nombres;
-                        prop.primer_apellido = enti.propietarios[i].primer_apellido;
-                        prop.segundo_apellido = enti.propietarios[i].segundo_apellido;
-                        prop.tipo_documento = enti.propietarios[i].tipo_documento;
-                        prop.nro_documento = enti.propietarios[i].nro_documento;
-                        prop.nro_documento=enti.propietarios[i].nro_documento;
-                        prop.nacionalidad = enti.propietarios[i].nacionalidad;
-                        prop.id_tipo = enti.propietarios[i].id_tipo;
-                        prop.id_departamento = rpta.id_register;
-                        propietario_BS.Registrar(prop);
+                        for (int i = 0; i < enti.propietarios.Count; i++)
+                        {
+                            Propietario prop = new Propietario();
+                            prop.id_propietario = enti.propietarios[i].id_propietario;
+                            prop.nombres = enti.propietarios[i].nombres;
+                            prop.primer_apellido = enti.propietarios[i].primer_apellido;
+                            prop.segundo_apellido = enti.propietarios[i].segundo_apellido;
+                            prop.tipo_documento = enti.propietarios[i].tipo_documento;
+                            prop.nro_documento = enti.propietarios[i].nro_documento;
+                            prop.nro_documento = enti.propietarios[i].nro_documento;
+                            prop.nacionalidad = enti.propietarios[i].nacionalidad;
+                            prop.id_tipo = enti.propietarios[i].id_tipo;
+                            prop.id_departamento = rpta.id_register;
+                            propietario_BS.Registrar(prop);
+                        }
                     }
+                    
 
                     var getDepartamento = departamento_BS.lista(rpta.id_register);
                     if (getDepartamento.oHeader.estado)
