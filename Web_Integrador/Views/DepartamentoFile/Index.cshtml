@@ -1,6 +1,7 @@
 ﻿@model Entidades.Departamento_File
 
 @{
+    
     List<Entidades.Departamento_File> data = ViewBag.listadata;
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -45,6 +46,7 @@
         </div>
 
         <div class="card-body row">
+           
             <input type="text" class="form-control val d-none " autocomplete="off" name="id_departamento" id="id" placeholder="id">
             <div>
                 <input type="file" name="imagen" required /><div class="form-group">
