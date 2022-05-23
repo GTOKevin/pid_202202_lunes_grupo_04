@@ -1,5 +1,5 @@
 ﻿
-var colsName = ['ID', 'FECHA INGRESO', 'FECHA SALIDA', 'SUCURSAL', 'SECTOR', 'TORRE', 'DEPARTAMENTO','VISITANTE'];
+var colsName = ['ID', 'FECHA INGRESO', 'FECHA SALIDA', 'TORRE', 'DEPARTAMENTO','VISITANTE'];
 var visitanteregList = [];
 
 const removeDanger = () => {
@@ -67,13 +67,18 @@ const btnAction = (t, tipo) => {
         case 'edit':
             $("#view-table").hide(500);
             $("#view-form").show(1000);
-
             let id = ((t.parentElement).parentElement).parentElement.id;     
             getVisitaRegistroId(id);
+            break;
+        case 'regvistsalid':
+            let id2 = ((t.parentElement).parentElement).parentElement.id;
+            getVisitaRegistroFechaId(id2);
             break;
 
     }
 };
+
+
 const getListaVisitaRegistro= () => {
     $.ajax({
         method: "GET",
@@ -149,12 +154,10 @@ const listTable = (res) => {
             { data: "id_visita_registro" },
             { data: "fecha_ingreso", render: function (data) { return FechaDate(data) } },
             { data: "fecha_salida", render: function (data) { return FechaDate(data) } },
-            { data: "nombre_sucursal" },
-            { data: "nombre_sector" },
             { data: "numero_torre" },
             { data: "numero_departamento" },
             { data: "nombre_visitante" },
-        buttonsDatatTable("edit")],
+            buttonsDatatTable("mantVistSalida")],
         rowId: "id_visita_registro",
         columnDefs:
             [
@@ -231,15 +234,100 @@ $("#view-form").on("submit", function (e) {
 
 });
 
+function setSalidaRegistro() {
+
+    let id_visita_registro = document.getElementsByName("id_visita_registro")[0];
+
+    if (id_visita_registro.value == "" || id_visita_registro.value == undefined) {
+        id_visita_registro.value = 0;
+    }
+
+    console.log("id", id_visita_registro.value);
+
+    let formData = {};
+    let validate = true;
+
+    $("#view-form input").each(function (index) {
+        if (this.value.trim().length != 0) {
+            formData[this.name] = this.value;
+        } else {
+            validate = false;
+        }
+
+    });
+    $("#view-form select").each(function (index) {
+        if (this.value.trim().length != 0) {
+            formData[this.name] = this.value;
+        } else {
+            validate = false;
+        }
+
+    });
+  
+    if (validate) {
+        showLoading();
+
+        $.ajax({
+            method: "POST",
+            url: urlSaveSalida,
+            data: formData,
+            responseType: 'json',
+            success: async function (res) {
+                console.log(res);
+                Swal.close();
+                let { VisitaRegistroList, oHeader } = res;
+                if (oHeader.estado) {
+                    if (id_visita_registro.value == "0") {
+                        await llenarVariable(VisitaRegistroList, 'new');
+                    } else {
+                        await llenarVariable(VisitaRegistroList, 'edit');
+                    }
+                    await listTable(visitanteregList);
+                    Swal.fire('ok', oHeader.mensaje, 'success');
+                    await mostrarTabla();
+                }
+
+            },
+            error: function (err) {
+                Swal.close();
+            }
+        });
+
+    }
+
+}
+
 const getVisitaRegistroId = (id) => {
     $.ajax({
         method: "GET",
         url: urlGetVisitaRegistro + "?id_visita_registro=" + id,
         responseType: 'json',
         success: async function (res) {
-            let { VisitaRegistroList , oHeader } = res;
+            let { VisitaRegistroList, oHeader } = res;
             if (oHeader.estado) {
                 await llenarCampos(VisitaRegistroList);
+                
+            } else {
+                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
+            }
+        },
+        error: function (err) {
+            Swal.close();
+        }
+
+    });
+}
+
+const getVisitaRegistroFechaId = (id) => {
+    $.ajax({
+        method: "GET",
+        url: urlGetVisitaRegistro + "?id_visita_registro=" + id,
+        responseType: 'json',
+        success: async function (res) {
+            let { VisitaRegistroList, oHeader } = res;
+            if (oHeader.estado) {
+                await llenarCampos(VisitaRegistroList);
+                await setSalidaRegistro();
             } else {
                 Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
             }
@@ -252,6 +340,7 @@ const getVisitaRegistroId = (id) => {
 }
 
 const llenarCampos = async (list) => {
+    console.log("Lista", list);
     let idSucursal = "";
     let idSector = "";
     let idTorre = "";
@@ -264,6 +353,7 @@ const llenarCampos = async (list) => {
             for (var propName in list[0]) {
                 if (this.name === propName) {
                     this.value = list[0][propName];
+                    
                 }
                 if (propName === "id_sucursal") {
                     idSucursal = list[0][propName];
@@ -366,7 +456,6 @@ const getDepartamento = async (id) => {
     });
 }
 const getSelectSector = (list) => {
-
     let selSector = document.getElementsByName("id_sector")[0];
     selSector.innerHTML = "";
     let str = ``;

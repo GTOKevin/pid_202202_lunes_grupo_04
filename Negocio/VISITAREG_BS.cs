@@ -22,5 +22,10 @@ namespace Negocio
             return new VISITA_REGISTRO_DA().Registrar(vis); 
         }
 
+        public VISITA_REGISTRO_Register Registrar_Salida(VISITA_REGISTRO visreg)
+        {
+            return new VISITA_REGISTRO_DA().Registrar_Salida(visreg);
+        }
+
     }
 }

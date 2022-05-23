@@ -33,6 +33,9 @@ namespace Datos
                         visita.id_visita_registro = dr["id_visita_registro"].ToInt();
                         visita.fecha_ingreso = Convert.ToDateTime(dr["fecha_ingreso"].ToDateTime());
                         visita.fecha_salida = Convert.ToDateTime(dr["fecha_salida"].ToDateTime());
+                        visita.id_sucursal = dr["id_sucursal"].ToInt();
+                        visita.id_sector = dr["id_sector"].ToInt();
+                        visita.id_torre = dr["id_torre"].ToInt();
                         visita.nombre_sucursal = dr["nombre_sucursal"].ToString();
                         visita.nombre_sector = dr["nombre_sector"].ToString();
                         visita.numero_torre = dr["numero_torre"].ToInt();
@@ -75,8 +78,50 @@ namespace Datos
                     SqlCommand cmd = new SqlCommand("SP_VISITAREGISTER_REGISTER", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id_visita_registro", visreg.id_visita_registro);
-                    cmd.Parameters.AddWithValue("@fecha_ingreso", visreg.fecha_ingreso.ToDateTime());
-                    cmd.Parameters.AddWithValue("@fecha_salida", visreg.fecha_salida.ToDateTime());
+                    cmd.Parameters.AddWithValue("@id_departamento", visreg.id_departamento);
+                    cmd.Parameters.AddWithValue("@id_visitante", visreg.id_visitante);
+                    rpta = Convert.ToInt32(cmd.ExecuteScalar());
+                    cn.Close();
+
+                }
+                id_register = rpta;
+                oHeader.estado = true;
+                if (visreg.id_visita_registro > 0)
+                {
+                    oHeader.mensaje = "Se actualizo visita de registro :" + visreg.id_departamento;
+                }
+                else
+                {
+                    oHeader.mensaje = "Se registro visita de registro :" + visreg.id_departamento;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+
+            Visireg.oHeader = oHeader;
+            Visireg.id_register = id_register;
+            return Visireg;
+        }
+
+        public VISITA_REGISTRO_Register Registrar_Salida(VISITA_REGISTRO visreg)
+        {
+            VISITA_REGISTRO_Register Visireg = new VISITA_REGISTRO_Register();
+            DTOHeader oHeader = new DTOHeader();
+            int id_register = 0;
+            try
+            {
+                int rpta = 0;
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("USP_SET_REGISTROSALIDA", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id_visita_registro", visreg.id_visita_registro);
                     cmd.Parameters.AddWithValue("@id_departamento", visreg.id_departamento);
                     cmd.Parameters.AddWithValue("@id_visitante", visreg.id_visitante);
                     rpta = Convert.ToInt32(cmd.ExecuteScalar());
