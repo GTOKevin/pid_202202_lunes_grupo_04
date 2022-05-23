@@ -172,33 +172,39 @@ GO
 
 --DEPARTAMENTO
 
-CREATE PROCEDURE USP_DEPARTAMETO_REGISTRAR      
- @id_departamento int,      
- @piso int,      
- @numero int,  
- @metros_cuadrado int,  
- @dormitorio int,  
- @banio int,  
- @id_torre int,
- @id_usuario int  
- as      
- declare @id int      
-  if @id_departamento=0      
-   begin      
-    INSERT INTO DEPARTAMENTO(piso,numero,metros_cuadrado,dormitorio,banio,id_torre,id_usuario)      
-        VALUES(@piso,@numero,@metros_cuadrado,@dormitorio,@banio,@id_torre,@id_usuario)      
-    set @id=SCOPE_IDENTITY()      
-   end      
-  else      
-   begin       
-    UPDATE DEPARTAMENTO SET piso=@piso,numero=@numero,metros_cuadrado=@metros_cuadrado,dormitorio=@dormitorio,  
-          banio=@banio,fecha_actualizacion=GETDATE(),id_usuario=@id_usuario  
-       WHERE id_departamento=@id_departamento      
-    set @id=@id_departamento      
-   end      
-   select @id   
+CREATE PROCEDURE USP_DEPARTAMETO_REGISTRAR        
+ @id_departamento int,        
+ @piso int,        
+ @numero int,    
+ @metros_cuadrado int,    
+ @dormitorio int,    
+ @banio int,    
+ @id_torre int,  
+ @id_usuario int    
+ as        
+ declare @id int        
+  if @id_departamento=0        
+   begin        
+	if not exists(select * from DEPARTAMENTO where id_torre=@id_torre and piso=@piso and numero=@numero)
+	begin
+    INSERT INTO DEPARTAMENTO(piso,numero,metros_cuadrado,dormitorio,banio,id_torre,id_usuario)        
+        VALUES(@piso,@numero,@metros_cuadrado,@dormitorio,@banio,@id_torre,@id_usuario)        
+    set @id=SCOPE_IDENTITY()
+	end
+	else
+		begin
+		set @id= -1
+		end
+   end        
+  else        
+   begin         
+    UPDATE DEPARTAMENTO SET metros_cuadrado=@metros_cuadrado,dormitorio=@dormitorio,    
+          banio=@banio,fecha_actualizacion=GETDATE(),id_usuario=@id_usuario    
+       WHERE id_departamento=@id_departamento        
+    set @id=@id_departamento        
+   end        
+   select @id     
 GO
-
 CREATE PROCEDURE USP_DEPARTAMENTO_LISTAR 
 @id_departamento int
 as

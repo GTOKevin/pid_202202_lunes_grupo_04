@@ -37,6 +37,9 @@ const init = () => {
     $("#id_sector").on("change", function (e) {
         getTorre(this.value);
     });
+    $("#id_tipo_prop").on("change", function (e) {
+        viewDivsModal(this.value);
+    })
     removeDanger();
     showLoading();
     setColumns("example", colsName, true);
@@ -59,6 +62,7 @@ const btnAction = (t, tipo) => {
             cleanSelect();
             limpiarTable();
             mostrarForm();
+            disabledFalse();
             break;
         case 'cancel':
             mostrarTable();
@@ -159,6 +163,8 @@ $("#view-form").on("submit", function (e) {
                     await listTable(departamentoList);
                     Swal.fire('ok', oHeader.mensaje, 'success');
                     await mostrarTable();
+                } else {
+                    Swal.fire("Err!!", oHeader.mensaje, "error");
                 }
 
             },
@@ -200,6 +206,9 @@ const llenarCampos = async (list) => {
     let torre = document.getElementsByName("id_torre")[0];
     if (list.length > 0) {
         $(".val").each(function (ind) {
+            if (this.name == "id_sucursal" || this.name == "id_sector" || this.name == "id_torre" || this.name == "piso" || this.name == "numero") {
+                this.disabled = true;
+            }
             for (var propName in list[0]) {
                 if (this.name === propName) {
                     this.value = list[0][propName];
@@ -348,7 +357,6 @@ const getSelectTorre = (list) => {
 
 const agregarProp = () => {
     let { propietario, estado } = obtenerProp();
-    console.log(propietario, estado);
     if (estado) {
         listaTableData(propietario);
         $("#closeModal")[0].click();
@@ -360,27 +368,53 @@ const obtenerProp = () => {
         propietario: {},
         estado: true
     };
+    let id_tipo_prop = document.getElementById("id_tipo_prop").value;
     let id_dep = document.getElementsByName("id_departamento")[0].value;
-    $(".valProp").each(function (e) {
-        if (this.id !== "id_prop") {
-            if (this.value.trim().length > 0) {
-                if (this.name == "id_tipo") {
-                    resJson.propietario[this.name] = this.value;
-                    resJson.propietario["nombre_tipo"] = $(this)[0].selectedOptions[0].innerText;
+    if (id_tipo_prop != "3") {
+        $(".valProp").each(function (e) {
+            if (this.id !== "id_prop") {
+                if (this.value.trim().length > 0) {
+                    if (this.name == "id_tipo") {
+                        resJson.propietario[this.name] = this.value;
+                        resJson.propietario["nombre_tipo"] = $(this)[0].selectedOptions[0].innerText;
+                    } else {
+                        resJson.propietario[this.name] = this.value;
+                    }
+
                 } else {
-                    resJson.propietario[this.name] = this.value;
+                    this.classList.add("border-danger");
+                    (this.parentElement).lastElementChild.classList.remove("d-none");
+                    resJson.estado = false;
                 }
-                
+
             } else {
-                this.classList.add("border-danger");
-                (this.parentElement).lastElementChild.classList.remove("d-none");
-                resJson.estado = false;
+                resJson.propietario[this.name] = this.value;
             }
-           
-        } else {
-            resJson.propietario[this.name] = this.value;
-        }
-    });
+        });
+    } else {
+        $(".valProp").each(function (e) {
+            if (this.id !== "id_prop") {
+                if (this.name == "id_tipo" || this.name == "nombres") {
+                    if (this.value.trim().length > 0) {
+                        if (this.name == "id_tipo") {
+                            resJson.propietario[this.name] = this.value;
+                            resJson.propietario["nombre_tipo"] = $(this)[0].selectedOptions[0].innerText;
+                        } else {
+                            resJson.propietario[this.name] = this.value;
+                        }
+
+                    } else {
+                        this.classList.add("border-danger");
+                        (this.parentElement).lastElementChild.classList.remove("d-none");
+                        resJson.estado = false;
+                    }       
+                }
+            } else {
+                resJson.propietario[this.name] = this.value;
+            }
+        });
+    }
+
     resJson.propietario["id_departamento"] = id_dep;
     return resJson;
 }
@@ -393,15 +427,15 @@ const listaTableData = (propietario) => {
     } else {
         row += `<tr>`;
     }
-    row += `<td name="nombres">${propietario.nombres}</td>
-            <td name="primer_apellido">${propietario.primer_apellido}</td>
-            <td name="segundo_apellido">${propietario.segundo_apellido}</td>
-            <td name="tipo_documento" class="d-none">${propietario.tipo_documento}</td>
-            <td name="nro_documento">${propietario.nro_documento}</td>
-            <td name="nro_documento">${propietario.nombre_tipo}</td>
-            <td name="nacionalidad" class="d-none">${propietario.nacionalidad}</td>
-            <td name="id_tipo" class="d-none">${propietario.id_tipo}</td>
-            <td name="id_departamento" class="d-none">${propietario.id_departamento}</td>
+    row += `<td name="nombres">${propietario.nombres || " "}</td>
+            <td name="primer_apellido">${propietario.primer_apellido || " "}</td>
+            <td name="segundo_apellido">${propietario.segundo_apellido || " "}</td>
+            <td name="tipo_documento" class="d-none">${propietario.tipo_documento || "4"}</td>
+            <td name="nro_documento">${propietario.nro_documento || " "}</td>
+            <td name="nombre_tipo">${propietario.nombre_tipo || " "}</td>
+            <td name="nacionalidad" class="d-none">${propietario.nacionalidad || "16"}</td>
+            <td name="id_tipo" class="d-none">${propietario.id_tipo || " "}</td>
+            <td name="id_departamento" class="d-none">${propietario.id_departamento || ""}</td>
             </tr>`;
 
     table_prop.innerHTML += row;
@@ -446,4 +480,29 @@ const limpiarTable = () => {
 
 }
 
+const viewDivsModal = (id_tipo) => {
+    console.log(id_tipo),
+        $(".valProp").each(function (e) {
+            if (this.name != "id_propietario") {
+                if (id_tipo == "3") {
+                    if (this.name == "id_tipo" || this.name == "nombres") {
+                        (this.parentElement).classList.remove("d-none")
+                    } else {
+                        (this.parentElement).classList.add("d-none")
+                    }
+                } else {
+                    (this.parentElement).classList.remove("d-none")
+                }
+            }
+    
+        
+    });
+    
+}
 
+const disabledFalse = () => {
+
+    $(".val").each(function (e){
+        this.disabled = false;
+    })
+}
