@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Entidades.Servicio>
+﻿@model Web_Integrador.Model.ReciboModel
 
 @{
     ViewBag.Title = "Index";
@@ -41,27 +41,48 @@
 
         <div class="card-body row">
             <input type="text" class="form-control d-none val" autocomplete="off" name="id_recibo" placeholder="id">
-            <div class="col-12 col-md-6 col-lg-2">
-                <label for="id_servicio" class="form-label">Servicio</label>
-                <select class="form-select val" name="id_servicio">
-                    <option value="" selected>--Seleccione--</option>
-                    @foreach(var item in Model)
-                        {
-                           <option value="@item.id_servicio">@item.nombre</option>
-                        }
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
+                <select class="form-control val" name="id_sucursal" id="id_sucursal">
+                    <option value="" selected>...Seleccione...</option>
+                    @foreach (var item in Model.Sucursales)
+                    {
+                        <option value="@item.id_sucursal">@item.nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Sector</label>
+                <select class="form-control val" name="id_sector" id="id_sector">
+                    <option value="" selected>...Seleccione...</option>
+
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Torre</label>
+                <select class="form-control val" name="id_torre" id="id_torre">
+                    <option value="" selected>...Seleccione...</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Departamento</label>
+                <select class="form-control val" name="id_departamento" id="id_departamento">
+                    <option value="" selected>...Seleccione...</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Servicio</label>
+                <select class="form-control val" name="id_servicio" id="id_servicio">
+                    <option value="" selected>...Seleccione...</option>
                 </select>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <label for="monto" class="form-label">Monto</label>
                 <input type="text" class="form-control val" autocomplete="off" name="monto" placeholder="Ingrese monto">
             </div>
-            <div class="col-12 col-md-6 col-lg-2">
-                <label for="estado" class="form-label">Estado</label>
-                <input type="text" class="form-control val" autocomplete="off" name="estado" placeholder="Ingrese estado">
-            </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <label for="fecha_pago" class="form-label">Fecha de Pago</label>
-                <input type="date" class="form-control val"  autocomplete="off" name="fecha_pago" placeholder="Ingrese fecha de pago">
+                <input type="date" class="form-control val" autocomplete="off" name="fecha_pago" placeholder="Ingrese fecha de pago">
             </div>
             <div class="col-12 col-md-6 col-lg-3">
                 <label for="fecha_vencimiento" class="form-label">Fecha de Vencimiento</label>
@@ -74,8 +95,13 @@
 
 
 <script>
-    const urlSaveRecibo = "@Url.Action("RegistrarRecibo", "Recibo")",
-          urlGetRecibo = "@Url.Action("ListarRecibos", "Recibo")";
+    const urlSaveRecibo = "@Url.Action("RegistrarRecibo", "Recibo")";
+    const urlGetRecibo = "@Url.Action("ListarRecibos", "Recibo")";
+    const urlGetSector = "@Url.Action("ListarSector", "Torre")";
+    const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
+    const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "Departamento")";
+    const urlGetServicio = "@Url.Action("ListarServicios", "Servicio")";
+    @*const urlGetServicio = "@Url.Action("ListarServicio", "Recibo")";*@
 
 </script>
 
