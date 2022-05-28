@@ -38,5 +38,9 @@ namespace Negocio
         {
             return new Usuario_DA().ListarUsuarioPorIDPerfil(id);
         }
+        public Usuario_Register CambiarRolUsuario(SetRolUser usu)
+        {
+            return new Usuario_DA().CambiarRolUsuario(usu);
+        }
     }
 }

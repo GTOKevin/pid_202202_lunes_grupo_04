@@ -135,6 +135,21 @@
             <div class="modal-body row">
                 <input type="number" class="form-control d-none valProp" autocomplete="off" id="id_prop" name="id_propietario" placeholder="id">
                 <div class="col-12 col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Tipo Propietario</label>
+                    <select class="form-control valProp" name="id_tipo" id="id_tipo_prop">
+                        <option value="" selected>...Seleccione...</option>
+                        @foreach (var item in Model.Tipos)
+                        {
+                            if (item.unidad == "PROPIETARIO")
+                            {
+                                <option value="@item.id_tipo">@item.nombre</option>
+
+                            }
+                        }
+                    </select>
+                    <label class="label-error d-none">Por favor selecciona Tipo Propietario</label>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Nombres</label>
                     <input type="text" class="form-control valProp" autocomplete="off" name="nombres" placeholder="Ingrese su nombre" onkeypress="return soloLetras(event)">
                     <label class="label-error d-none">Por favor ingresa tu nombre</label>
@@ -185,21 +200,7 @@
                     <label class="label-error d-none">Ingresa dni 8 digitos, otros 20 digitos</label>
                 </div>
 
-                <div class="col-12 col-md-6 mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Tipo Propietario</label>
-                    <select class="form-control valProp" name="id_tipo">
-                        <option value="" selected>...Seleccione...</option>
-                        @foreach (var item in Model.Tipos)
-                        {
-                            if (item.unidad == "PROPIETARIO")
-                            {
-                                <option value="@item.id_tipo">@item.nombre</option>
 
-                            }
-                        }
-                    </select>
-                    <label class="label-error d-none">Por favor selecciona Tipo Propietario</label>
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="closeModal" data-bs-dismiss="modal">Cerrar</button>
