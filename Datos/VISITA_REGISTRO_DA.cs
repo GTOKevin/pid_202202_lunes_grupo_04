@@ -42,8 +42,8 @@ namespace Datos
                         visita.id_departamento = dr["id_departamento"].ToInt();
                         visita.numero_departamento = dr["numero_departamento"].ToInt();
                         visita.id_visitante = dr["id_visitante"].ToInt();
-                        //
-                       visita.nombre_visitante = dr["nombre_visitante"].ToString();
+                        visita.nro_documento = dr["nro_documento"].ToString();
+                        visita.nombre_visitante = dr["nombre_visitante"].ToString();
 
                         visitareg_list.Add(visita);
                     }
@@ -150,6 +150,57 @@ namespace Datos
             Visireg.oHeader = oHeader;
             Visireg.id_register = id_register;
             return Visireg;
+        }
+
+        public VISITAREGISTRO_Res ListarVisitanteActXDNI(string nro_documento, int estadoestado)
+        {
+            VISITAREGISTRO_Res visitareg_res = new VISITAREGISTRO_Res();
+            List<VISITA_REGISTRO> visitareg_list = new List<VISITA_REGISTRO>();
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("USP_FILTRO_VISITANTES_ACT", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@nro_documento", nro_documento);
+                    cmd.Parameters.AddWithValue("@estado", estadoestado);
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        VISITA_REGISTRO visita = new VISITA_REGISTRO();
+                        visita.id_visita_registro = dr["id_visita_registro"].ToInt();
+                        visita.fecha_ingreso = Convert.ToDateTime(dr["fecha_ingreso"].ToDateTime());
+                        visita.fecha_salida = Convert.ToDateTime(dr["fecha_salida"].ToDateTime());
+                        visita.id_sucursal = dr["id_sucursal"].ToInt();
+                        visita.id_sector = dr["id_sector"].ToInt();
+                        visita.id_torre = dr["id_torre"].ToInt();
+                        visita.nombre_sucursal = dr["nombre_sucursal"].ToString();
+                        visita.nombre_sector = dr["nombre_sector"].ToString();
+                        visita.numero_torre = dr["numero_torre"].ToInt();
+                        visita.id_departamento = dr["id_departamento"].ToInt();
+                        visita.numero_departamento = dr["numero_departamento"].ToInt();
+                        visita.id_visitante = dr["id_visitante"].ToInt();
+                        visita.nro_documento = dr["nro_documento"].ToString();
+                        visita.nombre_visitante = dr["nombre_visitante"].ToString();
+
+                        visitareg_list.Add(visita);
+                    }
+                    cn.Close();
+                }
+                oHeader.estado = true;
+
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            visitareg_res.VisitaRegistroList = visitareg_list;
+            visitareg_res.oHeader = oHeader;
+
+            return visitareg_res;
         }
 
 
