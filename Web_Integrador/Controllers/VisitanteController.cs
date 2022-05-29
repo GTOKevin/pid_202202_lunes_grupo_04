@@ -35,6 +35,7 @@ namespace Web_Integrador.Controllers
         }
         public JsonResult ListarVisitantes(int id_visitante = 0)
         {
+           
             Visitante_Res visitante_Res = new Visitante_Res();
             try
             {
@@ -65,6 +66,34 @@ namespace Web_Integrador.Controllers
             return Json(visitante_Res, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult BuscarPorDni(string nro_documento = "")
+        {
+            Visitante_Res visitante_Res = new Visitante_Res();
+            List<Visitante> vicitante_List = new List<Visitante>();
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                var rpta = visitante_BS.BuscarXDni(nro_documento);
+                oHeader = rpta.oHeader;
+                if (rpta.oHeader.estado)
+                {
+                    var getVisitante = visitante_BS.lista(rpta.id_register);
+                    if (getVisitante.oHeader.estado)
+                    {
+                        vicitante_List = getVisitante.VisitanteList;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                visitante_Res.oHeader.estado = false;
+                visitante_Res.oHeader.mensaje = ex.Message;
+            }
+            visitante_Res.oHeader = oHeader;
+            visitante_Res.VisitanteList = vicitante_List;
+            return Json(visitante_Res, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult RegistrarVisitante(Visitante visi)
         {
             Visitante_Res visitante_Res = new Visitante_Res();
@@ -91,7 +120,6 @@ namespace Web_Integrador.Controllers
             visitante_Res.oHeader = oHeader;
             visitante_Res.VisitanteList = vicitante_List;
 
-
             return Json(visitante_Res, JsonRequestBehavior.AllowGet);
         }
 
@@ -102,6 +130,17 @@ namespace Web_Integrador.Controllers
             {
                 var rpta = sector_BS.listar_suc(id_sector);
                 sector_res = rpta;
+                if (rpta.oHeader.estado)
+                {
+                    var lista = rpta.SectorList;
+                    var listaTorre = lista.Where(x => x.id_sucursal == id_sector).ToList();
+                    sector_res.oHeader = rpta.oHeader;
+                    sector_res.SectorList = listaTorre;
+                }
+                else
+                {
+                    sector_res = rpta;
+                }
             }
             catch (Exception ex)
             {
@@ -114,8 +153,29 @@ namespace Web_Integrador.Controllers
 
         public JsonResult ListarDepartamentos(int id_departamento = 0)
         {
-            var departamento = departamento_BS.lista(id_departamento);
-            return Json(departamento, JsonRequestBehavior.AllowGet);
+            Departamento_Res departamento_Res = new Departamento_Res();
+            try {
+                var departamento = departamento_BS.lista(0);
+                if (departamento.oHeader.estado)
+                {
+                    var lista = departamento.lista_Departamento;
+                    var listaDepa = lista.Where(x => x.id_torre == id_departamento).ToList();
+                    departamento_Res.oHeader = departamento.oHeader;
+                    departamento_Res.lista_Departamento = listaDepa;
+                }
+                else
+                {
+                    departamento_Res = departamento;
+                }
+            }
+            catch(Exception ex)
+            {
+                departamento_Res.oHeader.estado = false;
+                departamento_Res.oHeader.mensaje = ex.Message;
+            }
+            return Json(departamento_Res, JsonRequestBehavior.AllowGet);
+
+
         }
         public JsonResult ListarTorre(int id_sector = 0)
         {
@@ -174,6 +234,23 @@ namespace Web_Integrador.Controllers
 
 
             return Json(visreg_Res, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ListarHistorial(int id_visistante = 0)
+        {
+            VISITAREGISTRO_Res visitareg_Res = new VISITAREGISTRO_Res();
+            try
+            {
+                var rpta = visitante_BS.ListarHistorial(id_visistante);
+                visitareg_Res = rpta;
+
+            }
+            catch (Exception ex)
+            {
+                visitareg_Res.oHeader.estado = false;
+                visitareg_Res.oHeader.mensaje = ex.Message;
+            }
+            return Json(visitareg_Res, JsonRequestBehavior.AllowGet);
         }
     }
 }

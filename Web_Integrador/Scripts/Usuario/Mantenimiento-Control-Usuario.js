@@ -3,21 +3,6 @@ var usuarioList = [];
 var idEstado = "";
 
 const Formulario = document.getElementById('form-create-perfil');
-const ClearClassInput = document.querySelectorAll('#BodyInptus .swValidI');
-const ClearClassCombo = document.querySelectorAll('#BodyInptus .swValidC');
-const ClearErrorMess = document.querySelectorAll('#BodyInptus .label-error')
-
-const ClearValues = () => {
-    ClearClassInput.forEach((inputs) => {
-        inputs.classList.remove('border-danger');
-    });
-    ClearClassCombo.forEach((select) => {
-        select.classList.remove('border-danger');
-    });
-    ClearErrorMess.forEach((error) => {
-        error.classList.add('d-none');
-    });
-}
 
 
 const llenarVariable = (lista, option) => {

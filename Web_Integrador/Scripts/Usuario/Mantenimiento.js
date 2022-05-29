@@ -3,21 +3,7 @@ var usuarioList = [];
 var idEstado = "";
 
 const Formulario = document.getElementById('form-create');
-const ClearClassInput = document.querySelectorAll('#BodyInptus .swValidI');
-const ClearClassCombo = document.querySelectorAll('#BodyInptus .swValidC');
-const ClearErrorMess = document.querySelectorAll('#BodyInptus .label-error')
 
-const ClearValues = () => {
-    ClearClassInput.forEach((inputs) => {
-        inputs.classList.remove('border-danger');
-    });
-    ClearClassCombo.forEach((select) => {
-        select.classList.remove('border-danger');
-    });
-    ClearErrorMess.forEach((error) => {
-        error.classList.add('d-none');
-    });
-}
 
 
 const llenarVariable = (lista, option) => {
@@ -371,6 +357,8 @@ $("#form-create-perfil").on("submit", function (e) {
                         Swal.fire('ok', oHeader.mensaje, 'success');
                         ClearValues();
                         document.getElementById("form-create-perfil").reset();
+                        $("#form-create-perfil").hide(500);
+                        $("#view-table").show(1000);
                     }
                     else {
                         Swal.fire('Error', 'Error al cambiar los datos', 'error');
@@ -385,10 +373,10 @@ $("#form-create-perfil").on("submit", function (e) {
         }
         else {
             Swal.fire('ERROR EN EL FORMULARIO', 'error en los datos del formulario', 'error');
+            ValidNull();
         }
 
-        $("#form-create-perfil").hide(500);
-        $("#view-table").show(1000);
+      
     }
     else {
         Swal.fire('ERROR EN EL FORMULARIO', 'error en los datos del formulario', 'error');

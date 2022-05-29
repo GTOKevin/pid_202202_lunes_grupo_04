@@ -20,6 +20,7 @@ namespace Web_Integrador.Controllers
         Torre_BS torre_BS = new Torre_BS();
         Sector_BS sector_BS = new Sector_BS();
         Sucursal_BS sucursal_BS = new Sucursal_BS();
+        Tipo_BS tb = new Tipo_BS();
 
 
 
@@ -40,7 +41,12 @@ namespace Web_Integrador.Controllers
             {
                 oModoView.Visitantes = visitante.VisitanteList;
             }
-            
+
+            var dataGenero = tb.Listar_TipoUtil("genero");
+            var dataDocumento = tb.Listar_TipoUtil("documento");
+            ViewBag.lstgenero = dataGenero.TipoList.ToList();
+            ViewBag.lstdocumento = dataDocumento.TipoList.ToList();
+
             return View(oModoView);
         }
         public JsonResult ListarVisitasReg(int id_visita_registro = 0)
@@ -74,57 +80,7 @@ namespace Web_Integrador.Controllers
             }
             return Json(visitante_Res, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ListarSectores(int id_sector = 0)
-        {
-            Sector_Suc_Res sector_res = new Sector_Suc_Res();
-            try
-            {
-                var rpta = sector_BS.listar_suc(id_sector);
-                sector_res = rpta;
-            }
-            catch (Exception ex)
-            {
-                sector_res.oHeader.estado = false;
-                sector_res.oHeader.mensaje = ex.Message;
-            }
-            return Json(sector_res, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public JsonResult ListarDepartamentos(int id_departamento = 0)
-        {
-            var departamento = departamento_BS.lista(id_departamento);
-            return Json(departamento, JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult ListarTorre(int id_sector = 0)
-        {
-            Torre_Res torre_Res = new Torre_Res();
-            try
-            {
-                var rpta = torre_BS.Listar(0);
-                if (rpta.oHeader.estado)
-                {
-                    var lista = rpta.TorreList;
-                    var listaTorre = lista.Where(x => x.id_sector == id_sector).ToList();
-                    torre_Res.oHeader = rpta.oHeader;
-                    torre_Res.TorreList = listaTorre;
-                }
-                else
-                {
-                    torre_Res = rpta;
-                }
-            }
-            catch (Exception ex)
-            {
-                torre_Res.oHeader.estado = false;
-                torre_Res.oHeader.mensaje = ex.Message;
-            }
-
-            return Json(torre_Res, JsonRequestBehavior.AllowGet);
-
-        }
-
-
+       
 
         public JsonResult RegistrarVisitasReg(VISITA_REGISTRO visreg)
         {
@@ -185,6 +141,60 @@ namespace Web_Integrador.Controllers
 
 
             return Json(visreg_Res, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RegistrarEntrada(VisitaVisitante enti)
+        {
+            VISITAREGISTROEntrada_Res visreg_Res = new VISITAREGISTROEntrada_Res();
+            List<Visitante> visitanteList = new List<Visitante>();
+            DTOHeader oHeader = new DTOHeader();
+            var rpta = new VISITA_REGISTRO_Register();
+            try
+            {
+                    foreach(var vv in enti.visitantes)
+                    {
+                        VISITA_REGISTRO prop = new VISITA_REGISTRO();
+                        prop.id_visita_registro = 0;
+                        prop.id_departamento = enti.id_departamento;
+                        prop.id_visitante = vv.id_visitante;
+                        rpta = visitante_BS.RegistrarEntradaUsuario(prop);
+                    }
+                    oHeader = rpta.oHeader;
+                    if (rpta.oHeader.estado)
+                    {
+                        var getVisitaReg = visitante_BS.lista(rpta.id_register);
+                        if (getVisitaReg.oHeader.estado)
+                        {
+                            visitanteList = getVisitaReg.VisitanteList;
+                        }
+                    }
+
+            }
+            catch (Exception ex)
+            {
+                visreg_Res.oHeader.estado = false;
+                visreg_Res.oHeader.mensaje = ex.Message;
+            }
+            visreg_Res.oHeader = oHeader;
+            visreg_Res.VisitaRegistroList = visitanteList;
+
+
+            return Json(visreg_Res, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ListarVisitantesActPorDni( string nro_documento = "", int estado =1)
+        {
+            VISITAREGISTRO_Res visitante_Res = new VISITAREGISTRO_Res();
+            try
+            {
+                var rpta = visitareg_BS.ListarVisitanteActXDNI(nro_documento, estado);
+                visitante_Res = rpta;
+            }
+            catch (Exception ex)
+            {
+                visitante_Res.oHeader.estado = false;
+                visitante_Res.oHeader.mensaje = ex.Message;
+            }
+            return Json(visitante_Res, JsonRequestBehavior.AllowGet);
         }
     }
 }
