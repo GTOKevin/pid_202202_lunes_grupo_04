@@ -63,12 +63,14 @@ const btnAction = (t, tipo) => {
         
         case 'new':
             cleanForm();
+            ClearValues();
             $("#view-table").hide(500);
             $("#view-form").show(1000);
             break;
         case 'cancel':
             $("#view-form").hide(500);
             $("#view-table").show(1000);
+            ClearValues();
             break;
         case 'edit':
             $("#view-table").hide(500);
@@ -468,25 +470,44 @@ $("#view-form").on("submit", function (e) {
     form["id_departamento"] = id_departamento.value;
     form["visitantes"] = visitantes;
         showLoading();
-        $.ajax({
-            method: "POST",
-            url: addNewRegistro,
-            data: form,
-            responseType: 'json',
-            success: async function (res) {
-                Swal.close();
-                if (res.oHeader) {
-                    getListaVisitaRegistro();
-                    $("#view-form").hide(500);
-                    $("#view-table").show(1000);
-                    
-                }
-            },
-            error: function (err) {
-                Swal.close();
-            }
-        });
 
+    if (id_departamento.value != 0) {
+        if (swCamposValid.swCboSucursal && swCamposValid.swCboSector
+            && swCamposValid.swCboTorre && swCamposValid.swCboDepartamento) {
+            if (visitantes.length > 0) {
+                $.ajax({
+                    method: "POST",
+                    url: addNewRegistro,
+                    data: form,
+                    responseType: 'json',
+                    success: async function (res) {
+                        Swal.close();
+                        if (res.oHeader) {
+                            getListaVisitaRegistro();
+                            $("#view-form").hide(500);
+                            $("#view-table").show(1000);
+
+                        }
+                    },
+                    error: function (err) {
+                        Swal.close();
+                    }
+                });
+
+            }
+            else {
+                Swal.fire('Error', 'Ingrese al menos un Visitante a la lista', 'error');
+            }
+        }
+        else {
+            ValidNull();
+        }
+    }
+    else {
+        id_departamento.value = '';
+        Swal.fire('Error', 'Seleccione un departamento', 'error');
+        ValidNull();
+    }
     
 
 
