@@ -111,9 +111,6 @@ const buttonsDatatTable = (opcion) => {
                 data: null,
                 defaultContent: `
                 <div class="w-100">
-                <button type='button' onclick='btnAction(this,"edit");' class='btn btn-sm btn-warning' style='padding:2px 4px;'>
-                <i class='bx bx-edit'></i>
-                </button>
                 <button type='button' onclick='btnAction(this,"regvistsalid");'  class='btn btn-sm btn-danger btnEstado' style='padding:2px 4px;'>
                 <i class="bx bx-x"></i>
                 </button>
@@ -129,8 +126,8 @@ const buttonsDatatTable = (opcion) => {
                 <button type='button' onclick='btnAction(this,"edit");' class='btn btn-sm btn-warning' style='padding:2px 4px;'>
                 <i class='bx bx-edit'></i>
                 </button>
-                <button type='button' onclick='btnAction(this,"regvist");'  class='btn btn-sm btn-success btnEstado' style='padding:2px 4px;'>
-                <i class="bx bx-check"></i>
+                <button type='button' onclick='btnAction(this,"modalhistorial");' data-bs-toggle="modal" data-bs-target="#exampleModal"  class='btn btn-sm btn-info btnEstado' style='padding:2px 4px;'>
+                <i class="bx bx-list-ul"></i>
                 </button>
                 </div>
                 `
@@ -222,6 +219,64 @@ const mostrarFormulario = () => {
    
 }
 
+const GetStatusFecha = (fecha) => {
+    var fechaConvt = "";
+    if (fecha != undefined && fecha != null) {
+        var fechaString = fecha.substr(6);
+        if (parseInt(fechaString) < 0) {
+            fechaConvt = "---";
+        }
+        else {
+            var fechaActual = new Date(parseInt(fechaString));
+            var mes = fechaActual.getMonth() + 1;
+            if (mes.toString().length == 1) {
+                mes = "0" + mes;
+            }
+            var dia = fechaActual.getDate();
+            if (dia.toString().length == 1) {
+                dia = "0" + dia
+            }
+            var anio = fechaActual.getFullYear();
+            var hora = fechaActual.getHours() + ":" + fechaActual.getMinutes() + ":" + (fechaActual.getSeconds().toString().length != 1 ? fechaActual.getSeconds().toString() : "0" + fechaActual.getSeconds().toString());
+
+            fechaConvt = anio + "/" + mes + "/" + dia;
+        }
+
+    }
+    return fechaConvt;
+}
+
+
+const GetStatus = (fecha) => {
+    var fechaConvt = "";
+    if (fecha != undefined && fecha != null) {
+        var fechaString = fecha.substr(6);
+        if (parseInt(fechaString) < 0) {
+            fechaConvt = "No Salio";
+        }
+        else {
+            var fechaActual = new Date(parseInt(fechaString));
+            let hourD = fechaActual.getHours();
+            if (hourD.toString().length == 1) {
+                hourD = "0" + hourD;
+            }
+            let minD = fechaActual.getMinutes();
+            if (minD.toString().length == 1) {
+                minD = "0" + minD
+            }
+            let secD = fechaActual.getSeconds();
+            if (secD.toString().length == 1) {
+                secD = "0" + secD
+            }
+   
+            var hora = hourD + ":" + minD + ":" + secD;
+
+            fechaConvt = hora;
+        }
+
+    }
+    return fechaConvt;
+}
 
 
 
@@ -239,7 +294,9 @@ const FechaDate = (fecha) => {
             dia = "0" + dia
         }
         var anio = fechaActual.getFullYear();
-        fechaConvt = anio + "-" + mes + "-" + dia  ;
+      
+
+        fechaConvt = anio + "-" + mes + "-" + dia;
     }
     return fechaConvt;
 }
@@ -263,6 +320,8 @@ const soloLetras = (e) => {
         return false;
     }
 }
+
+
 
 
 

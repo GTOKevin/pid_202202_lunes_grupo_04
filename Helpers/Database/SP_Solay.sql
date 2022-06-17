@@ -5,6 +5,8 @@ Select * from DEPARTAMENTO_FILE
 END  
 GO
 
+
+
 Create Proc USP_DEPARTAMENTO_FILE_CREAR  
 @url_imagen varchar(300), @id_departamento int  
 As  
@@ -102,6 +104,31 @@ AS
   SELECT @id 
 GO
 
+Create Proc USP_REGISTRARROL_VAL
+@id_rol int,
+@nombre varchar(50),
+@descripcion varchar(50)
+AS
+DECLARE @id int
+if exists (select * from ROL where nombre = @nombre)
+BEGIN
+SET @id = -1
+END
+ELSE 
+begin 
+if exists (select * from ROL where id_rol= @id_rol)
+BEGIN
+UPDATE ROL SET nombre=@nombre, descripcion=@descripcion where id_rol=@id_rol
+SET @id=@id_rol
+END
+ELSE
+INSERT INTO ROL (nombre,descripcion)
+VALUES (@nombre,@descripcion)
+SET @id = SCOPE_IDENTITY()
+END
+SELECT @id
+go
+
 create procedure USP_INSERTARDEPARTMENTOFILE
 @id_departamento int,
 @url_imagen varchar(max)
@@ -160,3 +187,27 @@ SELECT * FROM DEPARTAMENTO_FILE
 WHERE id_departamento= @id_departamento
 END 
 Go
+
+
+--Historial de incidente
+CREATE PROC USP_INCIDENTE_HISTORIAL_LISTAR 
+@id_incidente_historial int
+AS
+ if @id_incidente_historial=0      
+BEGIN
+select * from INCIDENTE_HISTORIAL
+  end      
+ else      
+  begin       
+   select * from INCIDENTE_HISTORIAL
+   where id_incidente_historial = @id_incidente_historial
+END
+GO
+--
+CREATE PROCEDURE USP_INCIDENTE_HISTORIAL_CREAR
+@acciones varchar(300),@idincidente int
+AS
+  BEGIN
+   INSERT INTO INCIDENTE_HISTORIAL(acciones,fecha_historial,id_incidente) VALUES(@acciones,GETDATE(),@idincidente);
+  END
+GO

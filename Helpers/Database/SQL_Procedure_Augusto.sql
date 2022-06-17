@@ -409,3 +409,268 @@ ALTER PROCEDURE USP_PROPIETARIO_REGISTRAR
    end      
 GO
 
+CREATE PROC [dbo].[USP_SET_ROL_USER]
+@id_usuario int,
+@id_rol int
+AS
+DECLARE @id int
+BEGIN
+	UPDATE USUARIO SET id_rol = @id_rol 
+	WHERE id_usuario = @id_usuario
+	SET @id = @id_usuario
+END
+SELECT @id
+GO
+
+
+--Cambios Visitante Registro--
+
+ALTER PROCEDURE [dbo].[USP_LISTAR_VISITAREG]
+	  @id_visita_registro int
+	  AS
+	  if @id_visita_registro =0
+	BEGIN
+	 Select 
+		Vr.id_visita_registro,
+		Vr.fecha_ingreso,
+		Vr.fecha_salida , 
+		s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		v.id_visitante,
+		v.nro_documento,
+		v.nombre +SPACE(1)+ v.apellidos AS 'nombre_visitante' 
+	from VISITA_REGISTRO Vr 
+		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
+	END
+	else
+	begin
+	 Select 
+		Vr.id_visita_registro,
+		Vr.fecha_ingreso,
+		Vr.fecha_salida , 
+		s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		v.id_visitante,
+		v.nro_documento,
+		v.nombre +SPACE(1)+ v.apellidos AS 'nombre_visitante' 
+	 from
+	  VISITA_REGISTRO Vr 
+		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
+	  where vr.id_visita_registro=@id_visita_registro
+	 END
+
+GO
+
+  ALTER PROCEDURE [dbo].[SP_VISITANTE_REGISTER]  
+@id_visitante int,    
+@nombre varchar(30),    
+@apellido varchar(100),
+@tipo_documento varchar(100),  
+@nro_documento varchar(100), 
+@genero varchar(100)  
+
+AS    
+   DECLARE @id int 
+IF EXISTS(select * from VISITANTE where id_visitante=@id_visitante)
+	  BEGIN    
+	   IF EXISTS(SELECT * FROM VISITANTE  WHERE nro_documento = @nro_documento and id_visitante != @id_visitante)
+		   BEGIN
+				SET @id = -1
+		   END
+	   ELSE
+		   BEGIN
+		   update VISITANTE set nombre=@nombre, apellidos=@apellido,tipo_documento=@tipo_documento,
+		   nro_documento=@nro_documento , genero=@genero
+		   where id_visitante=@id_visitante
+			SET @id = @id_visitante 
+		   END
+	  END
+ELSE
+	BEGIN
+		IF EXISTS(SELECT * FROM VISITANTE  WHERE nro_documento = @nro_documento)
+			BEGIN
+				SET @id = -1
+			END
+		ELSE
+			BEGIN
+				insert into VISITANTE(nombre,apellidos,tipo_documento,nro_documento,genero)
+				VALUES(@nombre,@apellido,@tipo_documento,@nro_documento,@genero)    
+				SET @id=SCOPE_IDENTITY()  
+			END
+	END
+SELECT @id
+GO
+
+ CREATE PROCEDURE [dbo].[USP_LISTAR_HISTORIAL_VISITA]
+	    @id_visitante int
+	  AS
+	  if @id_visitante = 0
+	BEGIN
+	 Select 
+		Vr.id_visita_registro,
+		Vr.fecha_ingreso,
+		Vr.fecha_salida , 
+		s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		v.id_visitante,
+		v.nombre AS 'nombre_visitante' 
+	from VISITA_REGISTRO Vr 
+		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
+		ORDER BY Vr.id_visita_registro DESC;
+	END
+	else
+	begin
+	 Select 
+		Vr.id_visita_registro,
+		Vr.fecha_ingreso,
+		Vr.fecha_salida , 
+		s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',
+		sec.id_sector,
+		sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,
+		t.numero AS 'numero_torre',
+		d.id_departamento,
+		d.numero AS 'numero_departamento',	
+		v.id_visitante,
+		v.nombre AS 'nombre_visitante' 
+	 from
+	  VISITA_REGISTRO Vr 
+		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
+	  where vr.id_visitante=@id_visitante
+	  ORDER BY Vr.id_visita_registro DESC;
+	 END
+GO
+
+CREATE PROC USP_FILTRO_DNI_VIS
+@nro_documento varchar(20)
+AS
+BEGIN
+	IF @nro_documento = ''
+		BEGIN
+			SELECT V.id_visitante,V.nombre,V.apellidos,V.tipo_documento,
+			T.nombre AS 'nombre_tipo',V.nro_documento,V.genero,T2.nombre AS 'nombre_genero',V.fecha_creacion
+			FROM VISITANTE V LEFT JOIN TIPO T ON V.tipo_documento = T.id_tipo LEFT JOIN TIPO T2 ON V.genero = T2.id_tipo 
+		END
+	ELSE
+		BEGIN
+		SELECT V.id_visitante,V.nombre,V.apellidos,V.tipo_documento,
+		T.nombre AS 'nombre_tipo',V.nro_documento,V.genero,T2.nombre AS 'nombre_genero',V.fecha_creacion
+		FROM VISITANTE V LEFT JOIN TIPO T ON V.tipo_documento = T.id_tipo LEFT JOIN TIPO T2 ON V.genero = T2.id_tipo  
+		WHERE nro_documento = @nro_documento
+		END
+END
+GO
+
+CREATE PROC [dbo].[USP_FILTRO_DNI_VIS_REG]
+@nro_documento varchar(20)
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM VISITANTE WHERE nro_documento = @nro_documento)
+	BEGIN
+	IF EXISTS (SELECT * FROM VISITANTE V INNER JOIN VISITA_REGISTRO VR ON V.id_visitante = VR.id_visitante  WHERE VR.fecha_salida IS NULL AND V.nro_documento = @nro_documento)
+		BEGIN
+			SELECT -1;
+		END
+	ELSE
+		BEGIN
+			SELECT V.id_visitante
+			FROM VISITANTE V LEFT JOIN TIPO T ON V.tipo_documento = T.id_tipo LEFT JOIN TIPO T2 ON V.genero = T2.id_tipo  
+			WHERE nro_documento = @nro_documento
+		END
+	END
+	ELSE
+	BEGIN
+		SELECT -2
+	END
+END
+GO
+
+CREATE PROC [dbo].[USP_FILTRO_VISITANTES_ACT]
+@nro_documento varchar(20),
+@estado INT
+AS
+BEGIN
+	IF @estado = 1
+	BEGIN
+	Select 
+		Vr.id_visita_registro,Vr.fecha_ingreso,Vr.fecha_salida , s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',sec.id_sector,sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,t.numero AS 'numero_torre',d.id_departamento,d.numero AS 'numero_departamento',	
+		v.id_visitante,v.nro_documento,v.nombre +SPACE(1)+ v.apellidos AS 'nombre_visitante' 
+	 from
+	  VISITA_REGISTRO Vr join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
+		 where v.nro_documento = CASE WHEN @nro_documento = '' THEN V.nro_documento ELSE @nro_documento END
+	END
+	IF @estado = 2
+	BEGIN
+	Select 
+		Vr.id_visita_registro,Vr.fecha_ingreso,Vr.fecha_salida , s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',sec.id_sector,sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,t.numero AS 'numero_torre',d.id_departamento,d.numero AS 'numero_departamento',	
+		v.id_visitante,v.nro_documento,v.nombre +SPACE(1)+ v.apellidos AS 'nombre_visitante' 
+	 from
+	  VISITA_REGISTRO Vr join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
+		 where v.nro_documento = CASE WHEN @nro_documento = '' THEN V.nro_documento ELSE @nro_documento END
+		 AND VR.fecha_salida IS NULL
+	END
+	IF @estado = 3
+	BEGIN
+	Select 
+		Vr.id_visita_registro,Vr.fecha_ingreso,Vr.fecha_salida , s.id_sucursal,
+		s.nombre AS 'nombre_sucursal',sec.id_sector,sec.nombre_sector AS 'nombre_sector',
+		t.id_torre,t.numero AS 'numero_torre',d.id_departamento,d.numero AS 'numero_departamento',	
+		v.id_visitante,v.nro_documento,v.nombre +SPACE(1)+ v.apellidos AS 'nombre_visitante' 
+	 from
+	  VISITA_REGISTRO Vr join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
+		join VISITANTE v on vr.id_visitante=v.id_visitante 
+		join TORRE t on d.id_torre=t.id_torre 
+		join SECTOR sec on t.id_sector=sec.id_sector
+		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
+		 where v.nro_documento = CASE WHEN @nro_documento = '' THEN V.nro_documento ELSE @nro_documento END
+		 AND VR.fecha_salida IS NOT NULL
+	END
+END
+GO

@@ -76,7 +76,7 @@ namespace Web_Integrador.Controllers
 
                 
             }
-            return View();
+            return Redirect("Index");
         }
 
         public JsonResult ListarPerfil()

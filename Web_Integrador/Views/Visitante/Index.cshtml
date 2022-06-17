@@ -12,11 +12,21 @@
 </h4>
 
 <div id="view-table">
-    <div class="card mb-4">
-        <div class="card-body ms-auto">
-            <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nuevo Visitante</button>
+    <div class="card mb-4 ">
+        <div class="card-body row">
+            <div class="col-md-5 text-start">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="FiltroDni" >
+                    <button class="btn btn-primary" onclick="ObtenerVisitante()"><i class="bx bx-search"></i> Buscar</button>
+                </div>
+            </div>
+            <div class="col-md-7  text-end">
+                <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nuevo Visitante</button>
+            </div>
         </div>
+        
     </div>
+   
 
     <div class="card">
         <div class="table-responsive text-nowrap card-body">
@@ -40,22 +50,22 @@
             </div>
         </div>
 
-        <div class="card-body row" id="inputs">
+        <div class="card-body row" id="BodyInptus">
             <input type="text" class="form-control d-none cf" autocomplete="off" name="id_visitante" placeholder="id">
-            <div class="col-4" id="inpNombre">
+            <div class="col-4" id="swNombre">
                 <label for="exampleFormControlInput1" class="form-label">Nombre</label>
-                <input type="text" class="form-control cf" autocomplete="off" name="nombre" placeholder="Ingrese nombre de visitante">
+                <input type="text" class="form-control cf swValidI" autocomplete="off" name="nombre" placeholder="Ingrese nombre de visitante">
                 <p class="label-error d-none">Por favor ingrese un nombre</p>
             </div>
-            <div class="col-8" id="inpApellido">
+            <div class="col-8" id="swApellidoP">
                 <label for="exampleFormControlInput1" class="form-label">Apellido</label>
-                <input type="text" class="form-control cf" autocomplete="off" name="apellidos" placeholder="Ingrese apellido de visitante">
+                <input type="text" class="form-control cf swValidI" autocomplete="off" name="apellidos" placeholder="Ingrese apellido de visitante">
                 <p class="label-error d-none">Por favor ingrese un apellido</p>
 
             </div>
-            <div class="col-8" id="inpTipoDocumento">
+            <div class="col-8" id="swTipoDocumento">
                 <label for="exampleFormControlInput1" class="form-label">Tipo Documento</label>
-                <select name="tipo_documento" class="form-control cf">
+                <select name="tipo_documento" id="idtipoDocumento" class="form-control cf swValidC">
                     <option value="" selected>...Seleccione...</option>
                     @foreach (var item in Model)
                     {
@@ -68,15 +78,15 @@
                 <p class="label-error d-none">Por favor Seleccione tipo documento</p>
 
             </div>
-            <div class="col-8" id="inpDocumento">
+            <div class="col-8" id="swDocumento">
                 <label for="exampleFormControlInput1" class="form-label">Nro Documento</label>
-                <input type="text" class="form-control cf" autocomplete="off" id="dniID" name="nro_documento" placeholder="Ingrese numero doc de visitante">
+                <input type="text" class="form-control cf swValidI" autocomplete="off" id="iddocumento" name="nro_documento" placeholder="Ingrese numero doc de visitante">
                 <p class="label-error d-none">Por favor ingrese numero documento</p>
 
             </div>
-            <div class="col-8" id="inpGenero">
+            <div class="col-8" id="swGenero">
                 <label for="exampleFormControlInput1" class="form-label">Genero</label>
-                <select name="genero" class="form-control cf">
+                <select name="genero" class="form-control cf swValidC">
                     <option value="" selected>...Seleccione...</option>
                     @foreach (var item in Model)
                     {
@@ -104,40 +114,44 @@
                 <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Guardar</button>
             </div>
         </div>
-        <div class="card-body row">
+        <div class="card-body row" id="BodyInptus">
             <input type="text" class="form-control val d-none" autocomplete="off" name="id_visitante" id="id" placeholder="id">
             <div class="col-8">
                 <label for="exampleFormControlInput1"  class="form-label">Nro Documento</label> 
                 <input type="text" class="form-control cf" autocomplete="off" name="nro_documento" disabled placeholder="Ingrese numero doc de visitante">
             </div>
-            <div class="col-12 col-md-6 mb-3">
+            <div class="col-12 col-md-6 mb-3" id="swCboSucursal">
                 <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
-                <select class="form-control val" name="id_sucursal" id="id_sucursal">
+                <select class="form-control val swValidC" name="id_sucursal" id="id_sucursal">
                     <option value="" selected>...Seleccione...</option>
                     @foreach (var item in list)
                     {
                         <option value="@item.id_sucursal">@item.nombre</option>
                     }
                 </select>
+                <p class="label-error d-none">Por favor Seleccione Sucursal</p>
             </div>
-            <div class="col-12 col-md-6 mb-3">
+            <div class="col-12 col-md-6 mb-3" id="swCboSector">
                 <label for="exampleFormControlInput1" class="form-label">Sector</label>
-                <select class="form-control val" name="id_sector" id="id_sector">
+                <select class="form-control val cboClear swValidC" name="id_sector" id="id_sector">
                     <option value="" selected>...Seleccione...</option>
 
                 </select>
+                <p class="label-error d-none">Por favor Seleccione Sector</p>
             </div>
-            <div class="col-12 col-md-6 mb-3">
+            <div class="col-12 col-md-6 mb-3" id="swCboTorre">
                 <label for="exampleFormControlInput1" class="form-label">Torre</label>
-                <select class="form-control val" name="id_torre" id="id_torre">
+                <select class="form-control val cboClear swValidC" name="id_torre" id="id_torre">
                     <option value="" selected>...Seleccione...</option>
                 </select>
+                <p class="label-error d-none">Por favor Seleccione Torre</p>
             </div>
-            <div class="col-12 col-md-6 mb-3">
+            <div class="col-12 col-md-6 mb-3" id="swCboDepartamento">
                 <label for="exampleFormControlInput1" class="form-label">Departamento</label>
-                <select class="form-control val" name="id_departamento" id="id_departamento">
+                <select class="form-control val cboClear swValidC" name="id_departamento" id="id_departamento">
                     <option value="" selected>...Seleccione...</option>
                 </select>
+                <p class="label-error d-none">Por favor Seleccione Departamento</p>
             </div>
 
 
@@ -147,19 +161,58 @@
     </div>
 </form>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!--
+          <p id="txtRango" class="text-center alert-info"></p>
+      <div class="input-group mb-3">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Rango de Fecha</button>
+          <ul class="dropdown-menu">
+              <li onclick="setRango('fi_fi')"><a class="dropdown-item">Inicio - Inicio</a></li>
+              <li onclick="setRango('ff_ff')"><a class="dropdown-item">Salida a Salida</a></li>
+              <li onclick="setRango('fi_ff')"><a class="dropdown-item">Inicio a Salida</a></li>
+          </ul>
+          <input type="date" class="form-control">
+          <input type="date" class="form-control">
+      </div>
+    -->
+                    </div>
+                </div>
+                <div class="table-responsive text-nowrap card-body">
+                    <table id="historial" class="table table-hover" style="width:100%">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 <script>
+    const urlFiltroDni = "@Url.Action("ListarVisitantesPorDni","Visitante")";
+    const urlListHistorial = "@Url.Action("ListarHistorial", "Visitante")";
     const urlGetVisitante = "@Url.Action("ListarVisitantes", "Visitante")";
     const urlSaveVisitante = "@Url.Action("RegistrarVisitante", "Visitante")";
-    const urlGetSector = "@Url.Action("ListarSector", "Torre")";
     const urlSaveVisitaRegistro = "@Url.Action("RegistrarEntrada", "Visitante")";
-    const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
-    const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "Departamento")";
+    const urlGetTorre = "@Url.Action("ListarTorre", "Visitante")";
+    const urlGetSector = "@Url.Action("ListarSectores", "Visitante")";
+    const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "Visitante")";
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/ValidatorApp.js"></script>
 <script src="~/Scripts/Visitante/Mantenimiento.js"></script>
 

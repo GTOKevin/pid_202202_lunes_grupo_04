@@ -17,6 +17,11 @@ namespace Negocio
         {
             return new Rol_DA().Registrar(ro);
         }
+
+        public Rol_Register Registrarrol(Rol rol)
+        {
+            return new Rol_DA().Registrarrolval(rol);
+        }
     }
 
 }

@@ -2,6 +2,52 @@
 var colsName = ['ID', 'NOMBRE', 'DESCRIPCION'];
 var rolList = [];
 
+const formulario = document.getElementById('view-form');
+const inputNom = document.querySelectorAll('#bodyinputs input');
+
+
+
+const campos = {
+    nombreID: false,
+    descripcionID: false,
+}
+
+const validarFormulario = (e) => {
+    switch (e.target.name) {
+        case "nombre":
+            validarCampos(expresiones.nombre, e.target, 'nombreID');
+            break;
+        case "descripcion":
+            validarCampos(expresiones.descripcion, e.target, 'descripcionID');
+            break;
+    }
+}
+
+const validarCampos = (expresion, input, campo) => {
+    if (expresion.test(input.value)) {
+        document.querySelector(`#${campo} input`).classList.remove('border-danger');
+        document.querySelector(`#${campo} p`).classList.add('d-none');
+        campos[campo] = true;
+    }
+    else {
+        document.querySelector(`#${campo} input`).classList.add('border-danger');
+        document.querySelector(`#${campo} p`).classList.remove('d-none');
+        campos[campo] = false;
+    }
+}
+
+inputNom.forEach((input) => {
+    input.addEventListener('keyup', validarFormulario);
+    input.addEventListener('blur', validarFormulario);
+});
+
+
+const expresiones = {
+    nombre: /^([A-Za-zÁÉÍÓÚáéíóúÑñ]\s?){3,50}$/,
+   
+    descripcion: /^([A-Za-zÁÉÍÓÚáéíóúÑñ]\s?){3,50}$/
+}
+
 const llenarVariable = (lista, option) => {
     let newArray;
     switch (option) {
@@ -21,9 +67,10 @@ const llenarVariable = (lista, option) => {
 
 const init = () => {
     showLoading();
-    setColumns("example", colsName, true);
+    setColumns("example", colsName, false);
 
-    getListaRol();
+    setTimeout(function () {getListaRol()}
+        , 500);
     Swal.close();
 };
 
@@ -74,8 +121,7 @@ const listTable = (res) => {
     $('#example').DataTable({
         destroy: true,
         data: res,
-        columns: [{ data: "id_rol" }, { data: "nombre" }, { data: "descripcion" },],
-        //buttonsDatatTable("edit")
+        columns: [{ data: "id_rol" }, { data: "nombre" }, { data: "descripcion" }],
         rowId: "id_rol",
         columnDefs:
             [
@@ -98,51 +144,69 @@ $("#view-form").on("submit", function (e) {
         id_rol.value = 0;
     }
 
+
     e.preventDefault();
-    let formData = {};
-    let validate = true;
-    $("#view-form input").each(function (index) {
-        if (this.value.trim().length != 0) {
-            formData[this.name] = this.value;
-        } else {
-            validate = false;
-        }
 
-    });
 
-    if (validate) {
-        showLoading();
+    if (campos.nombreID && campos.descripcionID) {
 
-        $.ajax({
-            method: "POST",
-            url: urlSaveRol,
-            data: formData,
-            responseType: 'json',
-            success: async function (res) {
-                Swal.close();
-                let { RolList, oHeader } = res;
-                if (oHeader.estado) {
-                    if (id_rol.value == "0") {
-                        await llenarVariable(RolList, 'new');
-                    } 
-                    else {
-                        await llenarVariable(RolList, 'edit');
-                    }
 
-                    await listTable(rolList);
-                    Swal.fire('ok', oHeader.mensaje, 'success');
-                }
 
-            },
-            error: function (err) {
-                Swal.close();
+        let formData = {};
+        let validate = true;
+        $("#view-form input").each(function (index) {
+            if (this.value.trim().length != 0) {
+                formData[this.name] = this.value;
+            } else {
+                validate = false;
             }
+
         });
 
+        if (validate) {
+            showLoading();
+
+            $.ajax({
+                method: "POST",
+                url: urlSaveRol,
+                data: formData,
+                responseType: 'json',
+                success: async function (res) {
+                    Swal.close();
+                    let { RolList, oHeader } = res;
+                    console.log("Resp", res);
+                    if (oHeader.estado) {
+                        if (id_rol.value == "0") {
+                            await llenarVariable(RolList, 'new');
+                        }
+                        else {
+                            await llenarVariable(RolList, 'edit');
+                        }
+                        await listTable(rolList);
+                        Swal.fire('ok', oHeader.mensaje, 'success');
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: oHeader.mensaje
+                        })
+                    }
+
+
+                },
+                error: function (err) {
+                    Swal.close();
+                }
+            });
+
+        }
+
+        $("#view-form").hide(500);
+        $("#view-table").show(1000);
     }
 
-    $("#view-form").hide(500);
-    $("#view-table").show(1000);
+    
 
 });
 

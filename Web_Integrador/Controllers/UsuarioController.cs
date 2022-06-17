@@ -17,6 +17,7 @@ namespace Web_Integrador.Controllers
         Usuario_BS ub = new Usuario_BS();
         Perfil_BS pb = new Perfil_BS();
         Tipo_BS tb = new Tipo_BS();
+        Rol_BS rb = new Rol_BS();
         // GET: Usuario
         [PermisosRol(Roles.Administrador)]
         public ActionResult Index()
@@ -29,6 +30,15 @@ namespace Web_Integrador.Controllers
             ViewBag.lstgenero = dataGenero.TipoList.ToList();
             ViewBag.lstdocumento = dataDocumento.TipoList.ToList();
             ViewBag.lstnacionalidad = datanacionalidad.TipoList.ToList();
+
+            return View();
+        }
+
+        public ActionResult SetRolMantenimiento()
+        {
+            var dataRoles = rb.lista(0);
+
+            ViewBag.lstRoles = dataRoles.RolList;
 
             return View();
         }
@@ -182,8 +192,34 @@ namespace Web_Integrador.Controllers
             }
             ur.oHeader = oHeader;
             ur.UsuarioList = ulist;
+            return Json(ur, JsonRequestBehavior.AllowGet);
+        }
 
-
+        public JsonResult CambiarRolSet(SetRolUser u)
+        {
+            Usuario_General_Res ur = new Usuario_General_Res();
+            List<UsuarioGeneral> ulist = new List<UsuarioGeneral>();
+            DTOHeader oHeader = new DTOHeader();
+            try
+            {
+                var rpta = ub.CambiarRolUsuario(u);
+                oHeader = rpta.oHeader;
+                if (rpta.oHeader.estado)
+                {
+                    var getUsuario = ub.lista(rpta.id_register);
+                    if (getUsuario.oHeader.estado)
+                    {
+                        ulist = getUsuario.UsuarioList;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ur.oHeader.estado = false;
+                ur.oHeader.mensaje = ex.Message;
+            }
+            ur.oHeader = oHeader;
+            ur.UsuarioList = ulist;
             return Json(ur, JsonRequestBehavior.AllowGet);
         }
 

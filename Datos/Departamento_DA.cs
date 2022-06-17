@@ -87,15 +87,25 @@ namespace Datos
                 id_register = cm.ExecuteScalar().ToInt();
                 cn.Close();
             }
-            oHeader.estado = true;
-            if (enti.id_departamento == 0)
-            {
-                oHeader.mensaje = "Se ha registrado una torre";
-            }
-            else
-            {
-                oHeader.mensaje = "Se ha actualizado una torre";
-            }
+          
+                if (id_register == -1)
+                {
+                    oHeader.estado = false;
+                    oHeader.mensaje = "Departamento ya existente";
+                }
+                else
+                {
+                    oHeader.estado = true;
+                    if (enti.id_departamento == 0)
+                    {
+                        oHeader.mensaje = "Se ha registrado una torre";
+                    }
+                    else
+                    {
+                        oHeader.mensaje = "Se ha actualizado una torre";
+                    }
+                }
+       
         }
         catch (Exception ex)
         {
