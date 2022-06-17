@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Entidades.Tipo> list = ViewBag.lstdocumento;
+    List<Entidades.Tipo> list2 = ViewBag.lstgenero;
 }
 
 <h4 class="fw-bold py-3 mb-4">
@@ -10,9 +12,31 @@
 </h4>
 
 <div id="view-table">
-    <div class="card mb-4">
-        <div class="card-body ms-auto">
-            <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nuevo Registro de Visita</button>
+    <div class="card mb-4 row">
+        <div class="card-body row">
+            <div class="col-md-5 text-start">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="FiltroDniReg">
+                    <button class="btn btn-primary" onclick="ObtenerVisitanteRegistrado()"><i class="bx bx-search"></i> Buscar</button>
+                </div>
+            </div>
+            <div class="col-md-7  text-end">
+                <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nuevo Visitante</button>
+            </div>
+            <div class="col-md-6">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input radioBtCk" type="radio" name="inlineRadioOptions" value="1" checked>
+                    <label class="form-check-label" for="inlineRadio1">Ambos</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input radioBtCk" type="radio" name="inlineRadioOptions"  value="2">
+                    <label class="form-check-label" for="inlineRadio2">No Salieron</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input radioBtCk" type="radio" name="inlineRadioOptions"  value="3">
+                    <label class="form-check-label" for="inlineRadio3">Salieron</label>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -25,9 +49,6 @@
     </div>
 </div>
 
-
-
-
 <form id="view-form" style="display:none">
     <div class="card">
         <div class="align-items-center card-header d-flex justify-content-between">
@@ -38,68 +59,103 @@
             </div>
         </div>
 
-        <div class="card-body row">
+        <div class="card-body row" id="BodyInptus">
             <input type="text" class="form-control val d-none" autocomplete="off" name="id_visita_registro" id="id" placeholder="id">
-            <div class="col-12 col-md-6 mb-3">
+            <input type="text" class="form-control val d-none" autocomplete="off" name="id_visitante" placeholder="id">
+            <div class="col-12 col-md-6 mb-3" id="swCboSucursal">
                 <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
-                <select class="form-control val" name="id_sucursal" id="id_sucursal">
+                <select class="form-control val swValidC" name="id_sucursal" id="id_sucursal">
                     <option value="" selected>...Seleccione...</option>
                     @foreach (var item in Model.Sucursales)
                     {
                         <option value="@item.id_sucursal">@item.nombre</option>
                     }
                 </select>
+                <p class="label-error d-none">Por favor Seleccione Sucursal</p>
             </div>
-            <div class="col-12 col-md-6 mb-3">
+            <div class="col-12 col-md-6 mb-3" id="swCboSector">
                 <label for="exampleFormControlInput1" class="form-label">Sector</label>
-                <select class="form-control val" name="id_sector" id="id_sector">
+                <select class="form-control val cboClear swValidC" name="id_sector" id="id_sector">
                     <option value="" selected>...Seleccione...</option>
 
                 </select>
+                <p class="label-error d-none">Por favor Seleccione Sector</p>
             </div>
-            <div class="col-12 col-md-6 mb-3">
+            <div class="col-12 col-md-6 mb-3" id="swCboTorre">
                 <label for="exampleFormControlInput1" class="form-label">Torre</label>
-                <select class="form-control val" name="id_torre" id="id_torre">
+                <select class="form-control val cboClear swValidC" name="id_torre" id="id_torre">
                     <option value="" selected>...Seleccione...</option>
                 </select>
+                <p class="label-error d-none">Por favor Seleccione Torre</p>
             </div>
-            <div class="col-12 col-md-6 mb-3">
+            <div class="col-12 col-md-6 mb-3" id="swCboDepartamento">
                 <label for="exampleFormControlInput1" class="form-label">Departamento</label>
-                <select class="form-control val" name="id_departamento" id="id_departamento">
+                <select class="form-control val cboClear swValidC" name="id_departamento" id="id_departamento">
                     <option value="" selected>...Seleccione...</option>
                 </select>
+                <p class="label-error d-none">Por favor Seleccione Departamento</p>
             </div>
-            <div class="col-12 col-md-6 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Nombre visitante</label>
-                <select class="form-control val" name="id_visitante" id="id_visitante">
-                    <option value="" selected>...Seleccione...</option>
-                    @foreach (var item in Model.Visitantes)
-                    {
-                        <option value="@item.id_visitante">@item.nombre</option>
-                    }
-                </select>
+            <!--
+          <div class="col-12 col-md-6 mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Nombre visitante</label>
+        <select class="form-control val" name="id_visitante" id="id_visitante">
+            <option value="" selected>...Seleccione...</option>
+            @foreach (var item in Model.Visitantes)
+            {
+                <option value="@item.id_visitante">@item.nombre</option>
+            }
+        </select>
+    </div>
+    -->
+
+            <div class="col-6">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="DNI" id="buscarVisitanteDNI">
+                    <button class="btn btn-info" onclick="ObtenerVisitante()" type="button" id="btnBuscarDni"><i class="bx bx-search"></i></button>
+                </div>
             </div>
-
-
-
         </div>
     </div>
+    <br />
+    <div class="card">
+        <div class="align-items-center card-header d-flex justify-content-between">
+            <h5 class="fw-semibold m-0">Visitantes</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                        <th scope="col">Numero Documento</th>
+                        <th scope="col">Genero</th>
+                    </tr>
+                </thead>
+                <tbody id="table_Visitante">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </form>
 
-
-
 <script>
+    const urlSaveVisitante = "@Url.Action("RegistrarVisitante", "Visitante")";
+    const urlFiltroRegVis = "@Url.Action("ListarVisitantesActPorDni", "VisitaRegistro")";
+    const addNewRegistro = "@Url.Action("RegistrarEntrada", "VisitaRegistro")";
+    const urlFiltroDni = "@Url.Action("BuscarPorDni", "Visitante")";
     const urlGetVisitaRegistro = "@Url.Action("ListarVisitasReg", "VisitaRegistro")";
     const urlSaveSalida = "@Url.Action("RegistrarVisitasRegSalida", "VisitaRegistro")";
     const urlSaveVisitaRegistro = "@Url.Action("RegistrarVisitasReg", "VisitaRegistro")";
-    const urlGetSector = "@Url.Action("ListarSector", "Torre")";
-    const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
-    const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "Departamento")";
+    const urlGetSector = "@Url.Action("ListarSectores", "Visitante")";
+    const urlGetTorre = "@Url.Action("ListarTorre", "Visitante")";
+    const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "Visitante")";
     const urlGetVisitante = "@Url.Action("ListarVisitantes", "Visitante")";
 
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/ValidatorApp.js"></script>
 <script src="~/Scripts/VisitaRegistro/Mantenimiento.js"></script>
 

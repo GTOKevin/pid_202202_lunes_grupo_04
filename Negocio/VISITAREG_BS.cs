@@ -27,5 +27,10 @@ namespace Negocio
             return new VISITA_REGISTRO_DA().Registrar_Salida(visreg);
         }
 
+        public VISITAREGISTRO_Res ListarVisitanteActXDNI(string nro_documento, int estadoestado)
+        {
+            return new VISITA_REGISTRO_DA().ListarVisitanteActXDNI(nro_documento, estadoestado);
+        }
+
     }
 }

@@ -1,11 +1,45 @@
 ﻿
 const Inputs = document.querySelectorAll('#BodyInptus .swValidI');
 const CombosPerfil = document.querySelectorAll('#BodyInptus .swValidC');
+const ClearErrorMess = document.querySelectorAll('#BodyInptus .label-error')
 
 
 const ValidDatos = (e) => {
     InputsValid[e.target.name](e.target)
 }
+
+const ClearValues = () => {
+    Inputs.forEach((inputs) => {
+        inputs.classList.remove('border-danger');
+    });
+    CombosPerfil.forEach((select) => {
+        select.classList.remove('border-danger');
+    });
+    ClearErrorMess.forEach((error) => {
+        error.classList.add('d-none');
+    });
+}
+
+const ValidNull = () => {
+    Inputs.forEach((inputs) => {
+        if (inputs.value == '') {
+            const inputNull = document.getElementsByName(`${inputs.name}`)[0];
+            const parent = inputNull.parentElement;
+            document.querySelector(`#${parent.id} p`).classList.remove('d-none');
+            inputNull.classList.add('border-danger');
+        }
+
+    });
+    CombosPerfil.forEach((select) => {
+        if (select.value == '') {
+            const selectNull = document.getElementsByName(`${select.name}`)[0];
+            const parent = selectNull.parentElement;
+            document.querySelector(`#${parent.id} p`).classList.remove('d-none');
+            selectNull.classList.add('border-danger');
+        }
+    });
+}
+
 
 const InputsValid = {
     username: (target) => swValidarCampos(expresionesGlobales.username, target, 'SwUsername'),
@@ -15,13 +49,19 @@ const InputsValid = {
 
     nombre: (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swNombre'),
     unidad: (target) => { ValidCombo(target, 'swUnidad') },
+    apellidos: (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swApellidoP'),
+
+    'id_sucursal': (target) => { ValidCombo(target, 'swCboSucursal') },
+    'id_sector': (target) => { ValidCombo(target, 'swCboSector') },
+    'id_torre': (target) => { ValidCombo(target, 'swCboTorre') },
+    'id_departamento': (target) => { ValidCombo(target, 'swCboDepartamento') },
+
 
     nombres: (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swNombre'),
     'primer_apellido': (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swApellidoP'),
     'segundo_apellido': (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swApellidoM'),
     'fecha_nacimiento': (target) => swValidarCampos(expresionesGlobales.onlyFecha, target, 'swFecha'),
     'tipo_documento': (target) => { ValidCombo(target,'swTipoDocumento'), ValidTipoDocumento(target, 'swDocumento') },
-    'nro_documento': (target) => { swValidarCampos(expresionesGlobales.onlyDni, target, 'swDocumento') },
     'id_rol': (target) => { ValidCombo(target, 'swRoles')},
     genero: (target) => { ValidCombo(target, 'swGenero') },
     nacionalidad: (target) => { ValidCombo(target, 'swNacionalidad') },
@@ -43,7 +83,12 @@ const swCamposValid = {
     swDireccion: true,
 
     swRoles: true,
+
     swUnidad:true
+    swCboSucursal: true,
+    swCboSector: true,
+    swCboTorre: true,
+    swCboDepartamento: true
 }
 
 const expresionesGlobales = {
@@ -102,7 +147,6 @@ const ValidTipoDocumento = (e,campo) => {
     const typeDocumento = document.getElementById('iddocumento');
     const opt = e.options[e.selectedIndex];
     const tipoDocu = opt.text.toLowerCase();
-    console.log(tipoDocu);
     if (tipoDocu == "dni") {
         swValidarCampos(expresionesGlobales.onlyDni, typeDocumento, campo);
         typeDocumento.addEventListener('keyup', () => { swValidarCampos(expresionesGlobales.onlyDni, typeDocumento, campo); }, false);
