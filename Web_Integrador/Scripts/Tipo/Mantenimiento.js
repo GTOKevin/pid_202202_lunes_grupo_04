@@ -122,38 +122,43 @@ $("#view-form").on("submit", function (e) {
     });
     
     //const { formData, validate } = validar();
-    if (validate) {
-        showLoading();
+    if (swCamposValid.swNombre && swCamposValid.swUnidad) {
+        if (validate) {
+            showLoading();
 
-        $.ajax({
-            method: "POST",
-            url: urlSaveTipo,
-            data: formData,
-            responseType: 'json',
-            success: async function (res) {
-                Swal.close();
-                let { TipoList, oHeader } = res;
-                if (oHeader.estado) {
-                    if (id_tipo.value == "0") {
-                        await llenarVariable(TipoList, 'new');
-                    } else {
-                        await llenarVariable(TipoList, 'edit');
+            $.ajax({
+                method: "POST",
+                url: urlSaveTipo,
+                data: formData,
+                responseType: 'json',
+                success: async function (res) {
+                    Swal.close();
+                    let { TipoList, oHeader } = res;
+                    if (oHeader.estado) {
+                        if (id_tipo.value == "0") {
+                            await llenarVariable(TipoList, 'new');
+                        } else {
+                            await llenarVariable(TipoList, 'edit');
+                        }
+
+                        await listTable(tipoList);
+                        Swal.fire('ok', oHeader.mensaje, 'success');
                     }
 
-                    await listTable(tipoList);
-                    Swal.fire('ok', oHeader.mensaje, 'success');
+                },
+                error: function (err) {
+                    Swal.close();
                 }
+            });
 
-            },
-            error: function (err) {
-                Swal.close();
-            }
-        });
-
+        }
+        $("#view-form").hide(500);
+        $("#view-table").show(1000);
     }
 
-    $("#view-form").hide(500);
-    $("#view-table").show(1000);
+    
+
+   
 
 });
 

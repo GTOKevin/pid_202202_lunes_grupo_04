@@ -47,6 +47,7 @@
     <Compile Include="Departamento_File_DA.cs" />
     <Compile Include="Incidente_DA.cs" />
     <Compile Include="IncidenteFile_DA.cs" />
+    <Compile Include="Incidente_Historial_DA.cs" />
     <Compile Include="Movimiento_DA.cs" />
     <Compile Include="Perfil_DA.cs" />
     <Compile Include="Perfil_File_DA.cs" />

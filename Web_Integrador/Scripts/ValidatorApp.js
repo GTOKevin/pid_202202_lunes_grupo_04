@@ -46,7 +46,9 @@ const InputsValid = {
     clave: (target) => { swValidarCampos(expresionesGlobales.contra, target, 'SwContrasenia1'), validarContraseñas('SwContrasenia2') },
     clave2: () => validarContraseñas('SwContrasenia2'),
 
+
     nombre: (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swNombre'),
+    unidad: (target) => { ValidCombo(target, 'swUnidad') },
     apellidos: (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swApellidoP'),
 
     'id_sucursal': (target) => { ValidCombo(target, 'swCboSucursal') },
@@ -82,6 +84,7 @@ const swCamposValid = {
 
     swRoles: true,
 
+    swUnidad:true
     swCboSucursal: true,
     swCboSector: true,
     swCboTorre: true,
