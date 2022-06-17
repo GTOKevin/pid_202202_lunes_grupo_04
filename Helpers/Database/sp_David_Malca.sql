@@ -13,6 +13,15 @@ if @idmovi =0
   end
   GO
   --CREATE
+  ALTER Proc [dbo].[USP_INCIDENTE_CREAR]  
+@descripcion varchar(200), @nombre_reportado varchar(100),@tipodocumento varchar(1),@nro_documento varchar(20),  
+@id_departamento int , @idusuario int 
+As  
+Begin  
+Insert dbo.INCIDENTE(fecha_incidente,descripcion,nombre_reportado,tipo_documento,nro_documento,fecha_registro,id_departamento,id_usuario,Estado)  
+Values (GETDATE(),@descripcion,@nombre_reportado,@tipodocumento,@nro_documento,GETDATE(),@id_departamento,@idusuario,0)  
+End 
+go
   
 CREATE proc USP_INSERT_MOVIMIENTO
 @idmovi int , @idpropietario int , @idtipo int 

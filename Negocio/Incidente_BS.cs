@@ -22,5 +22,10 @@ namespace Negocio
         {
             return new Incidente_DA().Actualizar(inc);
         }
+
+        public object lista(object id_register)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

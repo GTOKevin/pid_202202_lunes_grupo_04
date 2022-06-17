@@ -70,6 +70,8 @@ namespace Datos
                     cm.Parameters.AddWithValue("@tipodocumento", inc.tipo_documento);
                     cm.Parameters.AddWithValue("@nro_documento", inc.nro_documento);
                     cm.Parameters.AddWithValue("@id_departamento", inc.id_departamento);
+                    cm.Parameters.AddWithValue("@idusuario", inc.id_usuario);
+
                     SqlDataReader dr = cm.ExecuteReader();
 
                     cn.Close();

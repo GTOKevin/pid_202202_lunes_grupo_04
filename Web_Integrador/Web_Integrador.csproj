@@ -127,6 +127,7 @@
     <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\DepartamentoFileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IncidenteController.cs" />
     <Compile Include="Controllers\Incidente_HistorialController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\RolController.cs" />
@@ -254,6 +255,7 @@
     <Folder Include="Assets\Imagenes\" />
     <Folder Include="Content\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Incidente\" />
     <Folder Include="Views\Incidente_Historial\" />
   </ItemGroup>
   <ItemGroup>
