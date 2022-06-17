@@ -22,8 +22,13 @@ namespace Entidades
         public DateTime? fecha_registro { get; set; }
         public int id_departamento { get; set; }
         public int id_usuario { get; set; }
+        public bool estado { get; set; }
 
 
-
+    }
+    public class Incidente_Register
+    {
+        public DTOHeader oHeader { get; set; }
+        public int id_register { get; set; }
     }
 }

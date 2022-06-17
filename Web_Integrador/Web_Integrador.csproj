@@ -127,6 +127,7 @@
     <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\DepartamentoFileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IncidenteController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\MovimientoController.cs" />
@@ -144,6 +145,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Model\DepartamentoModel.cs" />
+    <Compile Include="Model\ServicioModel.cs" />
     <Compile Include="Model\TorreModel.cs" />
     <Compile Include="Model\VisitaRegistroModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -249,6 +251,7 @@
     <Folder Include="Assets\Imagenes\" />
     <Folder Include="Content\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Incidente\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

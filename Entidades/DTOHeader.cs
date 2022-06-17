@@ -8,6 +8,9 @@ namespace Entidades
 {
     public class DTOHeader
     {
+        public readonly object id_register;
+        public DTOHeader oHeader;
+
         public bool estado { get; set; }
         public string mensaje { get; set; }
     }
