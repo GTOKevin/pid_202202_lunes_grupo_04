@@ -187,3 +187,27 @@ SELECT * FROM DEPARTAMENTO_FILE
 WHERE id_departamento= @id_departamento
 END 
 Go
+
+
+--Historial de incidente
+CREATE PROC USP_INCIDENTE_HISTORIAL_LISTAR 
+@id_incidente_historial int
+AS
+ if @id_incidente_historial=0      
+BEGIN
+select * from INCIDENTE_HISTORIAL
+  end      
+ else      
+  begin       
+   select * from INCIDENTE_HISTORIAL
+   where id_incidente_historial = @id_incidente_historial
+END
+GO
+--
+CREATE PROCEDURE USP_INCIDENTE_HISTORIAL_CREAR
+@acciones varchar(300),@idincidente int
+AS
+  BEGIN
+   INSERT INTO INCIDENTE_HISTORIAL(acciones,fecha_historial,id_incidente) VALUES(@acciones,GETDATE(),@idincidente);
+  END
+GO

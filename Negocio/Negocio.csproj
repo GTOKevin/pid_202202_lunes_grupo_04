@@ -45,6 +45,7 @@
     <Compile Include="Departamento_File_BS.cs" />
     <Compile Include="Incidente_BS.cs" />
     <Compile Include="IncidenteFile_BS.cs" />
+    <Compile Include="Incidente_Historial_BS.cs" />
     <Compile Include="Movimiento_BS.cs" />
     <Compile Include="Perfil_BS.cs" />
     <Compile Include="Perfil_File_BS.cs" />

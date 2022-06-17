@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Incidente_File.cs" />
+    <Compile Include="Incidente_Historial.cs" />
     <Compile Include="Movimiento.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Perfil_File.cs" />

@@ -12,6 +12,10 @@ const InputsValid = {
     clave: (target) => { swValidarCampos(expresionesGlobales.contra, target, 'SwContrasenia1'), validarContraseñas('SwContrasenia2') },
     clave2: () => validarContraseñas('SwContrasenia2'),
 
+
+    nombre: (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swNombre'),
+    unidad: (target) => { ValidCombo(target, 'swUnidad') },
+
     nombres: (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swNombre'),
     'primer_apellido': (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swApellidoP'),
     'segundo_apellido': (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swApellidoM'),
@@ -39,6 +43,7 @@ const swCamposValid = {
     swDireccion: true,
 
     swRoles: true,
+    swUnidad:true
 }
 
 const expresionesGlobales = {
