@@ -38,11 +38,11 @@ namespace Datos
                         recibo.numero_torre = dr["numero_torre"].ToInt();
                         recibo.id_departamento = dr["id_departamento"].ToInt();
                         recibo.numero_departamento = dr["numero_departamento"].ToInt();
-                        recibo.id_servicio = dr["id_servicio"].ToInt();
+                        //recibo.id_servicio = dr["id_servicio"].ToInt();
                         recibo.nombre_servicio = dr["nombre_servicio"].ToString();
                         recibo.monto = dr["monto"].ToDecimal();
                         recibo.fecha_pago = dr["fecha_pago"].ToDateTime();
-                        recibo.fecha_vencimiento = dr["fecha_vencimiento"].ToDateTime();
+                        //recibo.fecha_vencimiento = dr["fecha_vencimiento"].ToDateTime();
                         recibo_list.Add(recibo);
                     }
                     cn.Close();
@@ -59,7 +59,7 @@ namespace Datos
             return recibo_res;
         }
 
-        public Recibo_Register Registrar(Recibo Enti)
+        public Recibo_Register Registrar(string servicio, int id_departamento,decimal monto=0,DateTime? fecha_pago = null)
         {
             Recibo_Register recibo_Register = new Recibo_Register();
             DTOHeader oHeader = new DTOHeader();
@@ -72,25 +72,21 @@ namespace Datos
                     cn.Open();
                     SqlCommand cmd = new SqlCommand("SP_RECIBO_REGISTER", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@id_recibo", Enti.id_recibo);
-                    cmd.Parameters.AddWithValue("@id_servicio", Enti.id_servicio);
-                    cmd.Parameters.AddWithValue("@monto", Enti.monto);
-                    cmd.Parameters.AddWithValue("@fecha_pago", Enti.fecha_pago);
-                    cmd.Parameters.AddWithValue("@fecha_vencimiento", Enti.fecha_vencimiento);
+                    cmd.Parameters.AddWithValue("@monto", monto);
+                    cmd.Parameters.AddWithValue("@id_departamento", id_departamento);
+                    cmd.Parameters.AddWithValue("@servicio", servicio);
+                    cmd.Parameters.AddWithValue("@fecha_pago", fecha_pago);
                     rpta = Convert.ToInt32(cmd.ExecuteScalar());
                     cn.Close();
 
                 }
                 id_register = rpta;
                 oHeader.estado = true;
-                if (Enti.id_recibo > 0)
+                if (id_register > 0)
                 {
-                    oHeader.mensaje = "Se ha registrado el recibo";
+                    oHeader.mensaje = "Se ha generado los recibos";
                 }
-                else
-                {
-                    oHeader.mensaje = "Se ha actualizado el recibo";
-                }
+
 
 
             }

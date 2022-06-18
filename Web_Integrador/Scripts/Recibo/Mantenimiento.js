@@ -159,13 +159,16 @@ $("#view-form").on("submit", function (e) {
 
     });
 
-    if (validate) {
-        showLoading();
+    let servicio = document.getElementById("id");
+    servicio.value;
 
-        $.ajax({
-            method: "POST",
-            url: urlSaveRecibo,
-            data: formData,
+    //if (validate) {
+    //    showLoading();
+
+    $.ajax({
+        method: "POST",
+        url: urlSaveRecibo,
+        data: { servicio: "", id_cliente: 0, anio: 2023, monto: 0 },
             responseType: 'json',
             success: async function (res) {
                 console.log(res);
@@ -173,14 +176,14 @@ $("#view-form").on("submit", function (e) {
                 let { ReciboList, oHeader } = res;
                 if (oHeader.estado) {
                     if (id_recibo.value == "0") {
-                        await llenarVariable(ReciboList, 'new');
+                        //await llenarVariable(ReciboList, 'new');
                     } else {
-                        await llenarVariable(ReciboList, 'edit');
+                        //await llenarVariable(ReciboList, 'edit');
                     }
 
-                    await listTable(reciboList);
-                    Swal.fire('ok', oHeader.mensaje, 'success');
-                    await mostrarTabla();
+                    //await listTable(reciboList);
+                    //Swal.fire('ok', oHeader.mensaje, 'success');
+                    //await mostrarTabla();
                 }
 
             },
@@ -189,7 +192,7 @@ $("#view-form").on("submit", function (e) {
             }
         });
 
-    }
+    //}
 
 
 });

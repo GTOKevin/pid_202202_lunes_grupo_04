@@ -22,5 +22,9 @@ namespace Negocio
         {
             return new Departamento_DA().Actualizar(dep);
         }
+        public Departamento_Res listarDepProp(int id_propietario = 0)
+        {
+            return new Departamento_DA().listarDepProp(id_propietario);
+        }
     }
 }
