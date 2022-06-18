@@ -1,12 +1,7 @@
 ﻿var colsName = ['ID', 'NOMBRE TIPO', 'SUCURSAL', 'SECTOR', 'TORRE', 'DEPARTAMENTO', 'NOMBRE'];
 var servicioList = [];
 
-const removeDanger = () => {
-    $(".val").click(function (e) {
-        this.classList.remove("border-danger");
-    });
 
-}
 const llenarVariable = (lista, option) => {
     let newArray;
     switch (option) {
@@ -34,7 +29,7 @@ const init = () => {
         getDepartamento(this.value);
     });
 
-    removeDanger();
+
     showLoading();
     setColumns("example", colsName, true);
     getListaServicio();
@@ -147,8 +142,9 @@ $("#view-form").on("submit", function (e) {
     }
 
     e.preventDefault();
-    let formData = {};
-    let validate = true;
+    //let formData = {};
+    //let validate = true;
+    let { formData, formEstado } = setValData();
 
     $("#view-form input").each(function (index) {
         if (this.value.trim().length != 0) {
@@ -166,7 +162,7 @@ $("#view-form").on("submit", function (e) {
         }
 
     });
-    if (validate) {
+    if (formEstado) {
         showLoading();
 
         $.ajax({
@@ -258,6 +254,11 @@ const llenarCampos = async (list) => {
 }
 
 init();
+
+    $(".val").click(function (e) {
+        this.classList.remove("border-danger");
+    });
+
 
 const cleanSelect = () => {
     let selSector = document.getElementsByName("id_sector")[0];

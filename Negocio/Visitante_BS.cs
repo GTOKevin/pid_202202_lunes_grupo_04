@@ -21,7 +21,6 @@ namespace Negocio
             return new Visitante_DA().ListarXDni(nro_documento);
         }
 
-
         public Visitante_Register Registrar(Visitante vis)
         {
             return new Visitante_DA().Registrar(vis);
@@ -30,6 +29,16 @@ namespace Negocio
         public VISITA_REGISTRO_Register RegistrarEntradaUsuario(VISITA_REGISTRO visreg)
         {
             return new Visitante_DA().RegistrarEntradaUsuario(visreg);
+        }
+
+        public VISITAREGISTRO_Res ListarHistorial(int id_visitante)
+        {
+            return new Visitante_DA().ListarHistorial(id_visitante);
+        }
+
+        public VISITA_REGISTRO_Register BuscarXDni(string nro_documento)
+        {
+            return new Visitante_DA().BuscarXDni(nro_documento);
         }
 
 
