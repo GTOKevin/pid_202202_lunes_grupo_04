@@ -16,9 +16,9 @@ namespace Negocio
             return new Recibo_DA().Listar(id_recibo);
         }
 
-        public Recibo_Register Registrar(Recibo ent)
+        public Recibo_Register Registrar(string servicio, int id_departamento, decimal monto, DateTime? fecha_pago=null)
         {
-            return new Recibo_DA().Registrar(ent);
+            return new Recibo_DA().Registrar(servicio, id_departamento,monto,fecha_pago);
         }
     }
 }

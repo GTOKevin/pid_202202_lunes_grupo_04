@@ -62,7 +62,47 @@ namespace Datos
         return departamento_res;
     }
 
-    public Departamento_Register Registrar(Departamento enti)
+
+
+        public Departamento_Res listarDepProp(int id_propietario = 0)
+        {
+            Departamento_Res departamento_res = new Departamento_Res();
+            List<Departamento> departamento_list = new List<Departamento>();
+            DTOHeader oHeader = new DTOHeader();
+
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_DEPARTAMENTO_PROP_LISTAR", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id_propietario", id_propietario);
+                    SqlDataReader dr = cm.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        Departamento departamento = new Departamento();
+                        departamento.id_departamento = dr["id_departamento"].ToInt();
+                        departamento_list.Add(departamento);
+                    }
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            departamento_res.lista_Departamento = departamento_list;
+            departamento_res.oHeader = oHeader;
+
+            return departamento_res;
+
+        }
+
+
+        public Departamento_Register Registrar(Departamento enti)
     {
 
         Departamento_Register departamento_Register = new Departamento_Register();
@@ -119,7 +159,7 @@ namespace Datos
     }
 
 
-        public DTOHeader Actualizar(Departamento dep)
+    public DTOHeader Actualizar(Departamento dep)
         {
             DTOHeader oHeader = new DTOHeader();
             try
@@ -152,4 +192,6 @@ namespace Datos
         }
 
     }
+
+
 }

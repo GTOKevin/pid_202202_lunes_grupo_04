@@ -98,56 +98,49 @@ namespace Web_Integrador.Controllers
 
         }
 
-        //public JsonResult ListarServicio(int id_departamento = 0)
-        //{
-        //    Servicio_Res servicio_Res = new Servicio_Res();
-        //    try
-        //    {
-        //        var rpta = servicio_BS.lista(0);
-        //        if (rpta.oHeader.estado)
-        //        {
-        //            var lista = rpta.ServicioList;
-        //            var listaServicio = lista.Where(x => x.id_departamento == id_departamento).ToList();
-        //            servicio_Res.oHeader = rpta.oHeader;
-        //            servicio_Res.ServicioList = listaServicio;
-        //        }
-        //        else
-        //        {
-        //            servicio_Res = rpta;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        servicio_Res.oHeader.estado = false;
-        //        servicio_Res.oHeader.mensaje = ex.Message;
-        //    }
 
-        //    return Json(servicio_Res, JsonRequestBehavior.AllowGet);
-
-        //}
-        public JsonResult RegistrarRecibo(Recibo enti)
+        [HttpPost]
+        public JsonResult RegistrarRecibo(string servicio,int id_cliente=0, int anio=0,decimal monto=0)
         {
+
+
             Recibo_Res recibo_res = new Recibo_Res();
             List<Recibo> recibo_List = new List<Recibo>();
             DTOHeader oHeader = new DTOHeader();
-            try
+
+            List<DateTime> fechas = new List<DateTime>();
+            for (int i = 1;i <= 12; i++)
             {
-                var rpta = recibo_BS.Registrar(enti);
-                oHeader = rpta.oHeader;
-                if (rpta.oHeader.estado)
+                DateTime oPrimerDiaDelMes = new DateTime(anio,i,1);
+                DateTime oUltimoDiaDelMes = oPrimerDiaDelMes.AddMonths(1).AddDays(-1);
+                fechas.Add(oUltimoDiaDelMes);
+            }
+
+            var resDep = departamento_BS.listarDepProp(id_cliente);
+            int contador = 0;
+            if (resDep.lista_Departamento.Count > 0)
+            {
+                foreach(var fecha in fechas)
                 {
-                    var getRecibo = recibo_BS.lista(rpta.id_register);
-                    if (getRecibo.oHeader.estado)
+                    foreach(var dep in resDep.lista_Departamento)
                     {
-                        recibo_List = getRecibo.ReciboList;
+                        var recb_reg=recibo_BS.Registrar(servicio,dep.id_departamento,monto,fecha);
+                        if (recb_reg.oHeader.estado)
+                        {
+                            contador++;
+                        }
                     }
                 }
+
+                oHeader.estado = true;
+                oHeader.mensaje = "Se han generado " + contador.ToString() + " recibos";
             }
-            catch (Exception ex)
+            else
             {
-                recibo_res.oHeader.estado = false;
-                recibo_res.oHeader.mensaje = ex.Message;
+                oHeader.estado = false;
+                oHeader.mensaje = "Los recibos ya han sido generados";
             }
+
             recibo_res.oHeader = oHeader;
             recibo_res.ReciboList = recibo_List;
 
