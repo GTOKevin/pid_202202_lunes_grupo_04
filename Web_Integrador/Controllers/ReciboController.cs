@@ -21,6 +21,7 @@ namespace Web_Integrador.Controllers
         Torre_BS torre_BS = new Torre_BS();
         Sector_BS sector_BS = new Sector_BS();
         Sucursal_BS sucursal_BS = new Sucursal_BS();
+        Propietario_BS propietario_BS = new Propietario_BS();
 
         // GET: Recibo
         [PermisosRol(Roles.AgenteVisitas)]
@@ -32,6 +33,21 @@ namespace Web_Integrador.Controllers
             {
                 oModeView.Sucursales = sucursal.SucursalList;
             }
+            var resProp = propietario_BS.lista(0);
+            var listaProp = resProp.lista_Propietario;
+
+            var listaPropietarios = (from prop in listaProp
+                         where prop.id_tipo == 1
+                         select new Propietario
+                         {
+                             id_propietario = prop.id_propietario,
+                             nombres = prop.nombres,
+                             primer_apellido = prop.primer_apellido,
+                             segundo_apellido = prop.segundo_apellido
+                         }).ToList();
+
+            oModeView.Propietarios = listaPropietarios;
+
             return View(oModeView);
         }
 
@@ -132,6 +148,12 @@ namespace Web_Integrador.Controllers
                     }
                 }
 
+      
+            }
+ 
+
+            if (contador > 0)
+            {
                 oHeader.estado = true;
                 oHeader.mensaje = "Se han generado " + contador.ToString() + " recibos";
             }

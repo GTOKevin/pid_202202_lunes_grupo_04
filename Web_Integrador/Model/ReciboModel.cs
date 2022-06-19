@@ -11,12 +11,16 @@ namespace Web_Integrador.Model
         {
             public DTOHeader oHeader { get; set; }
             public List<Servicio> lista_Servicio { get; set; }
-        }
+            public List<Propietario> lista_Propietario { get; set; }
+    }
 
         public class ReciboModel
         {
             public List<Recibo> lista_Recibo { get; set; }
             public List<Sucursal> Sucursales { get; set; }
+            public List<Tipo> Tipos { get; set; }
+           public List<Propietario> Propietarios { get; set; }
             
-        }
+
+    }
 }

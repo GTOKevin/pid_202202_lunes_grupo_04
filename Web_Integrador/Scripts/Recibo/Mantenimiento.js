@@ -1,5 +1,5 @@
 ﻿
-var colsName = ['ID', 'SUCURSAL', 'SECTOR', 'TORRE', 'DEPARTAMENTO', 'SERVICIO', 'MONTO', 'FECHA_PAGO', 'FECHA_VENCIMIENTO'];
+var colsName = ['ID','MONTO', 'PROPIETARIO', 'SERVICIO', 'FECHA DE PAGO', 'ESTADO'];
 var reciboList = [];
 
 const removeDanger = () => {
@@ -105,14 +105,10 @@ const listTable = (res) => {
         destroy: true,
         data: res,       
         columns: [{ data: "id_recibo" },
-        { data: "nombre_sucursal" },
-        { data: "nombre_sector" },
-        { data: "numero_torre" },
-        { data: "numero_departamento" },
-        { data: "nombre_servicio" },
         { data: "monto" },
-        { data: "fecha_pago", render: function (data) { return FechaDate(data) } },
-        { data: "fecha_vencimiento", render: function (data) { return FechaDate(data) } },
+        { data: "id_departamento" },
+        { data: "servicio" },
+        { data: "fecha_pago", render: function (data) { return FechaDate(data) }  },
         buttonsDatatTable("edit")],
         rowId: "id_recibo",
        
@@ -133,11 +129,11 @@ const listTable = (res) => {
 };
 
 $("#view-form").on("submit", function (e) {
-    let id_recibo = document.getElementsByName("id_recibo")[0];
+    //let id_recibo = document.getElementsByName("id_recibo")[0];
 
-    if (id_recibo.value == "" || id_recibo.value == undefined) {
-        id_recibo.value = 0;
-    }
+    //if (id_recibo.value == "" || id_recibo.value == undefined) {
+    //    id_recibo.value = 0;
+    //}
 
     e.preventDefault();
     let formData = {};
@@ -151,24 +147,28 @@ $("#view-form").on("submit", function (e) {
 
     });
     $("#view-form select").each(function (index) {
-        if (this.value.trim().length != 0) {
+        if (this.name == "id_cliente" || this.name=="servicio") {
             formData[this.name] = this.value;
         } else {
-            validate = false;
+            if (this.value.trim().length != 0) {
+                formData[this.name] = this.value;
+            } else {
+                validate = false;
+            }
         }
+       
 
     });
 
-    let servicio = document.getElementById("id");
-    servicio.value;
 
-    //if (validate) {
-    //    showLoading();
+
+    if (validate) {
+        showLoading();
 
     $.ajax({
         method: "POST",
         url: urlSaveRecibo,
-        data: { servicio: "", id_cliente: 0, anio: 2023, monto: 0 },
+        data: formData,
             responseType: 'json',
             success: async function (res) {
                 console.log(res);
@@ -192,10 +192,18 @@ $("#view-form").on("submit", function (e) {
             }
         });
 
-    //}
+    }
 
 
 });
+const agregarProp = () => {
+    let { boleta, estado } = obtenerProp();
+    if (estado) {
+        listaTableData(boleta);
+        $("#closeModal")[0].click();
+    }
+}
+
 
 const getReciboId = (id) => {
     $.ajax({
@@ -218,201 +226,37 @@ const getReciboId = (id) => {
     });
 }
 
-const llenarCampos = async (list) => {
-    console.log(list);
-    let idSucursal = "";
-    let idSector = "";
-    let idTorre = "";
-    let idDepartamento = "";
-    let idServicio = "";
-    let sector = document.getElementsByName("id_sector")[0];
-    let torre = document.getElementsByName("id_torre")[0];
-    let departamento = document.getElementsByName("id_departamento")[0];
-    let servicio = document.getElementsByName("id_servicio")[0];
-    if (list.length > 0) {
-        $(".val").each(function (ind) {
-            for (var propName in list[0]) {
-                if (this.name === propName) {
-                    if (this.type == "date") {
-                        this.value = FechaDate(list[0][propName]);
-                    } else {
-                        this.value = list[0][propName];
-                    }
-                    if (propName === "id_sucursal") {
-                        idSucursal = list[0][propName];
-                    } else if (propName === "id_sector") {
-                        idSector = list[0][propName];
-                    } else if (propName === "id_torre") {
-                        idTorre = list[0][propName];
-                    } else if (propName === "id_departamento") {
-                        idDepartamento = list[0][propName];
-                    } else if (propName === "id_servicio") {
-                        idServicio = list[0][propName];
-                    }                       
-                }
-            }
 
-        });
-    }
-    await getSector(idSucursal);
-    sector.value = idSector;
-    await getTorre(idSector);
-    torre.value = idTorre;
-    await getDepartamento(idTorre)
-    departamento.value = idDepartamento;
-    await getServicio(idDepartamento)
-    servicio.value = idServicio;
+
+const getReciboId = () => {
+    let dni = document.getElementById("dni");
+    let nombre = document.getElementById("nombre");
+    let servicio = document.getElementById("servicio")[0];
+    let estado = document.getElementById("estado")[0];
+    //public JsonResult ListarFiltro
+    $.ajax({
+        method: "GET",
+        url: urlGetRecibo + "?dni=" + dni.value + "&nombre=" + nombre.value + "&servicio=" + servicio.value + "&estado=" + estado.value,
+        responseType: 'json',
+        success: async function (res) {
+            let { recibo_list, oHeader } = res;
+            console.log(reciboList);
+            if (oHeader.estado) {
+                await llenarCampos(ReciboList);
+            } else {
+                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
+            }
+        },
+        error: function (err) {
+            Swal.close();
+        }
+
+    });
 }
 
 init();
 
-const cleanSelect = () => {
-    let selSector = document.getElementsByName("id_sector")[0];
-    selSector.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    selSector.innerHTML = str;
-    selSector.value = "";
-}
 
-const getSector = async (id) => {
-    await $.ajax({
-        method: "GET",
-        url: urlGetSector + "?id_sucursal=" + id,
-        responseType: 'json',
-        success: async function (res) {
-            let { SectorList, oHeader } = res;
-            if (oHeader.estado) {
-                await getSelectSector(SectorList);
-            } else {
-                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
-            }
-        },
-        error: function (err) {
-            Swal.close();
-        }
-
-    });
-}
-const getTorre = async (id) => {
-    await $.ajax({
-        method: "GET",
-        url: urlGetTorre + "?id_sector=" + id,
-        responseType: 'json',
-        success: async function (res) {
-            let { TorreList, oHeader } = res;
-            if (oHeader.estado) {
-                await getSelectTorre(TorreList);
-            } else {
-                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
-            }
-        },
-        error: function (err) {
-            Swal.close();
-        }
-
-    });
-}
-const getDepartamento = async (id) => {
-    await $.ajax({
-        method: "GET",
-        url: urlGetDepartamento + "?id_torre=" + id,
-        responseType: 'json',
-        success: async function (res) {
-            console.log(res);
-            let { lista_Departamento, oHeader } = res;
-            if (oHeader.estado) {
-                await getSelectDepartamento(lista_Departamento);
-            } else {
-                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
-            }
-        },
-        error: function (err) {
-            Swal.close();
-        }
-
-    });
-}
-const getServicio = async (id) => {
-    await $.ajax({
-        method: "GET",
-        url: urlGetServicio + "?id_departamento=" + id,
-        responseType: 'json',
-        success: async function (res) {
-            console.log(res);
-            let { ServicioList, oHeader } = res;
-            if (oHeader.estado) {
-                await getSelectServicio(ServicioList);
-            } else {
-                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
-            }
-        },
-        error: function (err) {
-            Swal.close();
-        }
-
-    });
-}
-const getSelectSector = (list) => {
-
-    let selSector = document.getElementsByName("id_sector")[0];
-    selSector.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    if (list.length > 0) {
-        for (i = 0; i < list.length; i++) {
-            str += `<option value="${list[i].id_sector}">${list[i].nombre_sector}</option>`;
-        }
-    }
-    selSector.innerHTML = str;
-    selSector.value = "";
-
-}
-const getSelectTorre = (list) => {
-
-    let selTorre = document.getElementsByName("id_torre")[0];
-    selTorre.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    if (list.length > 0) {
-        for (i = 0; i < list.length; i++) {
-            str += `<option value="${list[i].id_torre}">Numero : ${list[i].numero}</option>`;
-        }
-    }
-    selTorre.innerHTML = str;
-    selTorre.value = "";
-
-}
-const getSelectDepartamento = (list) => {
-
-    let selDepartamento = document.getElementsByName("id_departamento")[0];
-    selDepartamento.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    if (list.length > 0) {
-        for (i = 0; i < list.length; i++) {
-            str += `<option value="${list[i].id_departamento}">${list[i].numero}</option>`;
-        }
-    }
-    selDepartamento.innerHTML = str;
-    selDepartamento.value = "";
-
-}
-const getSelectServicio = (list) => {
-    let selServicio = document.getElementsByName("id_servicio")[0];
-    selServicio.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    console.log(list);
-    if (list.length > 0) {
-        for (i = 0; i < list.length; i++) {
-            str += `<option value="${list[i].id_servicio}">${list[i].nombre}</option>`;
-        }
-    }
-    selServicio.innerHTML = str;
-    selServicio.value = "";
-
-}
 $(".val").click(function (e) {
     this.classList.remove("border-danger");
 });
