@@ -20,5 +20,20 @@ namespace Negocio
         {
             return new Recibo_DA().Registrar(servicio, id_departamento,monto,fecha_pago);
         }
+
+        public Recibo_Res Listar_N()
+        {
+            return new Recibo_DA().Listar_N();
+        }
+
+        public Recibo_Res Listar_Filtro(string dni = "", string nombre = "", string servicio = "", int estado=0)
+        {
+            return new Recibo_DA().Listar_Filtro(dni,nombre,servicio,estado);
+        }
+
+        public Recibo_Res Pagar_Recibo(int id_Recibo, int estado)
+        {
+            return new Recibo_DA().Pagar_Recibo(id_Recibo, estado);
+        }
     }
 }
