@@ -20,6 +20,7 @@ namespace Entidades
         public bool estado { get; set; }
         public DateTime? fecha_pago { get; set; }
         public int id_departamento { get; set; }
+        public Propietario oPropietario { get; set; }
 
         //extras
 
