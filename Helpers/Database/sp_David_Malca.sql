@@ -1,4 +1,4 @@
---LIST
+
 CREATE proc USP_LIST_MOVIMIENTO
 @idmovi int
 as
@@ -11,13 +11,11 @@ if @idmovi =0
     select * from MOVIMIENTO where id_movimiento = @idmovi
 
   end
-  GO
-  --CREATE
-ALTER TABLE INCIDENTE
-ADD Estado BIT
-GO
+ GO
 
-  ALTER Proc [dbo].[USP_INCIDENTE_CREAR]  
+
+ CREATE Proc [dbo].[USP_INCIDENTE_CREAR]  
+
 @descripcion varchar(200), @nombre_reportado varchar(100),@tipodocumento varchar(1),@nro_documento varchar(20),  
 @id_departamento int , @idusuario int 
 As  
@@ -26,24 +24,6 @@ Insert dbo.INCIDENTE(fecha_incidente,descripcion,nombre_reportado,tipo_documento
 Values (GETDATE(),@descripcion,@nombre_reportado,@tipodocumento,@nro_documento,GETDATE(),@id_departamento,@idusuario,0)  
 End 
 go
-  
-CREATE proc USP_INSERT_MOVIMIENTO
-@idmovi int , @idpropietario int , @idtipo int 
-as
-  declare @id int
-  if exists(select * from MOVIMIENTO where id_movimiento = @idmovi )
-  begin
-     update MOVIMIENTO set id_propietario = @idmovi , id_tipo = @idtipo
-	 where id_movimiento = @idmovi
-	 set @id = @idmovi
-	 end
-	 else
-	 begin
-  insert into MOVIMIENTO(id_propietario,id_tipo) values(@idpropietario,@idtipo)
-  set @id = SCOPE_IDENTITY()
-  end
-  select @id
-  GO
   --VISITANTE
   --LISTAR
  CREATE PROCEDURE SP_VISITANTE_LISTAR    
@@ -213,3 +193,4 @@ create PROCEDURE USP_VISITAREG_REGISTER
    select @id   
 
 
+GO
