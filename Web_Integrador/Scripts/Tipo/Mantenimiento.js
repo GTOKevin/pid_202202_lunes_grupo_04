@@ -1,5 +1,4 @@
-﻿
-var colsName = ['ID', 'NOMBRE', 'UNIDAD'];
+﻿var colsName = ['ID', 'NOMBRE', 'UNIDAD'];
 var tipoList = [];
 
 const llenarVariable = (lista, option) => {
@@ -24,9 +23,9 @@ const init = () => {
     setColumns("example", colsName, true);
     setTimeout(function () {
         getListaTipo();
-    },500)
+    }, 500)
 
-   
+
     Swal.close();
 };
 
@@ -34,14 +33,17 @@ const btnAction = (t, tipo) => {
     switch (tipo) {
         case 'new':
             cleanForm();
+            ClearValues();
             $("#view-table").hide(500);
             $("#view-form").show(1000);
             break;
         case 'cancel':
+            ClearValues();
             $("#view-form").hide(500);
             $("#view-table").show(1000);
             break;
         case 'edit':
+            ClearValues();
             $("#view-table").hide(500);
             $("#view-form").show(1000);
 
@@ -120,7 +122,7 @@ $("#view-form").on("submit", function (e) {
         }
 
     });
-    
+
     //const { formData, validate } = validar();
     if (swCamposValid.swNombre && swCamposValid.swUnidad) {
         if (validate) {
@@ -150,15 +152,21 @@ $("#view-form").on("submit", function (e) {
                     Swal.close();
                 }
             });
-
+            $("#view-form").hide(500);
+            $("#view-table").show(1000);
         }
-        $("#view-form").hide(500);
-        $("#view-table").show(1000);
+        else {
+            Swal.fire('Error', 'Formulario Error', 'error');
+            ValidNull();
+        }
+    }
+    else {
+        Swal.fire('Error', 'Formulario Error', 'error');
     }
 
-    
 
-   
+
+
 
 });
 
