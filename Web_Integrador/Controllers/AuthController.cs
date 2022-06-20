@@ -65,7 +65,7 @@ namespace Web_Integrador.Controllers
                         Session["PI_ROL"] = userLogin.usuario.id_rol;
 
 
-                        if(userLogin.file != null)
+                        if (userLogin.file != null)
                         {
                             if (userLogin.file.nombrefile != "" && userLogin.file.nombrefile != null)
                             {
