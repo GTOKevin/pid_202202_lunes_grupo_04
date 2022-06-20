@@ -6,16 +6,6 @@ GO
 -- PROCEDURES DE LA TABLA TIPO --
 
 
-ALTER TABLE PERFIL
-ALTER COLUMN tipo_documento VARCHAR(5)
-GO
-ALTER TABLE PERFIL
-ALTER COLUMN genero VARCHAR(5)
-GO
-ALTER TABLE PERFIL
-ALTER COLUMN nacionalidad VARCHAR(5)
-GO
-
 -- PROCEDURES DE LA TABLA PERFIL --
 
 CREATE PROC USP_LIST_PERFIL
@@ -211,14 +201,7 @@ END
  SELECT @id
 GO
 
-CREATE TABLE PERFIL_FILE
-(
-id_file INT IDENTITY (1,1) PRIMARY KEY,
-nombrefile VARCHAR(MAX),
-id_perfil INT
-FOREIGN KEY (id_perfil) REFERENCES PERFIL(id_perfil)
-)
-GO
+
 
 CREATE PROCEDURE USP_FILE_PERFIL    
 @id_perfil int,    
@@ -298,14 +281,8 @@ BEGIN
 END
 GO
 
-ALTER TABLE PROPIETARIO
-ALTER COLUMN nacionalidad varchar(5)
-GO
-ALTER TABLE PROPIETARIO
-ALTER COLUMN tipo_documento varchar(5)
-GO
 
-ALTER PROCEDURE USP_PROPIETARIO_REGISTRAR      
+CREATE PROCEDURE USP_PROPIETARIO_REGISTRAR      
  @id_propietario int,      
  @nombres varchar(50),      
  @primer_apellido varchar(30),  
@@ -348,101 +325,7 @@ GO
 
 --Cambios Visitante Registro--
 
-ALTER PROCEDURE [dbo].[USP_LISTAR_VISITAREG]
-	  @id_visita_registro int
-	  AS
-	  if @id_visita_registro =0
-	BEGIN
-	 Select 
-		Vr.id_visita_registro,
-		Vr.fecha_ingreso,
-		Vr.fecha_salida , 
-		s.id_sucursal,
-		s.nombre AS 'nombre_sucursal',
-		sec.id_sector,
-		sec.nombre_sector AS 'nombre_sector',
-		t.id_torre,
-		t.numero AS 'numero_torre',
-		d.id_departamento,
-		d.numero AS 'numero_departamento',	
-		v.id_visitante,
-		v.nro_documento,
-		v.nombre +SPACE(1)+ v.apellidos AS 'nombre_visitante' 
-	from VISITA_REGISTRO Vr 
-		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
-		join VISITANTE v on vr.id_visitante=v.id_visitante 
-		join TORRE t on d.id_torre=t.id_torre 
-		join SECTOR sec on t.id_sector=sec.id_sector
-		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
-	END
-	else
-	begin
-	 Select 
-		Vr.id_visita_registro,
-		Vr.fecha_ingreso,
-		Vr.fecha_salida , 
-		s.id_sucursal,
-		s.nombre AS 'nombre_sucursal',
-		sec.id_sector,
-		sec.nombre_sector AS 'nombre_sector',
-		t.id_torre,
-		t.numero AS 'numero_torre',
-		d.id_departamento,
-		d.numero AS 'numero_departamento',	
-		v.id_visitante,
-		v.nro_documento,
-		v.nombre +SPACE(1)+ v.apellidos AS 'nombre_visitante' 
-	 from
-	  VISITA_REGISTRO Vr 
-		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
-		join VISITANTE v on vr.id_visitante=v.id_visitante 
-		join TORRE t on d.id_torre=t.id_torre 
-		join SECTOR sec on t.id_sector=sec.id_sector
-		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
-	  where vr.id_visita_registro=@id_visita_registro
-	 END
 
-GO
-
-  ALTER PROCEDURE [dbo].[SP_VISITANTE_REGISTER]  
-@id_visitante int,    
-@nombre varchar(30),    
-@apellido varchar(100),
-@tipo_documento varchar(100),  
-@nro_documento varchar(100), 
-@genero varchar(100)  
-
-AS    
-   DECLARE @id int 
-IF EXISTS(select * from VISITANTE where id_visitante=@id_visitante)
-	  BEGIN    
-	   IF EXISTS(SELECT * FROM VISITANTE  WHERE nro_documento = @nro_documento and id_visitante != @id_visitante)
-		   BEGIN
-				SET @id = -1
-		   END
-	   ELSE
-		   BEGIN
-		   update VISITANTE set nombre=@nombre, apellidos=@apellido,tipo_documento=@tipo_documento,
-		   nro_documento=@nro_documento , genero=@genero
-		   where id_visitante=@id_visitante
-			SET @id = @id_visitante 
-		   END
-	  END
-ELSE
-	BEGIN
-		IF EXISTS(SELECT * FROM VISITANTE  WHERE nro_documento = @nro_documento)
-			BEGIN
-				SET @id = -1
-			END
-		ELSE
-			BEGIN
-				insert into VISITANTE(nombre,apellidos,tipo_documento,nro_documento,genero)
-				VALUES(@nombre,@apellido,@tipo_documento,@nro_documento,@genero)    
-				SET @id=SCOPE_IDENTITY()  
-			END
-	END
-SELECT @id
-GO
 
  CREATE PROCEDURE [dbo].[USP_LISTAR_HISTORIAL_VISITA]
 	    @id_visitante int

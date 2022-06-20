@@ -115,7 +115,24 @@ AS
   GO
 
   --VISITA DE REGISTRO
-  CREATE PROCEDURE USP_LISTAR_VISITAREG
+
+CREATE PROC [dbo].[USP_SET_REGISTROSALIDA]
+@id_visita_registro int,    
+@id_departamento int ,
+@id_visitante int
+AS   
+DECLARE @id int 
+ if exists(select * from VISITA_REGISTRO where id_visita_registro=@id_visita_registro)    
+  BEGIN    
+   UPDATE VISITA_REGISTRO SET fecha_salida=GETDATE(),id_departamento=@id_departamento,
+	id_visitante=@id_visitante
+       WHERE id_visita_registro=@id_visita_registro    
+	SET @id = @id_visita_registro    
+  END  
+SELECT @id
+GO
+  
+CREATE PROCEDURE [dbo].[USP_LISTAR_VISITAREG]
 	  @id_visita_registro int
 	  AS
 	  if @id_visita_registro =0
@@ -133,13 +150,14 @@ AS
 		d.id_departamento,
 		d.numero AS 'numero_departamento',	
 		v.id_visitante,
-		v.nombre AS 'nombre_visitante' 
+		v.nro_documento,
+		v.nombre +SPACE(1)+ v.apellidos AS 'nombre_visitante' 
 	from VISITA_REGISTRO Vr 
 		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
 		join VISITANTE v on vr.id_visitante=v.id_visitante 
 		join TORRE t on d.id_torre=t.id_torre 
 		join SECTOR sec on t.id_sector=sec.id_sector
-		join SUCURSAL s on s.id_sucursal=s.id_sucursal 
+		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
 	END
 	else
 	begin
@@ -156,17 +174,18 @@ AS
 		d.id_departamento,
 		d.numero AS 'numero_departamento',	
 		v.id_visitante,
-		v.nombre AS 'nombre_visitante' 
+		v.nro_documento,
+		v.nombre +SPACE(1)+ v.apellidos AS 'nombre_visitante' 
 	 from
 	  VISITA_REGISTRO Vr 
 		join DEPARTAMENTO d on vr.id_departamento=d.id_departamento 
 		join VISITANTE v on vr.id_visitante=v.id_visitante 
 		join TORRE t on d.id_torre=t.id_torre 
 		join SECTOR sec on t.id_sector=sec.id_sector
-		join SUCURSAL s on s.id_sucursal=s.id_sucursal 
+		join SUCURSAL s on s.id_sucursal=sec.id_sucursal 
 	  where vr.id_visita_registro=@id_visita_registro
 	 END
-	GO
+GO
 
 ----CREAR
 create PROCEDURE USP_VISITAREG_REGISTER 
