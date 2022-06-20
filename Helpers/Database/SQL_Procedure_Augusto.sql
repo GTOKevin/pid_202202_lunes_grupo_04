@@ -616,3 +616,22 @@ BEGIN
 	AND A.numero = CASE WHEN @numero = 0 THEN A.numero ELSE @numero END
 END
 GO
+
+CREATE PROCEDURE [dbo].[SP_USER_REGISTER_USUARIO]    
+@id_usuario int,    
+@username varchar(50),
+@clave varchar(50),
+@id_rol int,
+@id_estado int
+AS    
+   DECLARE @id int 
+ if NOT exists(select * from USUARIO where username=@username)    
+  BEGIN    
+   insert into USUARIO(username,clave,id_rol,id_estado)VALUES(@username,@clave,4,3)    
+   SET @id=SCOPE_IDENTITY()    
+  END
+ ELSE
+ BEGIN
+  SET @id = -1
+ END
+SELECT @id

@@ -105,7 +105,7 @@ namespace Datos
                 using (SqlConnection cn = Conexion.Conectar())
                 {
                     cn.Open();
-                    SqlCommand cmd = new SqlCommand("SP_USER_REGISTER", cn);
+                    SqlCommand cmd = new SqlCommand("SP_USER_REGISTER_USUARIO", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@id_usuario", usu.id_usuario);
                     cmd.Parameters.AddWithValue("@username", usu.username);
@@ -124,9 +124,9 @@ namespace Datos
                 }
                 else
                 {
-                    oHeader.mensaje = "Se registro el Usuario :" + usu.username;
+                    oHeader.estado = false;
+                    oHeader.mensaje = "El username : " + usu.username + " ya se encuentra en uso";
                 }
-
 
             }
             catch (Exception ex)
