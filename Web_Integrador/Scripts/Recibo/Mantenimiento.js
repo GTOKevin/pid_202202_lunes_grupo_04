@@ -1,5 +1,5 @@
 ﻿
-var colsName = ['ID','MONTO', 'PROPIETARIO', 'SERVICIO', 'FECHA DE PAGO', 'ESTADO'];
+var colsName = ['BOLETA','MONTO', 'PROPIETARIO', 'SERVICIO', 'FECHA DE PAGO', 'ESTADO'];
 var reciboList = [];
 
 const removeDanger = () => {
@@ -17,7 +17,6 @@ const llenarVariable = (lista, option) => {
             }
             break;
         case 'edit':
-            console.log("edit");
             newArray = reciboList.map(recibo => recibo.id_recibo == lista[0].id_recibo ? lista[0] : recibo)
             reciboList = newArray;
             break;
@@ -41,11 +40,29 @@ const init = () => {
 
     removeDanger();
     showLoading();
-    setColumns("example", colsName, true);
+    setColumnsRecibo("example", colsName, true);
 
     getListaRecibo();
     Swal.close();
 };
+
+
+
+const setColumnsRecibo=(dt, cols, btn)=> {
+    let t = "";
+    t += "<thead>";
+    for (var i = 0; i < cols.length; i++) {
+
+        t += "<th>";
+        t += cols[i];
+        t += "</th>";
+    }
+    if (btn) {
+        t += "<th></th>";
+    }
+    t += "</thead><tbody></tbody>";
+    $("#" + dt).html(t);
+}
 const mostrarForm = () => {
     $("#view-table").hide(500);
     $("#view-form").show(1000);
@@ -84,7 +101,6 @@ const getListaRecibo = () => {
             let { ReciboList, oHeader } = res
             Swal.close();
             if (oHeader.estado) {
-                console.log(res);
                 await llenarVariable(ReciboList, 'new');
                 await listTable(reciboList);
             } else {
@@ -100,16 +116,16 @@ const getListaRecibo = () => {
 
 
 const listTable = (res) => {
-    console.log(res);
     $('#example').DataTable({
         destroy: true,
         data: res,       
         columns: [{ data: "id_recibo" },
         { data: "monto" },
-        { data: "id_departamento" },
+            { data: "oPropietario", render: function (data) { return data.nombres + " " + data.primer_apellido + " " +data.segundo_apellido }  },
         { data: "servicio" },
-        { data: "fecha_pago", render: function (data) { return FechaDate(data) }  },
-        buttonsDatatTable("edit")],
+        { data: "fecha_pago", render: function (data) { return FechaDate(data) } },
+        { data: "estado", render: function (data) { return buttonsReciboDatatTable(data) } },
+        ],
         rowId: "id_recibo",
        
         columnDefs:
@@ -117,7 +133,7 @@ const listTable = (res) => {
                 
                 {
                     "targets": 0,
-                    "visible": false,
+                    "visible": true,
                 }
             ],
         order: [[0, 'des']],
@@ -142,17 +158,19 @@ $("#view-form").on("submit", function (e) {
         if (this.value.trim().length != 0) {
             formData[this.name] = this.value;
         } else {
+            this.classList.add("border-danger");
             validate = false;
         }
 
     });
     $("#view-form select").each(function (index) {
-        if (this.name == "id_cliente" || this.name=="servicio") {
+        if (this.name == "id_cliente") {
             formData[this.name] = this.value;
         } else {
             if (this.value.trim().length != 0) {
                 formData[this.name] = this.value;
             } else {
+                this.classList.add("border-danger");
                 validate = false;
             }
         }
@@ -171,19 +189,23 @@ $("#view-form").on("submit", function (e) {
         data: formData,
             responseType: 'json',
             success: async function (res) {
-                console.log(res);
                 Swal.close();
+                console.log(res);
+          
                 let { ReciboList, oHeader } = res;
-                if (oHeader.estado) {
-                    if (id_recibo.value == "0") {
-                        //await llenarVariable(ReciboList, 'new');
-                    } else {
-                        //await llenarVariable(ReciboList, 'edit');
-                    }
+                if (oHeader.estado) {  
+                    $("#view-form")[0].reset();
+                    $("#closeModal").click();
+                    await llenarVariable(ReciboList, 'new');
 
-                    //await listTable(reciboList);
-                    //Swal.fire('ok', oHeader.mensaje, 'success');
-                    //await mostrarTabla();
+
+                    await listTable(reciboList);
+                    Swal.fire('ok', oHeader.mensaje, 'success');
+
+                } else {
+                    $("#view-form")[0].reset();
+                    $("#closeModal").click();
+                    Swal.fire('Info', oHeader.mensaje, 'info');
                 }
 
             },
@@ -212,7 +234,6 @@ const getReciboId = (id) => {
         responseType: 'json',
         success: async function (res) {
             let { ReciboList, oHeader } = res;
-            console.log(reciboList);
             if (oHeader.estado) {
                 await llenarCampos(ReciboList);
             } else {
@@ -228,21 +249,22 @@ const getReciboId = (id) => {
 
 
 
-const getReciboId = () => {
+const obtenerRecibosFiltro = () => {
     let dni = document.getElementById("dni");
     let nombre = document.getElementById("nombre");
-    let servicio = document.getElementById("servicio")[0];
-    let estado = document.getElementById("estado")[0];
+    let servicio = document.getElementById("servicio");
+    let estado = document.getElementById("estado");
+
+    console.log(dni.value, nombre.value, servicio.value, estado.value)
     //public JsonResult ListarFiltro
     $.ajax({
         method: "GET",
-        url: urlGetRecibo + "?dni=" + dni.value + "&nombre=" + nombre.value + "&servicio=" + servicio.value + "&estado=" + estado.value,
+        url: urlListarFiltro + "?dni=" + dni.value + "&nombre=" + nombre.value + "&servicio=" + servicio.value + "&estado=" + estado.value,
         responseType: 'json',
         success: async function (res) {
-            let { recibo_list, oHeader } = res;
-            console.log(reciboList);
+            let { ReciboList, oHeader } = res;
             if (oHeader.estado) {
-                await llenarCampos(ReciboList);
+                await listTable(ReciboList);
             } else {
                 Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
             }
@@ -260,3 +282,75 @@ init();
 $(".val").click(function (e) {
     this.classList.remove("border-danger");
 });
+
+
+
+
+const buttonsReciboDatatTable = (opcion) => {
+    let buttonJson = ``;
+    switch (opcion) {
+        case true:
+            buttonJson =`
+                <div class="w-100">
+                <button type='button' class='btn btn-sm btn-success' style='padding:2px 4px;'>
+                Pagado
+                </button>
+                 </div>
+                `;
+            
+            break;
+        case false:
+            buttonJson=`
+                <div class="w-100">
+                <button type='button' onclick='PagarRecibo(this,"1");'  class='btn btn-sm btn-danger' style='padding:2px 4px;'>
+                 No Pagado
+                </button>
+                </div>
+                `;
+            break;
+
+    }
+
+    return buttonJson;
+}
+
+
+const PagarRecibo = (btn, valor) => {
+    let elemento = ((btn.parentElement).parentElement).parentElement;
+    let id = elemento.id;
+    let state = valor;
+
+    if (id != "" && estado) {
+
+        $.ajax({
+            method: "POST",
+            url: urlPagarRecibo,
+            data: { id_recibo: id, estado: state },
+            responseType: 'json',
+            success: async function (res) {
+                Swal.close();
+                let { ReciboList, oHeader } = res;
+                if (oHeader.estado) {
+                    await construirPagado(elemento);
+                    Swal.fire("Ok!!", "Se ha pagado la Boleta " + id, "success");
+                }
+
+            },
+            error: function (err) {
+                Swal.close();
+            }
+        });
+
+    }  
+}
+
+const construirPagado = (elemento) => {
+    let divBtn = elemento.children[5].children[0];
+    divBtn.removeChild(divBtn.children[0]);
+
+    let botonAprobado = `<button type='button' class='btn btn-sm btn-success' style='padding:2px 4px;'>
+                         Pagado
+                         </button>`;
+
+    divBtn.innerHTML = botonAprobado;
+}
