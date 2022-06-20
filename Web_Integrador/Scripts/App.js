@@ -92,7 +92,6 @@ const convertFechav2 = (fecha) => {
     return fechaConvt;
 }
 
-
 const buttonsDatatTable = (opcion) => {
     let buttonJson = {};
     switch (opcion) {
@@ -127,6 +126,18 @@ const buttonsDatatTable = (opcion) => {
                 <i class='bx bx-edit'></i>
                 </button>
                 <button type='button' onclick='btnAction(this,"modalhistorial");' data-bs-toggle="modal" data-bs-target="#exampleModal"  class='btn btn-sm btn-info btnEstado' style='padding:2px 4px;'>
+                <i class="bx bx-list-ul"></i>
+                </button>
+                </div>
+                `
+            }
+            break;
+        case 'mantIncidentesH':
+            buttonJson = {
+                data: null,
+                defaultContent: `
+                <div class="w-100">
+                <button type='button' onclick='btnAction(this,"modalhistorial");' data-bs-toggle="modal" data-bs-target="#modalincidente"  class='btn btn-sm btn-info btnEstado' style='padding:2px 4px;'>
                 <i class="bx bx-list-ul"></i>
                 </button>
                 </div>

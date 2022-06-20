@@ -42,15 +42,8 @@ namespace Web_Integrador.Controllers
             try
             {
                 var rpta = incidente_historial_BS.Registrar(incidente_historial);
-                oHeader = rpta.oHeader;
-                if (rpta.oHeader.estado)
-                {
-                    var getIncidente = incidente_historial_BS.lista(rpta.id_register);
-                    if (getIncidente.oHeader.estado)
-                    {
-                        incidente_historial_List = getIncidente.lista_Incidente_Historial;
-                    }
-                }
+                oHeader = new DTOHeader {  estado= rpta.estado , mensaje = rpta.mensaje};
+          
             }
             catch (Exception ex)
             {

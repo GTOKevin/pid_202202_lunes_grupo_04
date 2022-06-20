@@ -10,9 +10,9 @@ namespace Negocio
 {
     public class Incidente_BS
     {
-        public Incidente_Res lista()
+        public Incidente_Res lista(FiltroIncidente filtro)
         {
-            return new Incidente_DA().Listar();
+            return new Incidente_DA().Listar(filtro);
         }
         public DTOHeader Registrar(Incidente inc)
         {

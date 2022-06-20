@@ -13,6 +13,10 @@ if @idmovi =0
   end
   GO
   --CREATE
+ALTER TABLE INCIDENTE
+ADD Estado BIT
+GO
+
   ALTER Proc [dbo].[USP_INCIDENTE_CREAR]  
 @descripcion varchar(200), @nombre_reportado varchar(100),@tipodocumento varchar(1),@nro_documento varchar(20),  
 @id_departamento int , @idusuario int 
