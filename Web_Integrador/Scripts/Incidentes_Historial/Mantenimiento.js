@@ -86,31 +86,46 @@ $("#FormHistorial").on("submit", function (e) {
 
     e.preventDefault();
     showLoading();
-
-    $.ajax({
-        method: "POST",
-        url: urlSaveHistorialIncidente,
-        data: formData,
-        responseType: 'json',
-        success: async function (res) {
-            Swal.close();
-            let { lista_Incidente, oHeader } = res
-            if (res.oHeader.estado) {
-                incidentesList = [];
-                getListaTorre();
-                $('#modalincidente').modal('hide');
-                mostrarTable();
-                Swal.fire('Ooops!', oHeader.mensaje, 'success');
-            } else {
-                Swal.fire('Ooops!', oHeader.mensaje, 'error');
-            }
-        },
-        error: function (err) {
+    let validate = true;
+    $("#FormHistorial .val").each(function (index) {
+        if (this.value.trim().length != 0) {
+            formData[this.name] = this.value;
+        } else {
+            validate = false;
+        }
+    });
+    if (swCamposValid.swAcciones) {
+        if (validate) {
+            $.ajax({
+                method: "POST",
+                url: urlSaveHistorialIncidente,
+                data: formData,
+                responseType: 'json',
+                success: async function (res) {
+                    Swal.close();
+                    let { lista_Incidente, oHeader } = res
+                    if (res.oHeader.estado) {
+                        incidentesList = [];
+                        getListaTorre();
+                        $('#modalincidente').modal('hide');
+                    } else {
+                        Swal.fire('Ooops!', oHeader.mensaje, 'error');
+                    }
+                },
+                error: function (err) {
+                    Swal.close();
+                }
+            });
+        }
+        else {
+            ValidNull();
             Swal.close();
         }
-    });         
-        
-      
+    }
+    else {
+        $('#modalincidente').modal('hide');
+        Swal.fire('Ooops!', 'Error en Formulario', 'error');
+    }
 
 });
 
@@ -169,7 +184,7 @@ const listTable = (res) => {
         { data: "nombre_reportado" },
         { data: "nro_documento" },
         { data: "descripcion" },
-        { data: "estado", render: function (data) { return data ? "Resulto" : "No Resulto" } },
+        { data: "estado", render: function (data) { return data ? "Resuelto" : "No Resuelto" } },
         {
             data: null,
             title: "Surcusal y Secto",

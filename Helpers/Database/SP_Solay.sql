@@ -14,7 +14,8 @@ CREATE Proc [dbo].[USP_INCIDENTE_LISTAR]
 @id_incidente INT = 0,
 @nombre_reportado VARCHAR(100)= '', 
 @nro_documento VARCHAR(20) = '',
-@estado INT = 3
+@estado INT = 3,
+@departamento INT = 0
 AS  
 BEGIN  
 	Select I.*,d.numero as 'departamento',sc.id_sucursal, sc.nombre as 'sucursal',s.id_sector, s.nombre_sector as 'sector', t.id_torre, t.numero as 'torre'  from INCIDENTE I 
@@ -26,6 +27,7 @@ BEGIN
 	AND I.nombre_reportado LIKE CASE WHEN @nombre_reportado = '' THEN I.nombre_reportado ELSE '%' +@nombre_reportado+'%' END
 	AND I.nro_documento = CASE WHEN @nro_documento = '' THEN I.nro_documento ELSE @nro_documento END
 	AND I.Estado = CASE WHEN @estado = 3 THEN I.Estado ELSE @estado END
+	AND D.id_departamento = CASE WHEN @departamento = 0 THEN D.id_departamento ELSE @departamento END
 END
 GO
 

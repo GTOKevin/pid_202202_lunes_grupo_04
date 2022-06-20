@@ -1,6 +1,9 @@
 ﻿var colsName = ['ID', 'SUCURSAL', 'SECTOR', 'TORRE', 'DEPARTAMENTO'];
 var departamentoList = [];
 
+var colsHistorial = ['ID', 'NOMBRE', 'NRO DOCUMENTO', 'DESCRIPCION', 'ESTADO'];
+var incidentesList = [];
+
 const Formulario = document.getElementById('view-form');
 
 const llenarVariable = (lista, option) => {
@@ -9,6 +12,11 @@ const llenarVariable = (lista, option) => {
         case 'new':
             for (i = 0; i < lista.length; i++) {
                 departamentoList.push(lista[i]);
+            }
+            break;
+        case 'historial':
+            for (i = 0; i < lista.length; i++) {
+                incidentesList.push(lista[i]);
             }
             break;
         case 'edit':
@@ -40,6 +48,10 @@ const btnAction = (t, tipo) => {
             let id = ((t.parentElement).parentElement).parentElement.id;
             getDepartamentoId(id);
             break;
+        case 'historial':
+            let id2 = ((t.parentElement).parentElement).parentElement.id;
+            getIncidenteId(id2);
+            break;
 
     }
 };
@@ -47,6 +59,7 @@ const btnAction = (t, tipo) => {
 const init = () => {
     showLoading();
     setColumns("example", colsName, true);
+    setColumns("historial", colsHistorial, false);
     getListaTorre();
     Swal.close();
 };
@@ -57,7 +70,8 @@ const getDepartamentoId = (id) => {
         url: urlGetDepaInfo + "?id_departamento=" + id,
         responseType: 'json',
         success: async function (res) {
-            let { lista_Departamento, propietarios, oHeader } = res;
+            console.log(res);
+            let { lista_Departamento, oHeader } = res;
             if (oHeader.estado) {
                 await llenarCampos(lista_Departamento);
             } else {
@@ -71,6 +85,62 @@ const getDepartamentoId = (id) => {
     });
 }
 
+const getIncidenteId = (id) => {
+    let formData = { departamento_f: id };
+    $.ajax({
+        method: "GET",
+        url: urlGetIncidentes,
+        data: formData,
+        responseType: 'json',
+        success: async function (res) {
+            let { lista_Incidente, oHeader } = res
+            if (oHeader.estado) {
+                await llenarVariable(incidentesList, 'historial');
+                await listHistorail(lista_Incidente);
+            } else {
+                Swal.fire('Ooops!', oHeader.mensaje, 'error');
+            }
+        },
+        error: function (err) {
+            Swal.close();
+        }
+    });
+}
+
+const listHistorail = (res) => {
+    $('#historial').DataTable({
+        destroy: true,
+        data: res,
+        columns: [
+        { data: "id_incidente" },
+        { data: "nombre_reportado" },
+        { data: "nro_documento" },
+        { data: "descripcion" },
+            { data: "estado", render: function (data) { return data ? "Resuelto" : "No Resuelto" } }
+        ],
+        rowId: "id_incidente",
+        columnDefs:
+            [
+                {
+                    "targets": 0,
+                    "visible": false,
+                }
+            ],
+        order: [[0, 'des']],
+        rowCallback: function (row, data) {
+            if (!data.estado) {
+                $(row).addClass('table-danger');
+            }
+            else {
+                $(row).addClass('table-success');
+            }
+        },
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+        }
+    });
+};
+
 const listTable = (res) => {
     $('#example').DataTable({
         destroy: true,
@@ -80,7 +150,7 @@ const listTable = (res) => {
         { data: "nombre_sector" },
         { data: "numero_torre" },
         { data: "numero" },
-        buttonsDatatTable("edit")],
+        buttonsDatatTable("registerIncidente")],
         rowId: "id_departamento",
         columnDefs:
             [
@@ -231,11 +301,13 @@ selects.forEach((e) => {
 
 
 const getSector = async (id) => {
+    console.log(id);
     await $.ajax({
         method: "GET",
-        url: urlGetSector + "?id_sector=" + id,
+        url: urlGetSector + "?id_sucursal=" + id,
         responseType: 'json',
         success: async function (res) {
+            console.log(res);
             let { SectorList, oHeader } = res;
             if (oHeader.estado) {
                 await getSelectSector(SectorList);

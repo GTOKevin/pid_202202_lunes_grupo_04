@@ -518,3 +518,24 @@ AS
   SET @id = -1
  END
 SELECT @id
+GO
+
+CREATE PROC USP_INFO_HISTORIAL_INCIDENTE
+@id_incidente_historial INT = 0,
+@id_incidente INT = 0 
+AS
+BEGIN
+	SELECT I.*,IH.id_incidente_historial,IH.acciones,IH.fecha_historial,U.username, P.nombres + SPACE(1)+ P.primer_apellido + SPACE(1)+ P.segundo_apellido AS 'nombre_usuarioreg',P.nro_documento as 'documento_usuarioreg',
+	d.numero as 'departamento',sc.id_sucursal, sc.nombre as 'sucursal',s.id_sector, s.nombre_sector as 'sector', t.id_torre, t.numero as 'torre'
+	FROM INCIDENTE_HISTORIAL IH
+	INNER JOIN INCIDENTE I ON IH.id_incidente = I.id_incidente
+	INNER JOIN USUARIO U ON I.id_usuario = U.id_usuario
+	INNER JOIN PERFIL P ON P.id_perfil = U.id_perfil
+	INNER JOIN DEPARTAMENTO D ON D.id_departamento = I.id_departamento
+	INNER JOIN TORRE T ON D.id_torre = T.id_torre
+	INNER JOIN SECTOR S ON S.id_sector = T.id_sector
+	INNER JOIN SUCURSAL SC ON SC.id_sucursal = S.id_sucursal
+	WHERE IH.id_incidente_historial = CASE WHEN @id_incidente_historial = 0 THEN IH.id_incidente_historial ELSE @id_incidente_historial END
+	AND IH.id_incidente = CASE WHEN @id_incidente = 0 THEN IH.id_incidente ELSE @id_incidente END
+END
+GO

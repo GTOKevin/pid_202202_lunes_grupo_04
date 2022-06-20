@@ -127,7 +127,7 @@
                 <p class="label-error d-none">Por favor ingrese numero documento</p>
             </div>
             <div class="col-12 col-md-12" id="swDescripcion">
-                <label  class="form-label">Descripción</label>
+                <label class="form-label">Descripción</label>
                 <textarea type="text" class="form-control val cf swValidI" autocomplete="off" name="descripcion" placeholder="Descripción"></textarea>
                 <p class="label-error d-none">Por favor ingrese una descripción</p>
             </div>
@@ -136,14 +136,34 @@
     </div>
 </form>
 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive text-nowrap card-body">
+                    <table id="historial" class="table table-hover" style="width:100%">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    const urlGetIncidentes = "@Url.Action("ListarIncidentes", "Incidente")";
     const urlGetDepaInfo = "@Url.Action("ListarDepartamentos", "Departamento")";
     const urlGetDepartamentos = "@Url.Action("GetDepartamento", "Incidente")";
     const urlSaveIncidente = "@Url.Action("RegistrarInci", "Incidente")";
-    const urlGetTorre = "@Url.Action("ListarTorre", "Visitante")";
-    const urlGetSector = "@Url.Action("ListarSectores", "Visitante")";
-
-    
+    const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
+    const urlGetSector = "@Url.Action("ListarSector", "Torre")";
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
