@@ -1,14 +1,8 @@
-Create Proc USP_DEPARTAMENTO_FILE_LISTAR  
-AS  
-BEGIN  
-Select * from DEPARTAMENTO_FILE  
-END  
-GO
-
 
 
 Create Proc USP_DEPARTAMENTO_FILE_CREAR  
-@url_imagen varchar(300), @id_departamento int  
+@url_imagen varchar(max), 
+@id_departamento int  
 As  
 Begin  
 Insert dbo.DEPARTAMENTO_FILE(url_imagen,id_departamento)  
@@ -22,6 +16,8 @@ BEGIN
 Select * from INCIDENTE  
 END  
 GO
+
+
 
 CREATE Proc [dbo].[USP_INCIDENTE_CREAR]  
 @descripcion varchar(200), @nombre_reportado varchar(100),@tipodocumento varchar(1),@nro_documento varchar(20),  
@@ -142,29 +138,8 @@ END
 select @id
 GO
 
-ALTER TABLE DEPARTAMENTO_FILE
-alter column url_imagen varchar(max)
-GO
 
-Create Proc USP_DEPARTAMENTO_FILE_CREAR  
-@id_departamento_file int,
-@url_imagen varchar(300), @id_departamento int  
-As
-DECLARE @id int
-if exists(select * from DEPARTAMENTO_FILE where id_departamento_file=@id_departamento_file)
-Begin
-update DEPARTAMENTO_FILE set url_imagen =@url_imagen, id_departamento=@id_departamento
-where id_departamento_file=@id_departamento_file
-set @id=@id_departamento_file
-end
-else 
-begin
-Insert into dbo.DEPARTAMENTO_FILE(url_imagen,id_departamento)
-Values (@url_imagen,@id_departamento)  
-set @id=SCOPE_IDENTITY()
-end
-select @id
-GO
+
 
 Create Proc USP_DEPARTAMENTO_FILE_LISTAR 
 @id_departamento_file int

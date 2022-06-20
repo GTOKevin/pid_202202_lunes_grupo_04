@@ -32,7 +32,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[DEPARTAMENTO_FILE](
 	[id_departamento_file] [int] IDENTITY(1,1) NOT NULL,
-	[url_imagen] [varchar](300) NULL,
+	[url_imagen] [varchar](max) NULL,
 	[fecha_creacion] [datetime] NULL,
 	[id_departamento] [int] NULL,
  CONSTRAINT [PK_DEPARTAMENTO_FILE] PRIMARY KEY CLUSTERED 
@@ -157,9 +157,9 @@ CREATE TABLE [dbo].[PROPIETARIO](
 	[nombres] [varchar](50) NULL,
 	[primer_apellido] [varchar](30) NULL,
 	[segundo_apellido] [varchar](30) NULL,
-	[tipo_documento] [int] NULL,
+	[tipo_documento] [varchar](5) NULL,
 	[nro_documento] [varchar](20) NULL,
-	[nacionalidad] [int] NULL,
+	[nacionalidad] [varchar](5) NULL,
 	[fecha_registro] [datetime] NULL,
 	[estado] [bit] NULL,
 	[id_departamento] [int] NULL,
