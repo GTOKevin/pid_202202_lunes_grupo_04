@@ -131,11 +131,9 @@
     <Compile Include="Controllers\Incidente_HistorialController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\RolController.cs" />
-    <Compile Include="Controllers\MovimientoController.cs" />
     <Compile Include="Controllers\SectorController.cs" />
     <Compile Include="Controllers\ReciboController.cs" />
     <Compile Include="Controllers\SeguridadController.cs" />
-    <Compile Include="Controllers\ServicioController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\TipoController.cs" />
     <Compile Include="Controllers\TorreController.cs" />
@@ -225,9 +223,7 @@
     <Content Include="Scripts\Perfil\Mantenimiento.js" />
     <Content Include="Scripts\Seguridad\Mantenimiento.js" />
     <Content Include="Scripts\Rol\Mantenimiento.js" />
-    <Content Include="Scripts\Movimiento\Mantenimiento.js" />
     <Content Include="Scripts\Recibo\Mantenimiento.js" />
-    <Content Include="Scripts\Servicio\Matenimiento.js" />
     <Content Include="Scripts\Sector\Mantenimiento.js" />
     <Content Include="Scripts\Sucursal\Mantenimiento.js" />
     <Content Include="Scripts\Tipo\Mantenimiento.js" />
@@ -285,11 +281,9 @@
     <Content Include="Views\Perfil\Index.cshtml" />
     <Content Include="Views\Tipo\Index.cshtml" />
     <Content Include="Views\Rol\Index.cshtml" />
-    <Content Include="Views\Movimiento\Index.cshtml" />
     <Content Include="Views\Visitante\Index.cshtml" />
     <Content Include="Views\VisitaRegistro\Index.cshtml" />
     <Content Include="Views\Recibo\Index.cshtml" />
-    <Content Include="Views\Servicio\Index.cshtml" />
     <Content Include="Views\Sector\Index.cshtml" />
     <Content Include="Views\Home\index2.cshtml" />
     <Content Include="Views\Departamento\Index.cshtml" />
