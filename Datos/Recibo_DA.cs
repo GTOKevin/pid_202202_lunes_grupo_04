@@ -81,10 +81,16 @@ namespace Datos
 
                 }
                 id_register = rpta;
-                oHeader.estado = true;
                 if (id_register > 0)
                 {
+
+                    oHeader.estado = true;
                     oHeader.mensaje = "Se ha generado los recibos";
+                }
+                else
+                {
+                    oHeader.estado = false;
+                    id_register = rpta;
                 }
 
 

@@ -1,5 +1,5 @@
 ﻿
-var colsName = ['ID', 'SUCURSAL', 'SECTOR', 'TORRE', 'DEPARTAMENTO', 'SERVICIO', 'MONTO', 'FECHA_PAGO', 'FECHA_VENCIMIENTO'];
+var colsName = ['BOLETA','MONTO', 'PROPIETARIO', 'SERVICIO', 'FECHA DE PAGO', 'ESTADO'];
 var reciboList = [];
 
 const removeDanger = () => {
@@ -17,7 +17,6 @@ const llenarVariable = (lista, option) => {
             }
             break;
         case 'edit':
-            console.log("edit");
             newArray = reciboList.map(recibo => recibo.id_recibo == lista[0].id_recibo ? lista[0] : recibo)
             reciboList = newArray;
             break;
@@ -41,11 +40,29 @@ const init = () => {
 
     removeDanger();
     showLoading();
-    setColumns("example", colsName, true);
+    setColumnsRecibo("example", colsName, true);
 
     getListaRecibo();
     Swal.close();
 };
+
+
+
+const setColumnsRecibo=(dt, cols, btn)=> {
+    let t = "";
+    t += "<thead>";
+    for (var i = 0; i < cols.length; i++) {
+
+        t += "<th>";
+        t += cols[i];
+        t += "</th>";
+    }
+    if (btn) {
+        t += "<th></th>";
+    }
+    t += "</thead><tbody></tbody>";
+    $("#" + dt).html(t);
+}
 const mostrarForm = () => {
     $("#view-table").hide(500);
     $("#view-form").show(1000);
@@ -84,7 +101,6 @@ const getListaRecibo = () => {
             let { ReciboList, oHeader } = res
             Swal.close();
             if (oHeader.estado) {
-                console.log(res);
                 await llenarVariable(ReciboList, 'new');
                 await listTable(reciboList);
             } else {
@@ -100,20 +116,16 @@ const getListaRecibo = () => {
 
 
 const listTable = (res) => {
-    console.log(res);
     $('#example').DataTable({
         destroy: true,
         data: res,       
         columns: [{ data: "id_recibo" },
-        { data: "nombre_sucursal" },
-        { data: "nombre_sector" },
-        { data: "numero_torre" },
-        { data: "numero_departamento" },
-        { data: "nombre_servicio" },
         { data: "monto" },
+            { data: "oPropietario", render: function (data) { return data.nombres + " " + data.primer_apellido + " " +data.segundo_apellido }  },
+        { data: "servicio" },
         { data: "fecha_pago", render: function (data) { return FechaDate(data) } },
-        { data: "fecha_vencimiento", render: function (data) { return FechaDate(data) } },
-        buttonsDatatTable("edit")],
+        { data: "estado", render: function (data) { return buttonsReciboDatatTable(data) } },
+        ],
         rowId: "id_recibo",
        
         columnDefs:
@@ -121,7 +133,7 @@ const listTable = (res) => {
                 
                 {
                     "targets": 0,
-                    "visible": false,
+                    "visible": true,
                 }
             ],
         order: [[0, 'des']],
@@ -133,11 +145,11 @@ const listTable = (res) => {
 };
 
 $("#view-form").on("submit", function (e) {
-    let id_recibo = document.getElementsByName("id_recibo")[0];
+    //let id_recibo = document.getElementsByName("id_recibo")[0];
 
-    if (id_recibo.value == "" || id_recibo.value == undefined) {
-        id_recibo.value = 0;
-    }
+    //if (id_recibo.value == "" || id_recibo.value == undefined) {
+    //    id_recibo.value = 0;
+    //}
 
     e.preventDefault();
     let formData = {};
@@ -146,44 +158,54 @@ $("#view-form").on("submit", function (e) {
         if (this.value.trim().length != 0) {
             formData[this.name] = this.value;
         } else {
+            this.classList.add("border-danger");
             validate = false;
         }
 
     });
     $("#view-form select").each(function (index) {
-        if (this.value.trim().length != 0) {
+        if (this.name == "id_cliente") {
             formData[this.name] = this.value;
         } else {
-            validate = false;
+            if (this.value.trim().length != 0) {
+                formData[this.name] = this.value;
+            } else {
+                this.classList.add("border-danger");
+                validate = false;
+            }
         }
+       
 
     });
 
-    let servicio = document.getElementById("id");
-    servicio.value;
 
-    //if (validate) {
-    //    showLoading();
+
+    if (validate) {
+        showLoading();
 
     $.ajax({
         method: "POST",
         url: urlSaveRecibo,
-        data: { servicio: "", id_cliente: 0, anio: 2023, monto: 0 },
+        data: formData,
             responseType: 'json',
             success: async function (res) {
-                console.log(res);
                 Swal.close();
+                console.log(res);
+          
                 let { ReciboList, oHeader } = res;
-                if (oHeader.estado) {
-                    if (id_recibo.value == "0") {
-                        //await llenarVariable(ReciboList, 'new');
-                    } else {
-                        //await llenarVariable(ReciboList, 'edit');
-                    }
+                if (oHeader.estado) {  
+                    $("#view-form")[0].reset();
+                    $("#closeModal").click();
+                    await llenarVariable(ReciboList, 'new');
 
-                    //await listTable(reciboList);
-                    //Swal.fire('ok', oHeader.mensaje, 'success');
-                    //await mostrarTabla();
+
+                    await listTable(reciboList);
+                    Swal.fire('ok', oHeader.mensaje, 'success');
+
+                } else {
+                    $("#view-form")[0].reset();
+                    $("#closeModal").click();
+                    Swal.fire('Info', oHeader.mensaje, 'info');
                 }
 
             },
@@ -192,10 +214,18 @@ $("#view-form").on("submit", function (e) {
             }
         });
 
-    //}
+    }
 
 
 });
+const agregarProp = () => {
+    let { boleta, estado } = obtenerProp();
+    if (estado) {
+        listaTableData(boleta);
+        $("#closeModal")[0].click();
+    }
+}
+
 
 const getReciboId = (id) => {
     $.ajax({
@@ -204,7 +234,6 @@ const getReciboId = (id) => {
         responseType: 'json',
         success: async function (res) {
             let { ReciboList, oHeader } = res;
-            console.log(reciboList);
             if (oHeader.estado) {
                 await llenarCampos(ReciboList);
             } else {
@@ -218,201 +247,110 @@ const getReciboId = (id) => {
     });
 }
 
-const llenarCampos = async (list) => {
-    console.log(list);
-    let idSucursal = "";
-    let idSector = "";
-    let idTorre = "";
-    let idDepartamento = "";
-    let idServicio = "";
-    let sector = document.getElementsByName("id_sector")[0];
-    let torre = document.getElementsByName("id_torre")[0];
-    let departamento = document.getElementsByName("id_departamento")[0];
-    let servicio = document.getElementsByName("id_servicio")[0];
-    if (list.length > 0) {
-        $(".val").each(function (ind) {
-            for (var propName in list[0]) {
-                if (this.name === propName) {
-                    if (this.type == "date") {
-                        this.value = FechaDate(list[0][propName]);
-                    } else {
-                        this.value = list[0][propName];
-                    }
-                    if (propName === "id_sucursal") {
-                        idSucursal = list[0][propName];
-                    } else if (propName === "id_sector") {
-                        idSector = list[0][propName];
-                    } else if (propName === "id_torre") {
-                        idTorre = list[0][propName];
-                    } else if (propName === "id_departamento") {
-                        idDepartamento = list[0][propName];
-                    } else if (propName === "id_servicio") {
-                        idServicio = list[0][propName];
-                    }                       
-                }
-            }
 
-        });
-    }
-    await getSector(idSucursal);
-    sector.value = idSector;
-    await getTorre(idSector);
-    torre.value = idTorre;
-    await getDepartamento(idTorre)
-    departamento.value = idDepartamento;
-    await getServicio(idDepartamento)
-    servicio.value = idServicio;
+
+const obtenerRecibosFiltro = () => {
+    let dni = document.getElementById("dni");
+    let nombre = document.getElementById("nombre");
+    let servicio = document.getElementById("servicio");
+    let estado = document.getElementById("estado");
+
+    console.log(dni.value, nombre.value, servicio.value, estado.value)
+    //public JsonResult ListarFiltro
+    $.ajax({
+        method: "GET",
+        url: urlListarFiltro + "?dni=" + dni.value + "&nombre=" + nombre.value + "&servicio=" + servicio.value + "&estado=" + estado.value,
+        responseType: 'json',
+        success: async function (res) {
+            let { ReciboList, oHeader } = res;
+            if (oHeader.estado) {
+                await listTable(ReciboList);
+            } else {
+                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
+            }
+        },
+        error: function (err) {
+            Swal.close();
+        }
+
+    });
 }
 
 init();
 
-const cleanSelect = () => {
-    let selSector = document.getElementsByName("id_sector")[0];
-    selSector.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    selSector.innerHTML = str;
-    selSector.value = "";
-}
 
-const getSector = async (id) => {
-    await $.ajax({
-        method: "GET",
-        url: urlGetSector + "?id_sucursal=" + id,
-        responseType: 'json',
-        success: async function (res) {
-            let { SectorList, oHeader } = res;
-            if (oHeader.estado) {
-                await getSelectSector(SectorList);
-            } else {
-                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
-            }
-        },
-        error: function (err) {
-            Swal.close();
-        }
-
-    });
-}
-const getTorre = async (id) => {
-    await $.ajax({
-        method: "GET",
-        url: urlGetTorre + "?id_sector=" + id,
-        responseType: 'json',
-        success: async function (res) {
-            let { TorreList, oHeader } = res;
-            if (oHeader.estado) {
-                await getSelectTorre(TorreList);
-            } else {
-                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
-            }
-        },
-        error: function (err) {
-            Swal.close();
-        }
-
-    });
-}
-const getDepartamento = async (id) => {
-    await $.ajax({
-        method: "GET",
-        url: urlGetDepartamento + "?id_torre=" + id,
-        responseType: 'json',
-        success: async function (res) {
-            console.log(res);
-            let { lista_Departamento, oHeader } = res;
-            if (oHeader.estado) {
-                await getSelectDepartamento(lista_Departamento);
-            } else {
-                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
-            }
-        },
-        error: function (err) {
-            Swal.close();
-        }
-
-    });
-}
-const getServicio = async (id) => {
-    await $.ajax({
-        method: "GET",
-        url: urlGetServicio + "?id_departamento=" + id,
-        responseType: 'json',
-        success: async function (res) {
-            console.log(res);
-            let { ServicioList, oHeader } = res;
-            if (oHeader.estado) {
-                await getSelectServicio(ServicioList);
-            } else {
-                Swal.fire('Ooops!', res.oHeader.mensaje, 'error');
-            }
-        },
-        error: function (err) {
-            Swal.close();
-        }
-
-    });
-}
-const getSelectSector = (list) => {
-
-    let selSector = document.getElementsByName("id_sector")[0];
-    selSector.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    if (list.length > 0) {
-        for (i = 0; i < list.length; i++) {
-            str += `<option value="${list[i].id_sector}">${list[i].nombre_sector}</option>`;
-        }
-    }
-    selSector.innerHTML = str;
-    selSector.value = "";
-
-}
-const getSelectTorre = (list) => {
-
-    let selTorre = document.getElementsByName("id_torre")[0];
-    selTorre.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    if (list.length > 0) {
-        for (i = 0; i < list.length; i++) {
-            str += `<option value="${list[i].id_torre}">Numero : ${list[i].numero}</option>`;
-        }
-    }
-    selTorre.innerHTML = str;
-    selTorre.value = "";
-
-}
-const getSelectDepartamento = (list) => {
-
-    let selDepartamento = document.getElementsByName("id_departamento")[0];
-    selDepartamento.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    if (list.length > 0) {
-        for (i = 0; i < list.length; i++) {
-            str += `<option value="${list[i].id_departamento}">${list[i].numero}</option>`;
-        }
-    }
-    selDepartamento.innerHTML = str;
-    selDepartamento.value = "";
-
-}
-const getSelectServicio = (list) => {
-    let selServicio = document.getElementsByName("id_servicio")[0];
-    selServicio.innerHTML = "";
-    let str = ``;
-    str += `<option value="">...Seleccione...</option>`
-    console.log(list);
-    if (list.length > 0) {
-        for (i = 0; i < list.length; i++) {
-            str += `<option value="${list[i].id_servicio}">${list[i].nombre}</option>`;
-        }
-    }
-    selServicio.innerHTML = str;
-    selServicio.value = "";
-
-}
 $(".val").click(function (e) {
     this.classList.remove("border-danger");
 });
+
+
+
+
+const buttonsReciboDatatTable = (opcion) => {
+    let buttonJson = ``;
+    switch (opcion) {
+        case true:
+            buttonJson =`
+                <div class="w-100">
+                <button type='button' class='btn btn-sm btn-success' style='padding:2px 4px;'>
+                Pagado
+                </button>
+                 </div>
+                `;
+            
+            break;
+        case false:
+            buttonJson=`
+                <div class="w-100">
+                <button type='button' onclick='PagarRecibo(this,"1");'  class='btn btn-sm btn-danger' style='padding:2px 4px;'>
+                 No Pagado
+                </button>
+                </div>
+                `;
+            break;
+
+    }
+
+    return buttonJson;
+}
+
+
+const PagarRecibo = (btn, valor) => {
+    let elemento = ((btn.parentElement).parentElement).parentElement;
+    let id = elemento.id;
+    let state = valor;
+
+    if (id != "" && estado) {
+
+        $.ajax({
+            method: "POST",
+            url: urlPagarRecibo,
+            data: { id_recibo: id, estado: state },
+            responseType: 'json',
+            success: async function (res) {
+                Swal.close();
+                let { ReciboList, oHeader } = res;
+                if (oHeader.estado) {
+                    await construirPagado(elemento);
+                    Swal.fire("Ok!!", "Se ha pagado la Boleta " + id, "success");
+                }
+
+            },
+            error: function (err) {
+                Swal.close();
+            }
+        });
+
+    }  
+}
+
+const construirPagado = (elemento) => {
+    let divBtn = elemento.children[5].children[0];
+    divBtn.removeChild(divBtn.children[0]);
+
+    let botonAprobado = `<button type='button' class='btn btn-sm btn-success' style='padding:2px 4px;'>
+                         Pagado
+                         </button>`;
+
+    divBtn.innerHTML = botonAprobado;
+}
