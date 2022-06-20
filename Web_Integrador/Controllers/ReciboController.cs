@@ -16,7 +16,6 @@ namespace Web_Integrador.Controllers
     public class ReciboController : Controller
     {
         Recibo_BS recibo_BS = new Recibo_BS();
-        Servicio_BS servicio_BS = new Servicio_BS();
         Departamento_BS departamento_BS = new Departamento_BS();
         Torre_BS torre_BS = new Torre_BS();
         Sector_BS sector_BS = new Sector_BS();

@@ -228,32 +228,11 @@ GO
 
 --PROPIETARIO-DEPARTAMENTO
 
-CREATE PROCEDURE USP_PROPIETARIO_REGISTRAR      
- @id_propietario int,      
- @nombres varchar(50),      
- @primer_apellido varchar(30),  
- @segundo_apellido varchar(30),  
- @tipo_documento varchar(1),  
- @nro_documento varchar(20),  
- @nacionalidad varchar(1),
- --FK
- @id_departamento int,
- @id_tipo int
- as      
- declare @id int      
-  if @id_propietario=0      
-   begin      
-    INSERT INTO PROPIETARIO(nombres,primer_apellido,segundo_apellido,tipo_documento,nro_documento,nacionalidad,estado,id_departamento,id_tipo,fecha_registro)      
-        VALUES(@nombres,@primer_apellido,@segundo_apellido,@tipo_documento,@nro_documento,@nacionalidad,1,@id_departamento,@id_tipo,GETDATE())          
-   end      
-  else      
-   begin       
-    UPDATE PROPIETARIO SET nombres=@nombres,primer_apellido=@primer_apellido,segundo_apellido=@segundo_apellido,
-		tipo_documento=@tipo_documento,nro_documento=@nro_documento,nacionalidad=@nacionalidad,
-		id_tipo=@id_tipo
-       WHERE id_propietario=@id_propietario       
-   end      
+CREATE proc [dbo].[sp_propietario_listar_prop]
+as
+	select DISTINCT * from PROPIETARIO where id_tipo=1
 GO
+
 
 CREATE PROCEDURE USP_PROPIETARIO_DEP_LISTAR  
  @id_departamento int  
@@ -285,21 +264,3 @@ CREATE PROCEDURE USP_PROPIETARIO_DEP_LISTAR
           (select b.nombre from tipo b where b.id_tipo=a.id_tipo)as 'nombre_tipo'	from PROPIETARIO A
 	end
 GO
-
---CREATE PROCEDURE USP_PROPIETARIO_DEP_LISTAR  
--- @id_departamento int  
--- as  
--- if @id_departamento>0  
---  begin  
---   select A.id_propietario,A.nombres,A.primer_apellido,A.segundo_apellido,A.tipo_documento,	
---          (select b.nombre from tipo b where b.id_tipo=a.tipo_documento)as 'nombre_documento',
---		  A.nro_documento,
---          (select b.nombre from tipo b where b.id_tipo=a.nacionalidad)as 'nombre_nacionalidad',
---		  A.nacionalidad,
---		  A.fecha_registro,
---		  A.estado,
---		  A.id_departamento,
---		  A.id_tipo,
---          (select b.nombre from tipo b where b.id_tipo=a.id_tipo)as 'nombre_tipo'	from PROPIETARIO A  WHERE A.id_departamento=@id_departamento
---  end  
---GO

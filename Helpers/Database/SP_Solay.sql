@@ -10,24 +10,37 @@ Values (@url_imagen,@id_departamento)
 End  
 GO
 --
-Create Proc USP_INCIDENTE_LISTAR  
+CREATE Proc [dbo].[USP_INCIDENTE_LISTAR]
+@id_incidente INT = 0,
+@nombre_reportado VARCHAR(100)= '', 
+@nro_documento VARCHAR(20) = '',
+@estado INT = 3
 AS  
 BEGIN  
-Select * from INCIDENTE  
-END  
+	Select I.*,d.numero as 'departamento',sc.id_sucursal, sc.nombre as 'sucursal',s.id_sector, s.nombre_sector as 'sector', t.id_torre, t.numero as 'torre'  from INCIDENTE I 
+	INNER JOIN DEPARTAMENTO D ON D.id_departamento = I.id_departamento
+	INNER JOIN TORRE T ON T.id_torre =D.id_torre
+	INNER JOIN SECTOR S ON T.id_sector = S.id_sector
+	INNER JOIN SUCURSAL SC ON SC.id_sucursal = S.id_sucursal
+	WHERE I.id_incidente = CASE WHEN @id_incidente = 0 THEN I.id_incidente ELSE @id_incidente END
+	AND I.nombre_reportado LIKE CASE WHEN @nombre_reportado = '' THEN I.nombre_reportado ELSE '%' +@nombre_reportado+'%' END
+	AND I.nro_documento = CASE WHEN @nro_documento = '' THEN I.nro_documento ELSE @nro_documento END
+	AND I.Estado = CASE WHEN @estado = 3 THEN I.Estado ELSE @estado END
+END
 GO
 
+CREATE TRIGGER [dbo].[TRG_INCIDENTE]
+ON [dbo].[INCIDENTE_HISTORIAL]
+AFTER INSERT
+AS
+	declare	@id_incidente int
+	set @id_incidente =(select id_incidente from inserted)
+	BEGIN
+		update INCIDENTE set Estado = 1 where id_incidente = @id_incidente
 
-
-CREATE Proc [dbo].[USP_INCIDENTE_CREAR]  
-@descripcion varchar(200), @nombre_reportado varchar(100),@tipodocumento varchar(1),@nro_documento varchar(20),  
-@id_departamento int  
-As  
-Begin  
-Insert dbo.INCIDENTE(fecha_incidente,descripcion,nombre_reportado,tipo_documento,nro_documento,id_departamento)  
-Values (GETDATE(),@descripcion,@nombre_reportado,@tipodocumento,@nro_documento,@id_departamento)  
-End  
+	END
 GO
+
 
 CREATE Proc [dbo].[USP_INCIDENTE_ACTUALIZAR]  
 @id_incidente int,@fecha_incidente datetime, @descripcion varchar(200),@nombre_reportado varchar(100),@tipo_documento varchar(1),  
