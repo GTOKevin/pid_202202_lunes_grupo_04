@@ -1,110 +1,136 @@
 ﻿@model Web_Integrador.Model.ReciboModel
 
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4 class="fw-bold py-3 mb-4">
-    <span class="text-muted fw-light">Recibo /</span>
+    <span class="text-muted fw-light">Boleta /</span>
     Mantenimiento
 </h4>
 
 <div id="view-table">
     <div class="card mb-4">
-        <div class="card-body ms-auto">
-            <button class="btn btn-primary" onclick="btnAction(this,'new')"><i class="bx bx-add-to-queue pe-2"></i>Nuevo Recibo</button>
+        
+        <div class="card-body row">
+            <div class="col-3 col-md-3 col-lg-4">
+                <label for="monto" class="form-label">DNI</label>
+                <input type="text" class="form-control val" maxlength="20" autocomplete="off" name="dni" id="dni" placeholder="Ingrese Dni" onkeypress="return soloNumeros(event)">
+            </div>
+            <div class="col-3 col-md-3 col-lg-4">
+                <label for="monto" class="form-label">Nombre</label>
+                <input type="text" class="form-control val" autocomplete="off" name="nombre" id="nombre" placeholder="Ingrese Nombre">
+            </div>
+            <div class="col-3 col-md-3 col-lg-4">
+                <label for="exampleFormControlInput1" class="form-label">Servicio</label>
+                <select class="form-control val" name="id_servicio" id="servicio">
+                    <option value="" selected>...Todos...</option>
+                    <option value="agua">Agua</option>
+                    <option value="seguridad">Seguridad</option>
+                    <option value="mantenimiento">Mantenimiento</option>
+                </select>
+            </div>
         </div>
-    </div>
+        <div class="card-body row">
+            <div class="col-3 col-md-3 col-lg-3">
+                <label for="exampleFormControlInput1" class="form-label">Estado</label>
+                <select class="form-control val" name="id_estado" id="estado">
+                    <option value="3" selected>...Todos...</option>
+                    <option value="1">Pagado</option>
+                    <option value="0">No Pagado</option>
+                </select>
+            </div>
+            <div class="align-items-center col d-flex justify-content-end">
+                <button class="btn btn-primary" type="button" onclick="return obtenerRecibosFiltro()"><i class="iconify" data-icon="bx:search-alt-2" data-width="27" data-height="27" data-rotate="90deg" ></i>  Filtrar</button>
+            </div>
+        </div>
 
+    </div>
     <div class="card">
+        <div class="card-body ms-auto">
+            <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalProp"> <i class="bx bx-user-plus"></i>Generar Boleta</button>
+        </div>
         <div class="table-responsive text-nowrap card-body">
             <table id="example" class="table table-hover" style="width:100%">
             </table>
         </div>
 
     </div>
+    </div>
+<div class="modal fade" id="modalProp" tabindex="-1" aria-labelledby="modalPropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="view-form">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Generar Boleta</h5>
+                </div>
+
+                <div class="modal-body row">
+                    <div class="col-3 col-md-3 col-lg-6">
+                        <label for="exampleFormControlInput1" class="form-label">Servicio</label>
+                        <select class="form-control val" name="servicio" id="id_servicio">
+                            <option value="" selected>...Seleccione...</option>
+                            <option value="agua">Agua</option>
+                            <option value="seguridad">Seguridad</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                        </select>
+                    </div>
+                    <div class="col-3 col-md-3 col-lg-6">
+                        <label for="exampleFormControlInput1" class="form-label">Propietario</label>
+                        <select class="form-control val" name="id_cliente" id="id_propietario">
+                            <option value="0" selected>...Todos...</option>
+                            @foreach (var item in Model.Propietarios)
+                            {
+                                <option value="@item.id_propietario">@item.nombres @item.primer_apellido @item.segundo_apellido</option>
+                            }
+
+                        </select>
+                    </div>
+                    <div class="modal-body row">
+                        <div class="col-3 col-md-3 col-lg-5">
+                            <label for="exampleFormControlInput1" class="form-label">Año</label>
+                            <select class="form-control val" name="anio" id="id_anio">
+                                <option value="" selected>...Seleccione...</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+
+                            </select>
+                        </div>
+                        <div class="col-3 col-md-3 col-lg-5">
+                            <label for="monto" class="form-label">Monto</label>
+                            <input type="number" class="form-control val" autocomplete="off" name="monto" placeholder="Ingrese Monto">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeModal" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary"> Generar </button>
+                </div>
+            </form>
+     
+        </div>
+    </div>
 </div>
 
 
 
-
-<form id="view-form" style="display:none">
-    <div class="card">
-        <div class="align-items-center card-header d-flex justify-content-between">
-            <h5 class="fw-semibold m-0">Nuevo Recibo</h5>
-            <div>
-                <button class="btn btn-danger" type="button" onclick="btnAction(this,'cancel')"><i class="bx bx-arrow-back pe-2"></i>Cancelar</button>
-                <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Guardar</button>
-            </div>
-        </div>
-
-        <div class="card-body row">
-            <input type="text" class="form-control d-none val" autocomplete="off" name="id_recibo" placeholder="id">
-            <div class="col-12 col-md-6 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
-                <select class="form-control val" name="id_sucursal" id="id_sucursal">
-                    <option value="" selected>...Seleccione...</option>
-                    @foreach (var item in Model.Sucursales)
-                    {
-                        <option value="@item.id_sucursal">@item.nombre</option>
-                    }
-                </select>
-            </div>
-            <div class="col-12 col-md-6 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Sector</label>
-                <select class="form-control val" name="id_sector" id="id_sector">
-                    <option value="" selected>...Seleccione...</option>
-
-                </select>
-            </div>
-            <div class="col-12 col-md-6 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Torre</label>
-                <select class="form-control val" name="id_torre" id="id_torre">
-                    <option value="" selected>...Seleccione...</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-6 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Departamento</label>
-                <select class="form-control val" name="id_departamento" id="id_departamento">
-                    <option value="" selected>...Seleccione...</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-6 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Servicio</label>
-                <select class="form-control val" name="id_servicio" id="id_servicio">
-                    <option value="" selected>...Seleccione...</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <label for="monto" class="form-label">Monto</label>
-                <input type="text" class="form-control val" autocomplete="off" name="monto" placeholder="Ingrese monto">
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <label for="fecha_pago" class="form-label">Fecha de Pago</label>
-                <input type="date" class="form-control val" autocomplete="off" name="fecha_pago" placeholder="Ingrese fecha de pago">
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <label for="fecha_vencimiento" class="form-label">Fecha de Vencimiento</label>
-                <input type="date" class="form-control val" autocomplete="off" name="fecha_vencimiento" placeholder="Ingrese fecha de vencimiento">
-            </div>
-
-        </div>
-    </div>
-</form>
-
-
-<script>
+            <script>
     const urlSaveRecibo = "@Url.Action("RegistrarRecibo", "Recibo")";
     const urlGetRecibo = "@Url.Action("ListarRecibos", "Recibo")";
-    const urlGetSector = "@Url.Action("ListarSector", "Torre")";
-    const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
+                const urlPagarRecibo = "@Url.Action("PagarRecibo", "Recibo")";
+                const urlListarFiltro = "@Url.Action("ListarFiltro","Recibo")";
+    @*const urlGetTorre = "@Url.Action("ListarTorre", "Departamento")";
     const urlGetDepartamento = "@Url.Action("ListarDepartamentos", "Departamento")";
-    const urlGetServicio = "@Url.Action("ListarServicios", "Servicio")";
+    const urlGetServicio = "@Url.Action("ListarServicios", "Servicio")";*@
     @*const urlGetServicio = "@Url.Action("ListarServicio", "Recibo")";*@
 
-</script>
+            </script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-<script src="~/Scripts/App.js"></script>
-<script src="~/Scripts/Recibo/Mantenimiento.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+            <script src="~/Scripts/App.js"></script>
+            <script src="~/Scripts/Recibo/Mantenimiento.js"></script>
+            <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>

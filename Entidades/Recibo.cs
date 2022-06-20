@@ -15,13 +15,15 @@ namespace Entidades
     public class Recibo
     {
         public int id_recibo { get; set; }
-        public int id_servicio { get; set; }
+        public string servicio { get; set; }
         public decimal monto { get; set; }
         public bool estado { get; set; }
         public DateTime? fecha_pago { get; set; }
-        public DateTime? fecha_vencimiento { get; set; }
-        //
         public int id_departamento { get; set; }
+        public Propietario oPropietario { get; set; }
+
+        //extras
+
         public int numero_departamento { get; set; }
         public int id_torre { get; set; }
         public int numero_torre { get; set; }

@@ -45,16 +45,15 @@
     <Compile Include="Incidente_File.cs" />
     <Compile Include="Incidente_Historial.cs" />
     <Compile Include="Movimiento.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Perfil_File.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tipo.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Departamento.cs" />
     <Compile Include="Departamento_File.cs" />
     <Compile Include="Incidente.cs" />
     <Compile Include="DTOHeader.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Propietario.cs" />
     <Compile Include="Recibo.cs" />
     <Compile Include="Rol.cs" />
@@ -70,6 +69,11 @@
       <Project>{f73668e3-434a-466f-b9d7-70419f8c733b}</Project>
       <Name>Helpers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+    <Folder Include="bin\Release\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

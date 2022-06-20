@@ -26,6 +26,7 @@ namespace Entidades
         public int banio { get; set; }
         public DateTime? fecha_creacion { get; set; }
         public DateTime? fecha_actualizacion { get; set; }
+        public Propietario oPropietario { get; set; }
         public int id_torre { get; set; }
         public int id_usuario { get; set; }
         //adicionales
