@@ -70,9 +70,9 @@ namespace Web_Integrador.Controllers
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception ex )
             {
-                ViewBag.ErrorMessage = "Hubo un Error al cambiar su foto";
+                ViewBag.ErrorMessage = "Hubo un Error al cambiar su foto:" + ex.Message;
 
                 
             }

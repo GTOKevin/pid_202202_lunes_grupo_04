@@ -49,4 +49,12 @@ namespace Entidades
         public List<Departamento> lista_Departamento { get; set; }
         public List<Propietario> propietarios { get; set; }
     }
+
+    public class FiltroDepa
+    {
+        public int id_sucursal_f { get; set; }
+        public int id_sector_f { get; set; }
+        public int id_torre_f { get; set; }
+        public int numero_f { get; set; }
+    }
 }

@@ -1,0 +1,152 @@
+﻿@model IEnumerable<Entidades.Tipo>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Entidades.Sucursal> list = ViewBag.ListSucursal;
+    List<Entidades.Tipo> list2 = ViewBag.lstdocumento;
+}
+
+
+<h4 class="fw-bold py-3 mb-4">
+    <span class="text-muted fw-light">Incidentes /</span>
+    Mantenimiento
+</h4>
+
+<div id="view-table">
+    <div class="card mb-4">
+        <form id="FormFiltro">
+            <div class="card-body row">
+                <div class="col-3">
+                    <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
+                    <select class="form-control  inFiltro" name="id_sucursal_f">
+                        <option value="" selected>...Seleccione...</option>
+                        @foreach (var item in list)
+                        {
+                            <option value="@item.id_sucursal">@item.nombre</option>
+                        }
+                    </select>
+                    <p class="label-error d-none">Por favor Seleccione Sucursal</p>
+                </div>
+                <div class="col-3" id="swCboSector">
+                    <label for="exampleFormControlInput1" class="form-label">Sector</label>
+                    <select class="form-control cboClear swValidC inFiltro" name="id_sector_f">
+                        <option value="" selected>...Seleccione...</option>
+
+                    </select>
+                    <p class="label-error d-none">Por favor Seleccione Sector</p>
+                </div>
+                <div class="col-3" id="swCboTorre">
+                    <label for="exampleFormControlInput1" class="form-label">Torre</label>
+                    <select class="form-control cboClear swValidC inFiltro" name="id_torre_f">
+                        <option value="" selected>...Seleccione...</option>
+                    </select>
+                    <p class="label-error d-none">Por favor Seleccione Torre</p>
+                </div>
+                <div class="col-3">
+                    <label for="exampleFormControlInput1" class="form-label">Número Departamento</label>
+                    <div class="input-group">
+                        <input type="text" name="numero_f" class="form-control inFiltro">
+                        <button class="btn btn-primary" type="submit"><i class="bx bx-search"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive text-nowrap card-body">
+            <table id="example" class="table table-hover" style="width:100%">
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<form id="view-form" style="display:none">
+    <div class="card">
+        <div class="align-items-center card-header d-flex justify-content-between">
+            <h5 class="fw-semibold m-0">Registrar Inicidente</h5>
+            <div>
+                <button class="btn btn-danger" type="button" onclick="btnAction(this,'cancel')"><i class="bx bx-arrow-back pe-2"></i>Cancelar</button>
+                <button class="btn btn-primary ms-2" type="submit"><i class="bx bx-send pe-2"></i>Guardar</button>
+            </div>
+        </div>
+
+        <div class="card-body row" id="BodyInptus">
+            <input type="text" class="form-control val d-none cf" autocomplete="off" name="id_departamento" placeholder="id">
+            <div class="col-12 col-md-3 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Sucursal</label>
+                <select class="form-control val" name="id_sucursal" id="id_sucursal">
+                    <option value="" selected>...Seleccione...</option>
+                    @foreach (var item in list)
+                    {
+                        <option value="@item.id_sucursal">@item.nombre</option>
+                    }
+                </select>
+                <label class="label-error d-none">Por selecciona una Sucursal</label>
+            </div>
+            <div class="col-12 col-md-3 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Sector</label>
+                <select class="form-control val" id="id_sector" name="id_sector">
+                    <option value="" selected>...Seleccione...</option>
+                </select>
+                <label class="label-error d-none">Por favor selecciona un Sector</label>
+            </div>
+            <div class="col-12 col-md-3 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Torre</label>
+                <select class="form-control val" name="id_torre">
+                    <option value="" selected>...Seleccione...</option>
+                </select>
+                <label class="label-error d-none">Por favor selecciona una Torre</label>
+            </div>
+            <div class="col-12 col-md-3 col-xl-3 mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Numero</label>
+                <input type="text" class="form-control val" autocomplete="off" name="numero" placeholder="Ingrese numero departameto" onkeypress="return soloNumeros(event)">
+                <label class="label-error d-none">Por favor ingresa numero de Piso</label>
+            </div>
+            <div class="col-12 col-md-4" id="swNombreReportado">
+                <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+                <input type="text" class="form-control val cf swValidI" autocomplete="off" name="nombre_reportado" placeholder="Ingrese nombre del reportado">
+                <p class="label-error d-none">Por favor ingrese un nombre</p>
+            </div>
+            <div class="col-12 col-md-4" id="swTipoDocumento">
+                <label for="exampleFormControlInput1" class="form-label">Tipo de Documento</label>
+                <select class="form-select val creat swValidC" name="tipo_documento">
+                    <option value="">..Seleccione..</option>
+                    @for (int i = 0; i < list2.Count; i++)
+                    {
+                        <option value="@list2[i].id_tipo">@list2[i].nombre</option>
+                    }
+                </select>
+                <p class="label-error d-none">Por favor seleccione un tipo de documento correcto.</p>
+            </div>
+            <div class="col-12 col-md-4" id="swDocumento">
+                <label for="exampleFormControlInput1" class="form-label">Nro Documento</label>
+                <input type="text" class="form-control val cf swValidI" autocomplete="off" id="iddocumento" name="nro_documento" placeholder="Ingrese numero doc de visitante">
+                <p class="label-error d-none">Por favor ingrese numero documento</p>
+            </div>
+            <div class="col-12 col-md-12" id="swDescripcion">
+                <label  class="form-label">Descripción</label>
+                <textarea type="text" class="form-control val cf swValidI" autocomplete="off" name="descripcion" placeholder="Descripción"></textarea>
+                <p class="label-error d-none">Por favor ingrese una descripción</p>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<script>
+    const urlGetDepaInfo = "@Url.Action("ListarDepartamentos", "Departamento")";
+    const urlGetDepartamentos = "@Url.Action("GetDepartamento", "Incidente")";
+    const urlSaveIncidente = "@Url.Action("RegistrarInci", "Incidente")";
+    const urlGetTorre = "@Url.Action("ListarTorre", "Visitante")";
+    const urlGetSector = "@Url.Action("ListarSectores", "Visitante")";
+
+    
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/ValidatorApp.js"></script>
+<script src="~/Scripts/Incidentes/Mantenimiento.js"></script>

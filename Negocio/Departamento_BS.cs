@@ -22,5 +22,9 @@ namespace Negocio
         {
             return new Departamento_DA().Actualizar(dep);
         }
+        public Departamento_Res FiltroDepartamento(FiltroDepa filtro)
+        {
+            return new Departamento_DA().FiltroDepartamento(filtro);
+        }
     }
 }

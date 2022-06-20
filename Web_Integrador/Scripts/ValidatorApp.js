@@ -5,6 +5,7 @@ const ClearErrorMess = document.querySelectorAll('#BodyInptus .label-error')
 
 
 const ValidDatos = (e) => {
+    if (e.target.name != 'nro_documento')
     InputsValid[e.target.name](e.target)
 }
 
@@ -56,7 +57,7 @@ const InputsValid = {
     'id_torre': (target) => { ValidCombo(target, 'swCboTorre') },
     'id_departamento': (target) => { ValidCombo(target, 'swCboDepartamento') },
 
-
+    'nombre_reportado': (target) => swValidarCampos(expresionesGlobales.nombreReportadoForm, target, 'swNombreReportado'),
     nombres: (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swNombre'),
     'primer_apellido': (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swApellidoP'),
     'segundo_apellido': (target) => swValidarCampos(expresionesGlobales.onlyLetrasForm, target, 'swApellidoM'),
@@ -65,13 +66,15 @@ const InputsValid = {
     'id_rol': (target) => { ValidCombo(target, 'swRoles')},
     genero: (target) => { ValidCombo(target, 'swGenero') },
     nacionalidad: (target) => { ValidCombo(target, 'swNacionalidad') },
-    direccion: (target) => swValidarCampos(expresionesGlobales.onlyDirrecion, target, 'swDireccion')
+    direccion: (target) => swValidarCampos(expresionesGlobales.onlyDirrecion, target, 'swDireccion'),
+    descripcion: (target) => swValidarCampos(expresionesGlobales.descripcionForm, target, 'swDescripcion')
 }
 
 const swCamposValid = {
     SwUsername: true,
     SwContrasenia1: true,
 
+    swNombreReportado:true,
     swNombre: true,
     swApellidoP: true,
     swApellidoM: true,
@@ -82,9 +85,10 @@ const swCamposValid = {
     swNacionalidad: true,
     swDireccion: true,
 
+    swDescripcion:true,
     swRoles: true,
 
-    swUnidad:true
+    swUnidad:true,
     swCboSucursal: true,
     swCboSector: true,
     swCboTorre: true,
@@ -94,6 +98,8 @@ const swCamposValid = {
 const expresionesGlobales = {
     username: /^[a-zA-Z0-9\_\-]{3,25}$/,
     contra: /^[\w@ñ.]{4,50}$/,
+    descripcionForm: /^([A-Za-zÁÉÍÓÚáéíóúÑñ0-9.-_]\s?){10,50}$/,
+    nombreReportadoForm: /^([A-Za-zÁÉÍÓÚáéíóúÑñ]\s?){3,100}$/,
     onlyLetrasForm: /^([A-Za-zÁÉÍÓÚáéíóúÑñ]\s?){3,50}$/,
     onlyFecha: /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/,
     onlyDni: /^([0-9]){8}$/,
@@ -103,12 +109,12 @@ const expresionesGlobales = {
 
 const swValidarCampos = (expresion, input, campo) => {
     if (expresion.test(input.value)) {
-        document.querySelector(`#${campo} input`).classList.remove('border-danger');
+        document.querySelector(`#${campo} .form-control`).classList.remove('border-danger');
         document.querySelector(`#${campo} p`).classList.add('d-none');
         swCamposValid[campo] = true;
 
     } else {
-        document.querySelector(`#${campo} input`).classList.add('border-danger');
+        document.querySelector(`#${campo} .form-control`).classList.add('border-danger');
         document.querySelector(`#${campo} p`).classList.remove('d-none');
         swCamposValid[campo] = false;
     }
