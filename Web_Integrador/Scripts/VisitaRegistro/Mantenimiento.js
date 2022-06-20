@@ -1,5 +1,5 @@
 ﻿
-var colsName = ['ID', 'VISITANTE', 'FECHA INGRESO','', 'FECHA SALIDA','', '', ''];
+var colsName = ['ID', 'VISITANTE', 'FECHA INGRESO','HORA INGRESO', 'FECHA SALIDA','HORA SALIDA', '', ''];
 var visitanteregList = [];
 var visitanteList = [];
 
@@ -558,7 +558,7 @@ const cleanSelect = (target) => {
 const getSector = async (id) => {
     await $.ajax({
         method: "GET",
-        url: urlGetSector + "?id_sector=" + id,
+        url: urlGetSector + "?id_sucursal=" + id,
         responseType: 'json',
         success: async function (res) {
             let { SectorList, oHeader } = res;

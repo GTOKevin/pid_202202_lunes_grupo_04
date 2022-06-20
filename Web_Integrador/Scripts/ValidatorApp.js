@@ -67,7 +67,8 @@ const InputsValid = {
     genero: (target) => { ValidCombo(target, 'swGenero') },
     nacionalidad: (target) => { ValidCombo(target, 'swNacionalidad') },
     direccion: (target) => swValidarCampos(expresionesGlobales.onlyDirrecion, target, 'swDireccion'),
-    descripcion: (target) => swValidarCampos(expresionesGlobales.descripcionForm, target, 'swDescripcion')
+    descripcion: (target) => swValidarCampos(expresionesGlobales.descripcionForm, target, 'swDescripcion'),
+    acciones: (target) => swValidarCampos(expresionesGlobales.descripcionForm, target, 'swAcciones')
 }
 
 const swCamposValid = {
@@ -85,7 +86,8 @@ const swCamposValid = {
     swNacionalidad: true,
     swDireccion: true,
 
-    swDescripcion:true,
+    swDescripcion: true,
+    swAcciones: true,
     swRoles: true,
 
     swUnidad:true,
@@ -98,7 +100,7 @@ const swCamposValid = {
 const expresionesGlobales = {
     username: /^[a-zA-Z0-9\_\-]{3,25}$/,
     contra: /^[\w@ñ.]{4,50}$/,
-    descripcionForm: /^([A-Za-zÁÉÍÓÚáéíóúÑñ0-9.-_]\s?){10,50}$/,
+    descripcionForm: /^([A-Za-zÁÉÍÓÚáéíóúÑñ0-9.-_]\s?){10,200}$/,
     nombreReportadoForm: /^([A-Za-zÁÉÍÓÚáéíóúÑñ]\s?){3,100}$/,
     onlyLetrasForm: /^([A-Za-zÁÉÍÓÚáéíóúÑñ]\s?){3,50}$/,
     onlyFecha: /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/,

@@ -60,5 +60,6 @@ namespace Entidades
         public string nombre_reportado_f { get; set; }
         public string nro_documento_f { get; set; }
         public string estado_f { get; set; }
+        public int departamento_f { get; set; }
     }
 }

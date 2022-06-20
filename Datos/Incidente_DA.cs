@@ -28,6 +28,7 @@ namespace Datos
                     cm.Parameters.AddWithValue("@nombre_reportado", filtro.nombre_reportado_f);
                     cm.Parameters.AddWithValue("@nro_documento", filtro.nro_documento_f);
                     cm.Parameters.AddWithValue("@estado", filtro.estado_f);
+                    cm.Parameters.AddWithValue("@departamento", filtro.departamento_f);
                     SqlDataReader dr = cm.ExecuteReader();
                     while (dr.Read())
                     {

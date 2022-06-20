@@ -105,6 +105,18 @@ const buttonsDatatTable = (opcion) => {
                 `
             }
             break;
+        case 'registerIncidente':
+            buttonJson = {
+                data: null,
+                defaultContent: `
+                <div class="w-100">
+                <button type='button' onclick='btnAction(this,"edit");' class='btn btn-sm btn-warning' style='padding:2px 4px;'>
+                <i class='bx bx-edit'></i></button>
+                <button type='button' onclick='btnAction(this,"historial");'  data-bs-toggle="modal" data-bs-target="#exampleModal" class='btn btn-sm btn-info' style='padding:2px 4px;'>
+                <i class='bx bx-info-circle'></i></button>
+                `
+            }
+            break;
         case 'mantVistSalida':
             buttonJson = {
                 data: null,
