@@ -12,10 +12,10 @@ namespace Datos
 {
     public class Incidente_DA
     {
-        public Incidente_Res Listar()
+        public Incidente_Res Listar(FiltroIncidente filtro)
         {
             Incidente_Res incidente_res = new Incidente_Res();
-            List<Incidente> incidente_list = new List<Incidente>();
+            List<IncidenteDTO> incidente_list = new List<IncidenteDTO>();
             DTOHeader oHeader = new DTOHeader();
             try
             {
@@ -24,10 +24,14 @@ namespace Datos
                     cn.Open();
                     SqlCommand cm = new SqlCommand("USP_INCIDENTE_LISTAR", cn);
                     cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id_incidente", filtro.id_incidente_f);
+                    cm.Parameters.AddWithValue("@nombre_reportado", filtro.nombre_reportado_f);
+                    cm.Parameters.AddWithValue("@nro_documento", filtro.nro_documento_f);
+                    cm.Parameters.AddWithValue("@estado", filtro.estado_f);
                     SqlDataReader dr = cm.ExecuteReader();
                     while (dr.Read())
                     {
-                        Incidente incidente = new Incidente();
+                        IncidenteDTO incidente = new IncidenteDTO();
                         incidente.id_incidente = dr["id_incidente"].ToInt();
                         incidente.fecha_incidente = dr["fecha_incidente"].ToDateTime();
                         incidente.descripcion = dr["descripcion"].ToString();
@@ -37,6 +41,14 @@ namespace Datos
                         incidente.fecha_registro = dr["fecha_registro"].ToDateTime();
                         incidente.id_departamento = dr["id_departamento"].ToInt();
                         incidente.id_usuario = dr["id_usuario"].ToInt();
+                        incidente.estado = dr["estado"].ToBool();
+                        incidente.departamento = dr["departamento"].ToInt();
+                        incidente.id_sucursal = dr["id_sucursal"].ToInt();
+                        incidente.sucursal = dr["sucursal"].ToString();
+                        incidente.id_sector = dr["id_sector"].ToInt();
+                        incidente.sector = dr["sector"].ToString();
+                        incidente.id_torre = dr["id_torre"].ToInt();
+                        incidente.torre = dr["torre"].ToInt();
                         incidente_list.Add(incidente);
                     }
                     cn.Close();
@@ -77,6 +89,7 @@ namespace Datos
                     cn.Close();
                 }
                 oHeader.estado = true;
+                oHeader.mensaje = "Incidente guardado correctamente";
 
             }
             catch (Exception ex)

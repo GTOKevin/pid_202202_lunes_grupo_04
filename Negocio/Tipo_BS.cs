@@ -20,15 +20,6 @@ namespace Negocio
             return new Tipo_DA().Registrar_Tipo(tip);
         }
 
-       /* public Tipo_res Actualizar_Tipo(int id, Tipo tipo)
-        {
-            return new Tipo_DA().Actualizar_Tipo(id,tipo);
-        }*/
-        public Tipo_res Eliminar_Tipo(int id)
-        {
-            return new Tipo_DA().Eliminar_Tipo(id);
-        }
-
         public Tipo_res Listar_TipoUtil(string unidad)
         {
             return new Tipo_DA().Listar_TipoUtil(unidad);

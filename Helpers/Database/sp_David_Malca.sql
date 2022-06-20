@@ -1,5 +1,21 @@
---CREATE
-  CREATE Proc [dbo].[USP_INCIDENTE_CREAR]  
+
+CREATE proc USP_LIST_MOVIMIENTO
+@idmovi int
+as
+if @idmovi =0 
+  begin
+  select * from MOVIMIENTO
+  end
+  else
+  begin
+    select * from MOVIMIENTO where id_movimiento = @idmovi
+
+  end
+ GO
+
+
+ CREATE Proc [dbo].[USP_INCIDENTE_CREAR]  
+
 @descripcion varchar(200), @nombre_reportado varchar(100),@tipodocumento varchar(1),@nro_documento varchar(20),  
 @id_departamento int , @idusuario int 
 As  

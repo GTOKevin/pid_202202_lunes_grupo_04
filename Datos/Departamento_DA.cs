@@ -191,6 +191,59 @@ namespace Datos
             return oHeader;
         }
 
+
+        public Departamento_Res FiltroDepartamento(FiltroDepa filtro)
+        {
+            Departamento_Res departamento_res = new Departamento_Res();
+            List<Departamento> departamento_list = new List<Departamento>();
+            DTOHeader oHeader = new DTOHeader();
+
+            try
+            {
+                using (SqlConnection cn = Conexion.Conectar())
+                {
+                    cn.Open();
+                    SqlCommand cm = new SqlCommand("USP_FILTER_DEPARTAMENTOS", cn);
+                    cm.CommandType = CommandType.StoredProcedure;
+                    cm.Parameters.AddWithValue("@id_sucursal", filtro.id_sucursal_f);
+                    cm.Parameters.AddWithValue("@id_sector", filtro.id_sector_f);
+                    cm.Parameters.AddWithValue("@id_torre", filtro.id_torre_f);
+                    cm.Parameters.AddWithValue("@numero", filtro.numero_f);
+                    SqlDataReader dr = cm.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        Departamento departamento = new Departamento();
+                        departamento.id_departamento = dr["id_departamento"].ToInt();
+                        departamento.piso = dr["piso"].ToInt();
+                        departamento.numero = dr["numero"].ToInt();
+                        departamento.metros_cuadrado = dr["metros_cuadrado"].ToInt();
+                        departamento.dormitorio = dr["dormitorio"].ToInt();
+                        departamento.banio = dr["banio"].ToInt();
+                        departamento.id_torre = dr["id_torre"].ToInt();
+                        departamento.id_usuario = dr["id_usuario"].ToInt();
+                        //adicionales
+                        departamento.numero_torre = dr["numero_torre"].ToInt();
+                        departamento.id_sector = dr["id_sector"].ToInt();
+                        departamento.nombre_sector = dr["nombre_sector"].ToString();
+                        departamento.id_sucursal = dr["id_sucursal"].ToInt();
+                        departamento.nombre_sucursal = dr["nombre_sucursal"].ToString();
+                        departamento_list.Add(departamento);
+                    }
+                    cn.Close();
+                }
+                oHeader.estado = true;
+            }
+            catch (Exception ex)
+            {
+                oHeader.estado = false;
+                oHeader.mensaje = ex.Message;
+            }
+            departamento_res.lista_Departamento = departamento_list;
+            departamento_res.oHeader = oHeader;
+
+            return departamento_res;
+        }
+
     }
 
 

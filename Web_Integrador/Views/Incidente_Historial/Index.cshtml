@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="fw-bold py-3 mb-4">
+    <span class="text-muted fw-light">Incidentes /</span>
+    Mantenimiento
+</h4>
+
+<div id="view-table">
+    <div class="card mb-4">
+        <form id="FormFiltro">
+            <div class="card-body row">
+                <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label">Nombre del Reportado</label>
+                    <input type="text" class="form-control inFiltro" name="nombre_reportado_f">
+                    <p class="label-error d-none">Por favor Seleccione Sucursal</p>
+                </div>
+                <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label">Nro de Documento</label>
+                    <input type="text" class="form-control inFiltro" name="nro_documento_f">
+                    <p class="label-error d-none">Por favor Seleccione Sucursal</p>
+                </div>
+                <div class="col-4">
+                    <div class="card-body ms-auto mt-1">
+                        <button class="btn btn-primary"><i class="bx bx-search"></i></button>
+                    </div>
+                </div>
+                <label for="exampleFormControlInput1" class="form-label">Estado</label>
+                <div class="col-md-6">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input radioBtCk" type="radio" name="inlineRadioOptions" value="" checked>
+                        <label class="form-check-label" for="inlineRadio1">Ambos</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input radioBtCk" type="radio" name="inlineRadioOptions" value="0">
+                        <label class="form-check-label" for="inlineRadio2">Sin Resolver</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input radioBtCk" type="radio" name="inlineRadioOptions" value="1">
+                        <label class="form-check-label" for="inlineRadio3">Resultos</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive text-nowrap card-body">
+            <table id="example" class="table table-hover" style="width:100%">
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="modalincidente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <form id="FormHistorial">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloModal"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row" id="bodyModal">
+                    <input type="text" class="form-control val d-none" name="id_incidente" value="" />
+                    <div class="col-12 col-md-6" id="swNombreReportado">
+                        <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+                        <input type="text" class="form-control val cf swValidI" autocomplete="off" name="nombre_reportado" placeholder="Ingrese nombre del reportado">
+                        <p class="label-error d-none">Por favor ingrese un nombre</p>
+                    </div>
+                    <div class="col-12 col-md-6" id="swDocumento">
+                        <label for="exampleFormControlInput1" class="form-label">Nro Documento</label>
+                        <input type="text" class="form-control val cf swValidI" autocomplete="off" id="iddocumento" name="nro_documento" placeholder="Ingrese numero doc de visitante">
+                        <p class="label-error d-none">Por favor ingrese numero documento</p>
+                    </div>
+                    <div class="col-12 col-md-12" id="swDescripcion">
+                        <label class="form-label">Descripción</label>
+                        <textarea type="text" class="form-control val cf swValidI" autocomplete="off" name="descripcion" placeholder="Descripción"></textarea>
+                        <p class="label-error d-none">Por favor ingrese una descripción</p>
+                    </div>
+                    <div class="col-12 col-md-12" id="swAcciones">
+                        <label class="form-label">Acciones</label>
+                        <textarea type="text" class="form-control val cf swValidI" autocomplete="off" name="acciones" placeholder="acción"></textarea>
+                        <p class="label-error d-none">Por favor ingrese una acción</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary"> Guardar </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const urlGetIncidentes = "@Url.Action("ListarIncidentes", "Incidente")";
+    const urlSaveHistorialIncidente = "@Url.Action("RegistrarIncidenteHistorial", "Incidente_Historial")";
+    
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/App.js"></script>
+<script src="~/Scripts/Incidentes_Historial/Mantenimiento.js"></script>

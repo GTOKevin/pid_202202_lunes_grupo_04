@@ -16,89 +16,12 @@ ALTER TABLE PERFIL
 ALTER COLUMN nacionalidad VARCHAR(5)
 GO
 
-CREATE PROC USP_CREAR_TIPO
-(
-@nombre VARCHAR(50),
-@unidad VARCHAR(20)
-)
-AS
-BEGIN
-INSERT INTO TIPO (nombre, unidad)
-VALUES (@nombre, @unidad)
-END
-GO
-
-CREATE PROC USP_EDITAR_TIPO
-(
-@id_tipo int,
-@nombre VARCHAR(50),
-@unidad VARCHAR(20)
-)
-AS
-BEGIN
-UPDATE TIPO SET nombre = @nombre, unidad =@unidad 
-WHERE id_tipo = @id_tipo
-END
-GO
-
-CREATE PROC USP_ELIMINAR_TIPO
-(
-@id_tipo int
-)
-AS
-BEGIN
-DELETE FROM TIPO WHERE id_tipo = @id_tipo
-END
-GO
-
-
 -- PROCEDURES DE LA TABLA PERFIL --
 
 CREATE PROC USP_LIST_PERFIL
 AS
 BEGIN
 SELECT * FROM PERFIL
-END
-GO
-
-CREATE PROC USP_CREATE_PERFIL
-(@nombres VARCHAR(50)
-,@primer_apellido VARCHAR(30)
-,@segundo_apellido VARCHAR(30)
-,@fecha_nacimiento DATETIME
-,@tipo_documento VARCHAR(5)
-,@nro_documento VARCHAR(20)
-,@genero VARCHAR(5)
-,@nacionalidad VARCHAR(5)
-,@direccion VARCHAR(200)
-)
-AS
-BEGIN
-INSERT INTO PERFIL (nombres,primer_apellido,segundo_apellido,fecha_nacimiento
-,tipo_documento,nro_documento,genero,nacionalidad,direccion)
-VALUES (@nombres,@primer_apellido,@segundo_apellido, @fecha_nacimiento
-,@tipo_documento,@nro_documento,@genero,@nacionalidad,@direccion)
-END
-GO
-
-CREATE PROC USP_UPDATE_PERFIL
-(@id_perfil INT
-,@nombres VARCHAR(50)
-,@primer_apellido VARCHAR(30)
-,@segundo_apellido VARCHAR(30)
-,@fecha_nacimiento DATETIME
-,@tipo_documento VARCHAR(5)
-,@nro_documento VARCHAR(20)
-,@genero VARCHAR(5)
-,@nacionalidad VARCHAR(5)
-,@direccion VARCHAR(200)
-)
-AS
-BEGIN
-UPDATE PERFIL SET nombres=@nombres, primer_apellido=@primer_apellido, segundo_apellido=@segundo_apellido,
-fecha_nacimiento=@fecha_nacimiento, tipo_documento=@tipo_documento, nro_documento = @nro_documento,
-genero = @genero, nacionalidad = @nacionalidad, direccion = @direccion
-WHERE id_perfil = @id_perfil
 END
 GO
 
@@ -672,5 +595,24 @@ BEGIN
 		 where v.nro_documento = CASE WHEN @nro_documento = '' THEN V.nro_documento ELSE @nro_documento END
 		 AND VR.fecha_salida IS NOT NULL
 	END
+END
+GO
+
+CREATE PROC USP_FILTER_DEPARTAMENTOS
+@id_sucursal INT = 0,
+@id_sector INT = 0,
+@id_torre INT = 0,
+@numero INT = 0
+AS
+BEGIN
+	select A.*,B.numero as 'numero_torre',C.id_sector, C.nombre_sector,D.id_sucursal,D.nombre as 'nombre_sucursal'
+	from DEPARTAMENTO A 
+	INNER JOIN TORRE B ON A.id_torre = B.id_torre
+	INNER JOIN SECTOR C ON B.id_sector=C.id_sector
+	INNER JOIN SUCURSAL D ON C.id_sucursal=D.id_sucursal
+	WHERE D.id_sucursal = CASE WHEN @id_sucursal = 0 THEN D.id_sucursal ELSE @id_sucursal END
+	AND C.id_sector = CASE WHEN @id_sector = 0 THEN C.id_sector ELSE @id_sector END
+	AND B.id_torre = CASE WHEN @id_torre = 0 THEN B.id_torre ELSE @id_torre END
+	AND A.numero = CASE WHEN @numero = 0 THEN A.numero ELSE @numero END
 END
 GO

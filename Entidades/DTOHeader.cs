@@ -13,7 +13,5 @@ namespace Entidades
 
         public bool estado { get; set; }
         public string mensaje { get; set; }
-        public int id_register;
-        public DTOHeader oHeader;
     }
 }
